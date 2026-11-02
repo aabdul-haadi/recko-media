@@ -24,7 +24,7 @@ export function Attention() {
           </Reveal>
           <Reveal delay={220}>
             <ArrowLink variant="ghost" href="#contact">
-              Meet Raytech
+              Meet Recko Media
             </ArrowLink>
           </Reveal>
         </div>

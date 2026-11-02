@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+﻿import { createFileRoute } from "@tanstack/react-router";
 import { SmoothScroll } from "@/components/motion/SmoothScroll";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
@@ -14,7 +14,7 @@ import { Contact } from "@/components/sections/Contact";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Raytech Agency — Web Design, AI Automation & Digital Marketing" },
+      { title: "Recko Media â€” Web Design, AI Automation & Digital Marketing" },
       {
         name: "description",
         content:
@@ -22,7 +22,7 @@ export const Route = createFileRoute("/")({
       },
       {
         property: "og:title",
-        content: "Raytech Agency — Web Design, AI Automation & Digital Marketing",
+        content: "Recko Media â€” Web Design, AI Automation & Digital Marketing",
       },
       {
         property: "og:description",

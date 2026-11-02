@@ -1,6 +1,6 @@
-# Raytech Agency
+# Recko Media
 
-The Raytech Agency homepage is a Vite and TanStack Start application focused on
+The Recko Media homepage is a Vite and TanStack Start application focused on
 web design, AI automation, and digital marketing services.
 
 ## Development

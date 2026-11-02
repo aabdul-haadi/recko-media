@@ -3,14 +3,6 @@ import { menuLinks } from "@/data/home";
 import { scrollToId, lockScroll } from "@/lib/scroll";
 import { cn } from "@/lib/utils";
 
-function LogoMark({ className }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 32 32" fill="none" className={className} aria-hidden>
-      <path d="M6 4h16l-9 10h11L8 28l5-12H4L6 4Z" fill="currentColor" />
-    </svg>
-  );
-}
-
 export function Header() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -57,15 +49,11 @@ export function Header() {
             className="group flex items-start gap-1.5 text-left"
             aria-label="Back to top"
           >
-            <LogoMark className="mt-0.5 size-7 text-acid transition-transform duration-500 group-hover:rotate-[-8deg]" />
-            <span className="flex flex-col leading-none">
-              <span className="font-display text-xl font-bold lowercase tracking-tight">
-                raytech
-              </span>
-              <span className="text-[0.55rem] font-medium uppercase tracking-[0.35em] text-muted-foreground">
-                agency
-              </span>
-            </span>
+            <img
+              src="/logo-light.png"
+              alt="Recko Media"
+              className="w-36 transition-transform duration-500 group-hover:scale-[1.03]"
+            />
           </button>
 
           <button

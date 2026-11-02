@@ -1,4 +1,4 @@
-import { useRef, type PointerEvent } from "react";
+﻿import { useRef, type PointerEvent } from "react";
 import { SplitReveal, Reveal } from "@/components/motion/SplitReveal";
 import { ArrowLink } from "@/components/ui/ArrowLink";
 import { ArrowDown } from "lucide-react";
@@ -27,7 +27,7 @@ export function Hero() {
       <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-1 flex-col justify-center px-5 pb-16 pt-36 md:px-10 md:pt-40">
         <Reveal>
           <p className="mb-6 text-[0.7rem] font-semibold uppercase tracking-[0.3em] text-muted-foreground md:mb-8 md:text-xs">
-            Raytech Agency — Web design, AI automation &amp; digital marketing
+            Recko Media â€” Web design, AI automation &amp; digital marketing
           </p>
         </Reveal>
 
@@ -52,7 +52,7 @@ export function Hero() {
           <div className="max-w-md space-y-6">
             <Reveal delay={900}>
               <p className="text-base leading-relaxed text-muted-foreground md:text-lg">
-                Web design, AI automation and digital marketing — built together to grow your
+                Web design, AI automation and digital marketing â€” built together to grow your
                 business.
               </p>
             </Reveal>
