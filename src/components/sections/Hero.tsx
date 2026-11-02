@@ -41,7 +41,7 @@ export function Hero() {
           <div className="max-w-md space-y-6">
             <Reveal delay={900}>
               <p className="text-base leading-relaxed text-muted-foreground md:text-lg">
-                Web design, AI automation and digital marketing â€” built together to grow your
+                Web design, AI automation and digital marketing — built together to grow your
                 business.
               </p>
             </Reveal>

@@ -17,7 +17,7 @@ export function Footer() {
         <div>
           <img src="/logo-light.png" alt="Recko Media" className="w-56" />
           <p className="mt-4 max-w-xs text-sm leading-relaxed text-muted-foreground">
-            Web design, AI automation and digital marketing â€” built together to grow your business.
+            Web design, AI automation and digital marketing — built together to grow your business.
           </p>
         </div>
 
@@ -82,7 +82,7 @@ export function Footer() {
       <div className="border-t border-border">
         <div className="mx-auto flex max-w-7xl flex-col gap-2 px-5 py-6 text-xs text-muted-foreground md:flex-row md:items-center md:justify-between md:px-10">
           <p>Â© {year} Recko Media. All rights reserved.</p>
-          <p>Privacy notice â€” Cookies â€” Terms</p>
+          <p>Privacy notice — Cookies — Terms</p>
         </div>
       </div>
     </footer>
