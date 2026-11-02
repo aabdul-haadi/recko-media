@@ -131,35 +131,48 @@
   color: transparent;
 }
 
-/* Editorial accent that responds to the headline hover state. */
-@utility hero-headline {
-  isolation: isolate;
-
-  &:hover .hero-accent-bar,
-  &:focus-within .hero-accent-bar {
-    opacity: 1;
+@keyframes contact-typewriter {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
   }
 }
 
-@utility hero-accent-bar {
-  position: absolute;
-  z-index: -1;
-  top: var(--pointer-y, 50%);
-  left: var(--pointer-x, 50%);
-  width: clamp(5rem, 18vw, 15rem);
-  height: 3px;
-  background: var(--color-acid);
-  opacity: 0;
-  transform: translate(-50%, -50%);
-  transform-origin: center;
-  transition: left 180ms ease-out, top 180ms ease-out, opacity 250ms ease;
-  box-shadow: 0 0 24px oklch(0.9 0.24 122 / 0.4);
-  pointer-events: none;
+.is-revealed .contact-typewriter {
+  animation: contact-typewriter 1.25s steps(16, end) 180ms both;
+}
+
+.contact-bracket {
+  transition: transform 650ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.is-revealed .contact-bracket-left {
+  transform: translateX(-0.75rem);
+}
+
+.is-revealed .contact-bracket-right {
+  transform: translateX(0.75rem);
+}
+
+.group:hover .contact-bracket-left {
+  transform: translateX(-0.75rem);
+}
+
+.group:hover .contact-bracket-right {
+  transform: translateX(0.75rem);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero-accent-bar {
+  .is-revealed .contact-typewriter {
+    clip-path: none;
+    animation: none;
+  }
+
+  .contact-bracket {
     transform: none;
+    animation: none;
     transition: none;
   }
 }

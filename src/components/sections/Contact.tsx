@@ -25,13 +25,13 @@ export function Contact() {
             href="mailto:hello@raytech.agency"
             className="group inline-block font-display text-[clamp(2.6rem,8.5vw,8.5rem)] font-bold tracking-[-0.02em]"
           >
-            <span className="inline-block text-acid transition-transform duration-500 group-hover:-translate-x-3">
+            <span className="contact-bracket contact-bracket-left inline-block text-acid transition-transform duration-500">
               [
             </span>
-            <span className="mx-2 inline-block transition-colors duration-500 group-hover:text-acid md:mx-4">
+            <span className="contact-typewriter mx-2 inline-block whitespace-nowrap transition-colors duration-500 group-hover:text-acid md:mx-4">
               Build your brief
             </span>
-            <span className="inline-block text-acid transition-transform duration-500 group-hover:translate-x-3">
+            <span className="contact-bracket contact-bracket-right inline-block text-acid transition-transform duration-500">
               ]
             </span>
           </a>

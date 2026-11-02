@@ -1,18 +1,8 @@
-﻿import { useRef, type PointerEvent } from "react";
 import { SplitReveal, Reveal } from "@/components/motion/SplitReveal";
 import { ArrowLink } from "@/components/ui/ArrowLink";
 import { ArrowDown } from "lucide-react";
 
 export function Hero() {
-  const headlineRef = useRef<HTMLDivElement>(null);
-
-  function moveAccent(event: PointerEvent<HTMLDivElement>) {
-    if (event.pointerType === "touch" || !headlineRef.current) return;
-    const bounds = headlineRef.current.getBoundingClientRect();
-    headlineRef.current.style.setProperty("--pointer-x", `${event.clientX - bounds.left}px`);
-    headlineRef.current.style.setProperty("--pointer-y", `${event.clientY - bounds.top}px`);
-  }
-
   return (
     <section id="top" className="starfield relative flex min-h-svh flex-col overflow-hidden">
       {/* soft acid glow behind the headline */}
@@ -27,12 +17,11 @@ export function Hero() {
       <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-1 flex-col justify-center px-5 pb-16 pt-36 md:px-10 md:pt-40">
         <Reveal>
           <p className="mb-6 text-[0.7rem] font-semibold uppercase tracking-[0.3em] text-muted-foreground md:mb-8 md:text-xs">
-            Recko Media â€” Web design, AI automation &amp; digital marketing
+            Recko Media — Web design, AI automation &amp; digital marketing
           </p>
         </Reveal>
 
-        <div ref={headlineRef} onPointerMove={moveAccent} className="hero-headline relative w-fit max-w-full">
-          <span aria-hidden className="hero-accent-bar" />
+        <div className="relative w-fit max-w-full">
           <h1 className="relative z-10 font-display text-[clamp(3.2rem,10.5vw,10rem)] font-bold leading-[0.98] tracking-[-0.03em]">
             <SplitReveal text="Growth systems" immediate delay={0.15} className="block" />
             <span className="block">
