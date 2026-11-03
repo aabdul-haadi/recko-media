@@ -14,16 +14,16 @@ export function Work() {
   return (
     <section
       id="work"
-      className="relative overflow-hidden border-t border-border bg-surface/40 py-24 md:py-32"
+      className="relative overflow-hidden border-t border-border bg-background py-24 md:py-32"
     >
       <div className="mx-auto mb-14 max-w-7xl px-5 md:mb-20 md:px-10">
         <Reveal>
-          <p className="mb-4 text-[0.7rem] font-semibold uppercase tracking-[0.3em] text-muted-foreground">
+          <p className="recko-brand-label mb-4 text-[0.7rem] font-semibold uppercase tracking-[0.3em] text-muted-foreground">
             Explore the possibilities
           </p>
         </Reveal>
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-          <h2 className="font-display text-4xl font-bold tracking-tight md:text-6xl">
+          <h2 className="font-display">
             <SplitReveal text="See for yourself." />
           </h2>
           <div className="flex flex-col items-start gap-5 md:items-end">

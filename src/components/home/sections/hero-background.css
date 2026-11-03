@@ -1,0 +1,58 @@
+/* Decorative motion stays clipped to the hero and never follows the pointer. */
+.recko-hero-atmosphere {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  contain: paint;
+  mask-image: linear-gradient(to bottom, transparent, black 20%, black 75%, transparent);
+}
+.recko-hero-halo {
+  position: absolute;
+  inset: -30% -10% -30% 35%;
+  background: radial-gradient(ellipse at center, rgb(201 247 59 / 16%), transparent 66%);
+  animation: recko-hero-breathe 12s ease-in-out infinite alternate;
+}
+.recko-hero-dust {
+  position: absolute;
+  inset: -80px;
+  background-image:
+    radial-gradient(circle at 18px 24px, rgb(201 247 59 / 75%) 1.3px, transparent 2px),
+    radial-gradient(circle at 86px 93px, rgb(247 248 252 / 45%) 1px, transparent 1.7px),
+    radial-gradient(circle at 141px 48px, rgb(201 247 59 / 55%) 1.1px, transparent 1.8px);
+  background-size: 197px 173px;
+  animation: recko-hero-drift 22s linear infinite alternate;
+}
+.recko-hero-dust-far {
+  opacity: 0.5;
+  transform: rotate(-8deg) scale(1.1);
+  animation-duration: 34s;
+  animation-direction: alternate-reverse;
+}
+.recko-hero-dust-near {
+  opacity: 0.8;
+  background-size: 241px 209px;
+}
+@keyframes recko-hero-drift {
+  from {
+    translate: -30px 35px;
+  }
+  to {
+    translate: 45px -45px;
+  }
+}
+@keyframes recko-hero-breathe {
+  from {
+    transform: translate(-3%, 3%) scale(0.85);
+    opacity: 0.45;
+  }
+  to {
+    transform: translate(4%, -3%) scale(1.15);
+    opacity: 0.9;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .recko-hero-atmosphere > div {
+    animation: none;
+  }
+}

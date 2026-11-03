@@ -1,0 +1,310 @@
+/* Supplied Recko brand sheet: fixed, shared type sizes across the homepage. */
+.recko-home {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  font-size: var(--brand-body-size);
+  line-height: var(--brand-body-leading);
+}
+.recko-home h1 {
+  font-family: var(--font-display);
+  font-size: var(--brand-h1-size);
+  line-height: var(--brand-h1-leading);
+  font-weight: 700;
+  letter-spacing: var(--brand-h1-tracking);
+}
+.recko-home h2,
+.recko-home .recko-subheading,
+.recko-home .recko-service-tab {
+  font-family: var(--font-display);
+  font-size: var(--brand-h2-size);
+  line-height: var(--brand-h2-leading);
+  font-weight: 500;
+  letter-spacing: var(--brand-h2-tracking);
+}
+.recko-home p,
+.recko-home blockquote,
+.recko-home .recko-service-description,
+.recko-home .recko-process-description {
+  font-family: var(--font-sans);
+  font-size: var(--brand-body-size);
+  line-height: var(--brand-body-leading);
+  font-weight: 400;
+  letter-spacing: normal;
+}
+.recko-home .recko-brand-label,
+.recko-home .recko-story-label,
+.recko-home .recko-story-caption,
+.recko-home .recko-motion-eyebrow,
+.recko-home .recko-motion-tag {
+  font-family: var(--font-sans);
+  font-size: var(--brand-label-size);
+  line-height: 18px;
+  font-weight: 600;
+  letter-spacing: var(--brand-label-tracking);
+  text-transform: uppercase;
+}
+/* Black surfaces with blue and lime reserved for accents. */
+.recko-home :is(.recko-hero, .recko-motion-gallery, .recko-footer) {
+  --background: var(--theme-black);
+  --surface: var(--theme-black);
+  --foreground: var(--brand-paper);
+  --card: var(--theme-black);
+  --card-foreground: var(--brand-paper);
+  --muted-foreground: color-mix(in srgb, var(--brand-paper) 76%, var(--theme-black));
+  --border: color-mix(in srgb, var(--brand-paper) 20%, var(--theme-black));
+  background: var(--background);
+  color: var(--foreground);
+}
+.recko-home .recko-hero {
+  border-bottom: 0;
+}
+.recko-home .recko-hero .recko-brand-label {
+  color: var(--muted-foreground);
+}
+.recko-home .recko-hero h1 {
+  max-width: 640px;
+}
+.recko-home .recko-process {
+  background: var(--brand-mist);
+}
+.recko-home .recko-process > div > .border-t {
+  border-color: color-mix(in srgb, var(--brand-slate) 25%, transparent);
+}
+.recko-home .recko-attention {
+  --foreground: var(--brand-paper);
+  --background: var(--theme-black);
+  --muted-foreground: var(--brand-paper);
+  --border: color-mix(in srgb, var(--brand-paper) 20%, var(--theme-black));
+  color: var(--brand-paper);
+  background: var(--theme-black);
+}
+.recko-home .recko-cta-link {
+  font-family: var(--font-sans);
+  font-size: var(--brand-body-size);
+  line-height: var(--brand-body-leading);
+  font-weight: 600;
+}
+.recko-home .recko-cta-solid {
+  color: var(--theme-black);
+  background: var(--brand-lime);
+}
+.recko-home .recko-cta-solid:hover {
+  color: var(--brand-paper);
+  background: var(--brand-blue);
+}
+.recko-home .recko-cta-ghost {
+  color: var(--brand-blue);
+  border-color: var(--brand-blue);
+}
+.recko-home .recko-attention .recko-cta-ghost {
+  color: var(--brand-paper);
+  border-color: var(--brand-paper);
+}
+.recko-home .recko-story-cta {
+  font-family: var(--font-sans);
+  font-size: var(--brand-body-size);
+  line-height: var(--brand-body-leading);
+  font-weight: 600;
+}
+.recko-home .recko-story-cta:hover {
+  background: var(--brand-blue);
+  color: var(--brand-paper);
+}
+.recko-home .recko-story-description a {
+  color: var(--brand-blue);
+}
+.recko-home .recko-motion-tag {
+  color: var(--brand-blue);
+  border-color: var(--brand-blue);
+}
+.recko-home .recko-motion-gallery .recko-motion-tag {
+  color: var(--brand-lime);
+  border-color: var(--brand-lime);
+}
+.recko-home .recko-motion-feature-copy a {
+  color: var(--brand-blue);
+  font-size: var(--brand-label-size);
+  line-height: 18px;
+  font-weight: 600;
+  letter-spacing: var(--brand-label-tracking);
+}
+.recko-home .recko-motion-gallery-bottom > p {
+  font-size: var(--brand-label-size);
+  line-height: 18px;
+}
+.recko-home .recko-motion-gallery-tabs button[aria-selected="true"] {
+  background: var(--brand-blue);
+  color: var(--brand-paper);
+}
+.recko-home .recko-motion-gallery-card {
+  background: var(--theme-black);
+  color: var(--brand-paper);
+}
+.recko-home .recko-motion-gallery-card img {
+  color: var(--brand-paper);
+}
+.recko-home .recko-motion-stack-card {
+  background: var(--brand-paper);
+}
+.recko-home .recko-contact-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 64px;
+  max-width: 100%;
+  padding: 20px 24px;
+  border-radius: 8px;
+  color: var(--theme-black);
+  background: var(--brand-lime);
+  font-family: var(--font-sans);
+  font-size: var(--brand-body-size);
+  line-height: var(--brand-body-leading);
+  font-weight: 600;
+  letter-spacing: normal;
+  transition:
+    background-color 0.25s,
+    color 0.25s;
+}
+.recko-home .recko-contact-cta:hover {
+  background: var(--brand-blue);
+  color: var(--brand-paper);
+}
+.recko-home .recko-contact-cta > span {
+  color: inherit;
+}
+.recko-home .recko-footer p {
+  font-size: var(--brand-body-size);
+  line-height: var(--brand-body-leading);
+}
+.recko-home .recko-footer nav button,
+.recko-home .recko-footer a {
+  font-family: var(--font-sans);
+  font-size: var(--brand-body-size);
+  line-height: var(--brand-body-leading);
+}
+.recko-home .recko-footer p.uppercase {
+  font-size: var(--brand-label-size);
+  line-height: 18px;
+  font-weight: 600;
+  letter-spacing: var(--brand-label-tracking);
+}
+.recko-motion-detail h2 {
+  font-family: var(--font-display);
+  font-size: var(--brand-h2-size);
+  line-height: var(--brand-h2-leading);
+  font-weight: 500;
+  letter-spacing: var(--brand-h2-tracking);
+}
+.recko-motion-detail p {
+  font-family: var(--font-sans);
+  font-size: var(--brand-body-size);
+  line-height: var(--brand-body-leading);
+}
+.recko-home :is(button, a):focus-visible {
+  outline: 2px solid var(--brand-blue);
+  outline-offset: 4px;
+}
+.recko-home
+  :is(.recko-hero, .recko-motion-gallery, .recko-attention, .recko-footer)
+  :is(button, a):focus-visible {
+  outline-color: var(--brand-lime);
+}
+@media (max-width: 767px) {
+  .recko-home .recko-hero {
+    min-height: 34rem;
+  }
+  .recko-home .recko-story-label {
+    flex-wrap: wrap;
+    row-gap: 6px;
+  }
+  .recko-home .recko-story-heading h2 {
+    max-width: 100%;
+  }
+  .recko-home .recko-story-connection {
+    min-height: 22rem;
+  }
+  .recko-home .recko-service-tab {
+    font-size: var(--brand-h2-size);
+  }
+}
+
+/* Permanent dark surfaces with the approved brand and typography tokens. */
+:root {
+  color-scheme: dark;
+  --theme-black: #000000;
+  --background: var(--theme-black);
+  --foreground: var(--brand-paper);
+  --surface: #111111;
+  --card: var(--surface);
+  --card-foreground: var(--brand-paper);
+  --popover: var(--surface);
+  --popover-foreground: var(--brand-paper);
+  --secondary: var(--surface);
+  --secondary-foreground: var(--brand-paper);
+  --muted: var(--surface);
+  --muted-foreground: color-mix(in srgb, var(--brand-paper) 76%, var(--theme-black));
+  --accent: var(--surface);
+  --accent-foreground: var(--brand-paper);
+  --border: color-mix(in srgb, var(--brand-paper) 18%, var(--theme-black));
+  --input: var(--border);
+  --theme-link: color-mix(in srgb, var(--brand-blue) 60%, var(--brand-paper));
+}
+:root body {
+  background: var(--background);
+  color: var(--foreground);
+}
+:root .recko-connected-story {
+  --story-paper: var(--background);
+  --story-ink: var(--foreground);
+  --story-muted: var(--muted-foreground);
+  --story-divider: var(--border);
+}
+:root .recko-home .recko-process {
+  background: var(--surface);
+}
+:root .recko-story-cta {
+  color: var(--theme-black);
+}
+:root .recko-story-cta:hover {
+  color: var(--brand-paper);
+}
+:root .recko-brand-logo-paper {
+  --logo-ground: var(--brand-lime);
+  --logo-r: var(--theme-black);
+  --logo-leg: var(--brand-blue);
+  color: var(--brand-paper);
+}
+:root .recko-brand-logo-paper .recko-brand-logo-type > span:last-child {
+  color: var(--brand-lime);
+}
+:root :is(.recko-motion-stack-stage, .recko-motion-vault, .recko-motion-stack-controls) {
+  background: var(--surface);
+}
+:root .recko-motion-stack-controls button {
+  color: var(--brand-paper);
+  background: var(--theme-black);
+}
+:root
+  .recko-home
+  :is(.recko-story-description a, .recko-cta-ghost, .recko-motion-feature-copy a, .text-primary) {
+  color: var(--theme-link);
+}
+:root .recko-home .recko-attention .recko-cta-ghost {
+  color: var(--brand-paper);
+}
+:root .recko-home .recko-motion-highlights .recko-motion-tag {
+  color: var(--theme-link);
+  border-color: var(--theme-link);
+}
+:root .recko-motion-detail {
+  color: var(--popover-foreground);
+  background: var(--popover);
+  border-color: var(--border);
+}
+:root .recko-motion-detail p {
+  color: var(--muted-foreground);
+}
+:root .recko-motion-detail a {
+  color: var(--theme-link);
+}

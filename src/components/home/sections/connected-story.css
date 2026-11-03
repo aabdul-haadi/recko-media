@@ -1,0 +1,356 @@
+/* Local surfaces only: preserve the site's approved font tokens and size utilities. */
+.recko-connected-story {
+  --story-paper: var(--brand-paper);
+  --story-ink: var(--brand-ink);
+  --story-lime: var(--brand-lime);
+  --story-muted: var(--brand-slate);
+  --story-divider: var(--brand-mist);
+  --story-gutter: clamp(1.25rem, 4.5vw, 5rem);
+  --story-right-inset: clamp(1.5rem, 3.55vw, 4rem);
+  --story-axis: calc(var(--story-gutter) + (100% - var(--story-gutter) * 2) * 0.62);
+  position: relative;
+  isolation: isolate;
+  background: var(--story-paper);
+  color: var(--story-ink);
+  border-block: 1px solid var(--story-divider);
+}
+.recko-connected-story :is(h2, p) {
+  margin: 0;
+}
+.recko-connected-story :is(a, button):focus-visible {
+  outline: 2px solid var(--story-ink);
+  outline-offset: 5px;
+}
+.recko-connected-story section {
+  scroll-margin-top: 5rem;
+}
+.recko-story-rail {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--story-axis);
+  width: 1px;
+  background: var(--story-divider);
+  pointer-events: none;
+  z-index: 1;
+}
+.recko-story-rail-fill {
+  width: 100%;
+  height: 100%;
+  background: var(--story-lime);
+  transform-origin: top;
+}
+.recko-story-about {
+  padding: 2rem var(--story-gutter) 0;
+}
+.recko-story-heading {
+  display: grid;
+  grid-template-columns: 62% 38%;
+}
+.recko-story-heading > div {
+  padding-right: var(--story-right-inset);
+}
+.recko-story-label {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+  font-size: var(--brand-label-size);
+  font-weight: 600;
+  line-height: 1.5;
+  letter-spacing: var(--brand-label-tracking);
+}
+.recko-story-label > span {
+  color: var(--brand-slate);
+  font-weight: 400;
+}
+.recko-story-heading h2 {
+  margin-top: 1.75rem;
+  max-width: 45rem;
+}
+.recko-story-intro {
+  align-self: end;
+  padding-left: var(--story-right-inset);
+  padding-bottom: 0.25rem;
+  max-width: 27rem;
+  color: var(--story-muted);
+}
+.recko-story-connection {
+  position: relative;
+  display: grid;
+  grid-template-columns: 62% 38%;
+  align-items: center;
+  min-height: 24rem;
+  margin-top: 1.5rem;
+}
+.recko-story-caption {
+  position: absolute;
+  left: calc(62% + 1.75rem);
+  font-size: var(--brand-label-size);
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+.recko-story-caption::before {
+  position: absolute;
+  content: "";
+  width: 0.85rem;
+  height: 1px;
+  background: var(--story-ink);
+  left: calc(-1.75rem - 0.425rem);
+  top: 50%;
+}
+.recko-story-idea {
+  top: 1.5rem;
+}
+.recko-story-system {
+  bottom: 3rem;
+}
+.recko-story-brand {
+  justify-self: end;
+  padding-right: var(--story-right-inset);
+  display: flex;
+  align-items: flex-end;
+  flex-direction: column;
+}
+.recko-story-description {
+  padding-left: var(--story-right-inset);
+  max-width: 29rem;
+}
+.recko-story-description a {
+  display: inline;
+  color: inherit;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+}
+.recko-story-description a:hover {
+  text-decoration-line: underline;
+}
+.recko-story-description svg {
+  display: inline-block;
+  height: 0.85em;
+  width: 0.85em;
+  margin-left: 0.2rem;
+  transition: transform 0.25s;
+}
+.recko-story-description a:hover svg {
+  transform: translate(2px, -2px);
+}
+.recko-story-marker {
+  position: absolute;
+  z-index: 2;
+  left: calc(62% - 0.625rem);
+  top: calc(50% - 0.625rem);
+  width: 1.25rem;
+  height: 1.25rem;
+  border: 1px solid var(--story-ink);
+  background: var(--story-lime);
+}
+.recko-story-partnership {
+  position: relative;
+  display: grid;
+  grid-template-columns: 62% 38%;
+  padding: 5.5rem var(--story-gutter) 3rem;
+  border-top: 1px solid var(--story-divider);
+  min-height: 28rem;
+}
+.recko-story-partnership-heading {
+  padding-right: var(--story-right-inset);
+}
+.recko-story-partnership .recko-story-label {
+  font-size: var(--brand-label-size);
+  gap: 0.75rem;
+  letter-spacing: var(--brand-label-tracking);
+}
+.recko-story-label i {
+  width: 0.375rem;
+  height: 0.375rem;
+  background: var(--story-lime);
+  flex-shrink: 0;
+}
+.recko-story-partnership h2 {
+  margin-top: 1.75rem;
+}
+.recko-story-partnership h2 > span {
+  display: block;
+}
+.recko-story-partnership-content {
+  padding-left: var(--story-right-inset);
+  position: relative;
+}
+.recko-story-marker-small {
+  top: 0;
+  left: -0.3rem;
+  width: 0.6rem;
+  height: 0.6rem;
+  border-color: var(--brand-ink);
+}
+.recko-story-activities {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  list-style: none;
+  padding: 1.5rem 0 0;
+  margin: 1.75rem 0;
+  border-top: 1px solid var(--brand-mist);
+  gap: 0.9rem 1.1rem;
+}
+.recko-story-activities li {
+  display: flex;
+  align-items: baseline;
+  gap: 0.45rem;
+  min-width: 0;
+}
+.recko-story-activities svg {
+  width: 0.6rem;
+  height: 0.6rem;
+  flex-shrink: 0;
+  color: var(--brand-slate);
+}
+.recko-story-cta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  min-height: 4.125rem;
+  padding: 1rem 1.125rem;
+  background: var(--story-lime);
+  color: var(--story-ink);
+  text-decoration: none;
+  transition: background-color 0.25s;
+}
+.recko-story-cta svg {
+  width: 1.4rem;
+  height: 1.4rem;
+  flex-shrink: 0;
+  transition: transform 0.25s;
+}
+.recko-story-cta:hover {
+  background: var(--brand-mist);
+}
+.recko-story-cta:hover svg {
+  transform: translate(3px, -3px);
+}
+@media (min-width: 1700px) {
+  .recko-story-connection {
+    min-height: 27rem;
+  }
+  .recko-story-partnership {
+    padding-bottom: 5rem;
+  }
+}
+@media (min-width: 768px) and (max-width: 1023px) {
+  .recko-story-partnership .recko-story-label {
+    flex-wrap: wrap;
+    max-width: 25rem;
+  }
+  .recko-story-activities {
+    grid-template-columns: 1fr;
+    gap: 0.65rem;
+  }
+  .recko-story-heading h2 {
+    max-width: 34rem;
+  }
+}
+@media (max-width: 767px) {
+  .recko-connected-story {
+    --story-gutter: 1.25rem;
+    --story-axis: var(--story-gutter);
+  }
+  .recko-story-about {
+    padding-top: 2.5rem;
+    padding-left: 2.75rem;
+  }
+  .recko-story-heading {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  .recko-story-heading > div {
+    padding-right: 0;
+  }
+  .recko-story-heading h2 {
+    margin-top: 1.5rem;
+  }
+  .recko-story-intro {
+    padding-left: 0;
+    max-width: 26rem;
+  }
+  .recko-story-connection {
+    grid-template-columns: 1fr;
+    align-content: center;
+    min-height: 24rem;
+    gap: 1.75rem;
+    margin-top: 1rem;
+    padding-block: 4rem 5rem;
+  }
+  .recko-story-brand {
+    justify-self: start;
+    align-items: flex-start;
+    padding-right: 0;
+  }
+  .recko-story-description {
+    padding-left: 0;
+  }
+  .recko-story-caption {
+    left: 0;
+    font-size: var(--brand-label-size);
+  }
+  .recko-story-caption::before {
+    left: -1.9rem;
+    width: 0.75rem;
+  }
+  .recko-story-idea {
+    top: 1rem;
+  }
+  .recko-story-system {
+    bottom: 1.75rem;
+  }
+  .recko-story-marker {
+    left: -2rem;
+    top: 43%;
+    width: 1rem;
+    height: 1rem;
+  }
+  .recko-story-partnership {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    padding: 3rem var(--story-gutter) 3rem 2.75rem;
+  }
+  .recko-story-partnership-heading {
+    padding-right: 0;
+  }
+  .recko-story-partnership h2 {
+    margin-top: 1.5rem;
+  }
+  .recko-story-partnership-content {
+    padding-left: 0;
+  }
+  .recko-story-marker-small {
+    left: -1.8rem;
+    top: 0.4rem;
+    width: 0.6rem;
+    height: 0.6rem;
+  }
+  .recko-story-activities {
+    gap: 0.8rem;
+  }
+  .recko-story-cta {
+    padding-inline: 0.875rem;
+  }
+}
+@media (max-width: 359px) {
+  .recko-story-activities {
+    grid-template-columns: 1fr;
+  }
+  .recko-story-label {
+    gap: 0.75rem;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .recko-connected-story *,
+  .recko-connected-story *::before {
+    animation: none !important;
+    transition: none !important;
+  }
+  .recko-connected-story .recko-story-rail-fill {
+    transform: none !important;
+  }
+}

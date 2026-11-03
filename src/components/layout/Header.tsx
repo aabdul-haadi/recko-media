@@ -1,19 +1,16 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import * as Dialog from "@radix-ui/react-dialog";
+import { X } from "lucide-react";
 import { menuLinks } from "@/data/home";
 import { scrollToId, lockScroll } from "@/lib/scroll";
 import { cn } from "@/lib/utils";
-
-function LogoMark({ className }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 32 32" fill="none" className={className} aria-hidden>
-      <path d="M6 4h16l-9 10h11L8 28l5-12H4L6 4Z" fill="currentColor" />
-    </svg>
-  );
-}
+import { BrandLogo } from "./BrandLogo";
+import "./header-menu.css";
 
 export function Header() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const navigationTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -24,125 +21,105 @@ export function Header() {
 
   useEffect(() => {
     lockScroll(open);
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setOpen(false);
-    };
-    window.addEventListener("keydown", onKey);
-    return () => {
-      window.removeEventListener("keydown", onKey);
-      lockScroll(false);
-    };
+    return () => lockScroll(false);
   }, [open]);
+
+  useEffect(() => () => clearTimeout(navigationTimer.current), []);
 
   const go = (target: string) => {
     setOpen(false);
-    // Wait for the overlay to start closing before scrolling.
-    window.setTimeout(() => scrollToId(target), 60);
+    clearTimeout(navigationTimer.current);
+    // Let the dialog release the scroll lock before navigating.
+    navigationTimer.current = setTimeout(() => scrollToId(target), 60);
   };
 
   return (
-    <>
+    <Dialog.Root open={open} onOpenChange={setOpen}>
       <header
         className={cn(
-          "fixed inset-x-0 top-0 z-50 transition-[background-color,border-color,backdrop-filter] duration-500",
-          scrolled && !open
-            ? "border-b border-border bg-background/80 backdrop-blur-md"
-            : "border-b border-transparent",
+          "recko-site-header fixed inset-x-0 top-0 z-50 bg-background text-foreground transition-colors duration-300",
+          scrolled && !open ? "border-b border-border" : "border-b border-transparent",
         )}
       >
-        <div className="flex h-16 items-center justify-between px-5 md:h-20 md:px-10">
+        <div className="flex h-20 items-center justify-between px-5 md:px-10">
           <button
             type="button"
             onClick={() => go("#top")}
             className="group flex items-start gap-1.5 text-left"
             aria-label="Back to top"
           >
-            <LogoMark className="mt-0.5 size-7 text-acid transition-transform duration-500 group-hover:rotate-[-8deg]" />
-            <span className="flex flex-col leading-none">
-              <span className="font-display text-xl font-bold lowercase tracking-tight">
-                raytech
-              </span>
-              <span className="text-[0.55rem] font-medium uppercase tracking-[0.35em] text-muted-foreground">
-                agency
-              </span>
-            </span>
+            <BrandLogo />
           </button>
-
-          <button
-            type="button"
-            onClick={() => setOpen((v) => !v)}
-            className="group flex items-center gap-3 text-sm font-medium"
-            aria-expanded={open}
-          >
-            <span className="transition-colors group-hover:text-acid">
-              {open ? "Close" : "Menu"}
-            </span>
-            <span className="grid grid-cols-2 gap-1" aria-hidden>
-              <span
-                className={cn(
-                  "size-2 rounded-[2px] transition-all duration-300",
-                  open ? "bg-acid" : "bg-foreground/25 group-hover:bg-acid",
-                )}
-              />
-              <span
-                className={cn(
-                  "size-2 rounded-[2px] transition-all duration-300",
-                  open ? "bg-acid" : "bg-acid",
-                )}
-              />
-              <span
-                className={cn(
-                  "size-2 rounded-[2px] transition-all duration-300",
-                  open ? "bg-acid" : "bg-foreground/25 group-hover:bg-acid",
-                )}
-              />
-              <span
-                className={cn(
-                  "size-2 rounded-[2px] transition-all duration-300",
-                  open ? "bg-acid" : "bg-foreground/25 group-hover:bg-acid",
-                )}
-              />
-            </span>
-          </button>
+          <div className="flex items-center gap-4 md:gap-6">
+            <Dialog.Trigger asChild>
+              <button type="button" className="group flex items-center gap-3 text-sm font-medium">
+                <span className="transition-colors group-hover:text-acid">Menu</span>
+                <span className="grid grid-cols-2 gap-1" aria-hidden>
+                  {[0, 1, 2, 3].map((index) => (
+                    <span
+                      key={index}
+                      className={cn(
+                        "size-2 rounded-[2px] transition-colors duration-300",
+                        index === 1 ? "bg-acid" : "bg-foreground/25 group-hover:bg-acid",
+                      )}
+                    />
+                  ))}
+                </span>
+              </button>
+            </Dialog.Trigger>
+          </div>
         </div>
       </header>
-
-      {/* Full-screen menu overlay */}
-      <div
-        aria-hidden={!open}
-        className={cn(
-          "fixed inset-0 z-40 flex flex-col justify-center bg-background/95 px-6 backdrop-blur-xl transition-[opacity,visibility] duration-500 md:px-16",
-          open ? "visible opacity-100" : "invisible opacity-0",
-        )}
-      >
-        <p className="mb-8 text-xs uppercase tracking-[0.3em] text-muted-foreground">
-          Navigation — 01–05
-        </p>
-        <nav className="flex flex-col">
-          {menuLinks.map((link, i) => (
-            <button
-              key={link.index}
-              type="button"
-              onClick={() => go(link.target)}
-              tabIndex={open ? 0 : -1}
-              className="group flex items-baseline gap-4 border-t border-border py-4 text-left transition-all duration-500 md:gap-8 md:py-5"
-              style={{
-                transitionDelay: `${i * 60}ms`,
-                opacity: open ? 1 : 0,
-                transform: open ? "translateY(0)" : "translateY(24px)",
-              }}
-            >
-              <span className="font-mono text-xs text-acid">{link.index}</span>
-              <span className="font-display text-4xl font-bold tracking-tight transition-all duration-300 group-hover:translate-x-3 group-hover:text-acid md:text-6xl">
-                {link.name}
-              </span>
-              <span className="ml-auto hidden max-w-48 text-right text-xs text-muted-foreground md:block">
-                {link.detail}
-              </span>
+      <Dialog.Portal>
+        <Dialog.Overlay className="recko-menu-backdrop" />
+        <Dialog.Content className="recko-menu-drawer" data-lenis-prevent>
+          <div className="recko-menu-top">
+            <Dialog.Title className="recko-menu-label">
+              <span aria-hidden="true" /> MENU / 01–05
+            </Dialog.Title>
+            <Dialog.Close className="recko-menu-close text-sm">
+              Close <X size={18} strokeWidth={1} aria-hidden="true" />
+            </Dialog.Close>
+          </div>
+          <Dialog.Description className="sr-only">
+            Navigate to a section of the website.
+          </Dialog.Description>
+          <nav className="recko-menu-links" aria-label="Main navigation">
+            {menuLinks.map((link) => (
+              <button
+                key={link.index}
+                type="button"
+                onClick={() => go(link.target)}
+                className="recko-menu-link"
+                aria-label={link.name}
+                title={link.detail}
+              >
+                <span className="recko-menu-index" aria-hidden="true">
+                  {link.index}
+                </span>
+                <span className="recko-menu-item-title font-display">{link.name}</span>
+                {link.index === "01" && (
+                  <span className="recko-menu-note" aria-hidden="true">
+                    [DIRECTION]
+                  </span>
+                )}
+                {link.index === "05" && (
+                  <span className="recko-menu-note" aria-hidden="true">
+                    [ACTION]
+                  </span>
+                )}
+              </button>
+            ))}
+          </nav>
+          <div className="recko-menu-bottom">
+            <button type="button" onClick={() => go("#work")}>
+              SELECTED PROJECTS ↗
             </button>
-          ))}
-        </nav>
-      </div>
-    </>
+            <span aria-hidden="true">/</span>
+            <span>RECKO MEDIA</span>
+          </div>
+        </Dialog.Content>
+      </Dialog.Portal>
+    </Dialog.Root>
   );
 }

@@ -18,10 +18,9 @@ export function ArrowLink({
   className,
 }: ArrowLinkProps) {
   const classes = cn(
-    "group/link inline-flex items-center gap-2.5 text-sm font-medium transition-colors duration-300",
-    variant === "pill" &&
-      "rounded-full border border-border bg-foreground/5 px-6 py-3 hover:border-acid hover:text-acid",
-    variant === "ghost" && "border-b border-border pb-1 hover:border-acid hover:text-acid",
+    "recko-cta-link group/link inline-flex items-center gap-2.5 text-sm font-medium transition-colors duration-300",
+    variant === "pill" && "recko-cta-solid rounded-md border border-transparent px-6 py-3",
+    variant === "ghost" && "recko-cta-ghost border-b border-border pb-1",
     className,
   );
 

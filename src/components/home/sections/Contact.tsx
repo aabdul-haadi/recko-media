@@ -1,4 +1,4 @@
-import { Reveal } from "@/components/motion/SplitReveal";
+﻿import { Reveal } from "@/components/motion/SplitReveal";
 
 export function Contact() {
   return (
@@ -6,25 +6,18 @@ export function Contact() {
       id="contact"
       className="relative overflow-hidden border-t border-border py-28 md:py-40"
     >
-      <div
-        aria-hidden
-        className="pointer-events-none absolute left-1/2 top-0 size-[40rem] -translate-x-1/2 rounded-full opacity-15 blur-[130px]"
-        style={{
-          background: "radial-gradient(circle, oklch(0.9 0.24 122 / 0.4), transparent 70%)",
-        }}
-      />
       <div className="relative z-10 mx-auto max-w-7xl px-5 text-center md:px-10">
         <Reveal>
-          <p className="mb-8 text-[0.7rem] font-semibold uppercase tracking-[0.3em] text-muted-foreground">
+          <p className="recko-brand-label mb-8 text-[0.7rem] font-semibold uppercase tracking-[0.3em] text-muted-foreground">
             Start the conversation
           </p>
         </Reveal>
 
+        <Reveal delay={80}>
+          <h2 className="mb-8">Let's build what's next.</h2>
+        </Reveal>
         <Reveal delay={100}>
-          <a
-            href="mailto:hello@raytech.agency"
-            className="group inline-block font-display text-[clamp(2.6rem,8.5vw,8.5rem)] font-bold tracking-[-0.02em]"
-          >
+          <a href="mailto:hello@raytech.agency" className="recko-contact-cta group">
             <span className="inline-block text-acid transition-transform duration-500 group-hover:-translate-x-3">
               [
             </span>

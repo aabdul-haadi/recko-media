@@ -3,15 +3,15 @@ import { ArrowLink } from "@/components/ui/ArrowLink";
 
 export function Attention() {
   return (
-    <section className="relative border-t border-border py-24 md:py-36">
+    <section className="recko-attention relative border-t border-border py-24 md:py-36">
       <div className="mx-auto grid max-w-7xl gap-12 px-5 md:grid-cols-[1.2fr_1fr] md:px-10">
-        <h2 className="font-display text-4xl font-bold leading-[1.05] tracking-tight md:text-7xl">
+        <h2 className="font-display">
           <SplitReveal text="Your ambition." />
           <span className="block">
             <SplitReveal text="Our attention." />
           </span>
           <span className="block">
-            <SplitReveal text="One team." charClassName="text-grain" className="italic" />
+            <SplitReveal text="One team." charClassName="text-grain" />
           </span>
         </h2>
 
@@ -24,7 +24,7 @@ export function Attention() {
           </Reveal>
           <Reveal delay={220}>
             <ArrowLink variant="ghost" href="#contact">
-              Meet Raytech
+              Meet Recko
             </ArrowLink>
           </Reveal>
         </div>

@@ -1,0 +1,201 @@
+/* A 400px drawer on desktop; the page stays visible behind a light scrim. */
+.recko-menu-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  background: color-mix(in srgb, var(--brand-paper) 78%, transparent);
+}
+.recko-menu-drawer {
+  position: fixed;
+  inset: 0 0 0 auto;
+  z-index: 61;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  width: min(400px, 100%);
+  height: 100dvh;
+  padding: 32px 40px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  background: var(--brand-lime);
+  color: var(--brand-ink);
+  font-family: var(--font-sans);
+}
+.recko-menu-drawer:focus {
+  outline: none;
+}
+.recko-menu-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 20px;
+}
+.recko-menu-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  font-size: var(--brand-label-size);
+  font-weight: 500;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+.recko-menu-label > span {
+  width: 8px;
+  height: 8px;
+  background: currentColor;
+}
+.recko-menu-close {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+  color: inherit;
+}
+.recko-menu-links {
+  display: flex;
+  flex-direction: column;
+  margin-top: 58px;
+}
+.recko-menu-link {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  min-height: 83px;
+  padding: 17px 0;
+  border: 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--brand-ink) 18%, transparent);
+  background: transparent;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.recko-menu-link:last-child {
+  border-bottom: 0;
+}
+.recko-menu-index {
+  flex-shrink: 0;
+  width: 12px;
+  font-size: var(--brand-label-size);
+  font-weight: 400;
+  opacity: 0.65;
+}
+.recko-menu-link > .font-display {
+  font-size: var(--brand-h2-size);
+  line-height: var(--brand-h2-leading);
+  font-weight: 500;
+  letter-spacing: var(--brand-h2-tracking);
+  transition: transform 0.25s ease;
+}
+.recko-menu-link:hover > .font-display {
+  transform: translateX(4px);
+}
+.recko-menu-note {
+  font-size: var(--brand-label-size);
+  white-space: nowrap;
+}
+.recko-menu-bottom {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: auto;
+  padding-top: 52px;
+  flex-wrap: wrap;
+  font-size: var(--brand-label-size);
+  letter-spacing: 0.02em;
+}
+.recko-menu-bottom button {
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.recko-menu-drawer :is(button, a):focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 5px;
+}
+.recko-menu-backdrop[data-state="open"] {
+  animation: recko-menu-fade-in 0.3s ease both;
+}
+.recko-menu-backdrop[data-state="closed"] {
+  animation: recko-menu-fade-out 0.3s ease both;
+}
+.recko-menu-drawer[data-state="open"] {
+  animation: recko-menu-slide-in 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.recko-menu-drawer[data-state="closed"] {
+  animation: recko-menu-slide-out 0.3s cubic-bezier(0.4, 0, 1, 1) both;
+}
+@keyframes recko-menu-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes recko-menu-fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+@keyframes recko-menu-slide-in {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+@keyframes recko-menu-slide-out {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+@media (max-width: 420px) {
+  .recko-menu-drawer {
+    padding-inline: 24px;
+  }
+}
+@media (max-height: 600px) {
+  .recko-menu-links {
+    margin-top: 24px;
+  }
+  .recko-menu-link {
+    min-height: 64px;
+    padding-block: 12px;
+  }
+  .recko-menu-bottom {
+    padding-top: 28px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .recko-menu-backdrop,
+  .recko-menu-drawer,
+  .recko-menu-link > .font-display {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+.recko-menu-label {
+  font-weight: 600;
+  letter-spacing: var(--brand-label-tracking);
+}
+.recko-menu-close,
+.recko-site-header button {
+  font-family: var(--font-sans);
+  font-size: var(--brand-body-size);
+  line-height: var(--brand-body-leading);
+}

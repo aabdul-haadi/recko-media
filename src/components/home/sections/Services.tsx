@@ -13,7 +13,7 @@ export function Services() {
     <section id="services" className="relative border-t border-border">
       <div className="mx-auto max-w-7xl px-5 py-24 md:px-10 md:py-32">
         <Reveal>
-          <p className="mb-4 text-[0.7rem] font-semibold uppercase tracking-[0.3em] text-muted-foreground">
+          <p className="recko-brand-label mb-4 text-[0.7rem] font-semibold uppercase tracking-[0.3em] text-muted-foreground">
             What we do
           </p>
         </Reveal>
@@ -26,18 +26,16 @@ export function Services() {
               type="button"
               onClick={() => setActive(t.id)}
               className={cn(
-                "group flex items-start gap-2 font-display text-4xl font-bold tracking-tight transition-colors duration-300 md:text-6xl",
-                t.id === active
-                  ? "text-foreground"
-                  : "text-muted-foreground/50 hover:text-foreground",
+                "recko-service-tab group flex items-start gap-2 font-display transition-colors duration-300",
+                t.id === active ? "text-primary" : "text-muted-foreground hover:text-primary",
               )}
             >
-              <sup className="mt-2 font-mono text-xs text-acid md:text-sm">{t.index}</sup>
+              <sup className="mt-2 font-sans text-xs text-primary md:text-sm">{t.index}</sup>
               <span className="relative">
                 {t.label}
                 <ArrowUpRight
                   className={cn(
-                    "absolute -right-7 top-1 size-5 text-acid transition-all duration-300 md:-right-9 md:size-6",
+                    "absolute -right-7 top-1 size-5 text-primary transition-all duration-300 md:-right-9 md:size-6",
                     t.id === active ? "opacity-100" : "opacity-0 group-hover:opacity-60",
                   )}
                 />
@@ -59,18 +57,18 @@ export function Services() {
                 <a
                   key={item.number}
                   href="#contact"
-                  className="group grid grid-cols-[auto_1fr_auto] items-center gap-4 border-b border-border px-1 py-7 transition-colors duration-300 hover:bg-foreground/[0.04] md:grid-cols-[auto_auto_1fr_auto] md:gap-8 md:px-4 md:py-9"
+                  className="group grid grid-cols-[auto_1fr_auto] items-center gap-4 border-b border-border px-1 py-7 transition-colors duration-300 hover:bg-surface md:grid-cols-[auto_auto_1fr_auto] md:gap-8 md:px-4 md:py-9"
                 >
-                  <span className="hidden size-10 items-center justify-center rounded-md border border-border font-mono text-xs text-muted-foreground transition-colors duration-300 group-hover:border-acid group-hover:text-acid md:flex">
+                  <span className="hidden size-10 items-center justify-center rounded-md border border-border font-sans text-xs text-muted-foreground transition-colors duration-300 group-hover:border-primary group-hover:text-primary md:flex">
                     {item.number}
                   </span>
-                  <span className="font-display text-2xl font-bold tracking-tight transition-transform duration-300 group-hover:translate-x-2 md:text-4xl">
+                  <span className="recko-subheading font-display transition-transform duration-300 group-hover:translate-x-2">
                     {item.title}
                   </span>
-                  <span className="hidden max-w-sm text-sm leading-relaxed text-muted-foreground md:block">
+                  <span className="recko-service-description hidden max-w-sm text-sm leading-relaxed text-muted-foreground md:block">
                     {item.blurb}
                   </span>
-                  <span className="flex size-10 items-center justify-center rounded-full border border-border transition-all duration-300 group-hover:rotate-45 group-hover:border-acid group-hover:bg-acid group-hover:text-background">
+                  <span className="flex size-10 items-center justify-center rounded-full border border-border transition-all duration-300 group-hover:rotate-45 group-hover:border-primary group-hover:bg-primary group-hover:text-primary-foreground">
                     <ArrowUpRight className="size-4" />
                   </span>
                 </a>

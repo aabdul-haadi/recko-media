@@ -1,0 +1,74 @@
+﻿.recko-brand-logo {
+  --logo-ground: var(--brand-blue);
+  --logo-r: var(--brand-paper);
+  --logo-leg: var(--brand-lime);
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--brand-ink);
+  text-align: left;
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+.recko-brand-logo svg {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+}
+.recko-brand-logo-ground {
+  fill: var(--logo-ground);
+}
+.recko-brand-logo-r {
+  stroke: var(--logo-r);
+}
+.recko-brand-logo-leg {
+  stroke: var(--logo-leg);
+}
+.recko-brand-logo-type {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.recko-brand-logo-type > span:first-child {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 30px;
+  letter-spacing: -0.03em;
+}
+.recko-brand-logo-type > span:last-child {
+  color: var(--brand-blue);
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 14px;
+  letter-spacing: 0.4em;
+  padding-left: 2px;
+}
+.recko-brand-logo-ink {
+  --logo-ground: var(--brand-lime);
+  --logo-r: var(--brand-ink);
+  --logo-leg: var(--brand-blue);
+  color: var(--brand-paper);
+}
+.recko-brand-logo-ink .recko-brand-logo-type > span:last-child {
+  color: var(--brand-lime);
+}
+.recko-brand-logo-large svg {
+  width: 64px;
+  height: 64px;
+}
+.recko-brand-logo-large .recko-brand-logo-type > span:first-child {
+  font-size: 44px;
+  line-height: 46px;
+}
+@media (max-width: 359px) {
+  .recko-brand-logo-large svg {
+    width: 48px;
+    height: 48px;
+  }
+  .recko-brand-logo-large .recko-brand-logo-type > span:first-child {
+    font-size: 28px;
+    line-height: 34px;
+  }
+}
