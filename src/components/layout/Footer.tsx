@@ -1,5 +1,5 @@
 ﻿import { menuLinks } from "@/data/home";
-import { scrollToId } from "@/lib/scroll";
+import { Link } from "@tanstack/react-router";
 import { ArrowUp } from "lucide-react";
 
 const socials = [
@@ -28,13 +28,12 @@ export function Footer() {
           <ul className="space-y-2">
             {menuLinks.map((link) => (
               <li key={link.index}>
-                <button
-                  type="button"
-                  onClick={() => scrollToId(link.target)}
+                <Link
+                  to={link.target as "/" | "/services" | "/portfolio" | "/about" | "/contact"}
                   className="text-sm text-foreground/80 transition-colors hover:text-acid"
                 >
                   {link.name}
-                </button>
+                </Link>
               </li>
             ))}
           </ul>
@@ -68,14 +67,13 @@ export function Footer() {
           >
             hello@raytech.agency
           </a>
-          <button
-            type="button"
-            onClick={() => scrollToId("#top")}
+          <Link
+            to="/"
             className="mt-6 inline-flex items-center gap-2 rounded-full border border-border px-4 py-2 text-xs font-medium transition-colors hover:border-acid hover:text-acid"
           >
-            Back to top
+            Home
             <ArrowUp className="size-3.5" />
-          </button>
+          </Link>
         </div>
       </div>
 

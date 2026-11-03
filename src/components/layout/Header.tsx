@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
+import { Link } from "@tanstack/react-router";
 import { menuLinks } from "@/data/home";
-import { scrollToId, lockScroll } from "@/lib/scroll";
+import { lockScroll } from "@/lib/scroll";
 import { cn } from "@/lib/utils";
 
 export function Header() {
@@ -26,12 +27,6 @@ export function Header() {
     };
   }, [open]);
 
-  const go = (target: string) => {
-    setOpen(false);
-    // Wait for the overlay to start closing before scrolling.
-    window.setTimeout(() => scrollToId(target), 60);
-  };
-
   return (
     <>
       <header
@@ -43,18 +38,13 @@ export function Header() {
         )}
       >
         <div className="flex h-16 items-center justify-between px-5 md:h-20 md:px-10">
-          <button
-            type="button"
-            onClick={() => go("#top")}
-            className="group flex items-start gap-1.5 text-left"
-            aria-label="Back to top"
-          >
+          <Link to="/" onClick={() => setOpen(false)} className="group flex items-start gap-1.5 text-left" aria-label="Recko Media home">
             <img
               src="/logo-light.png"
               alt="Recko Media"
               className="w-36 transition-transform duration-500 group-hover:scale-[1.03]"
             />
-          </button>
+          </Link>
 
           <button
             type="button"
@@ -108,10 +98,10 @@ export function Header() {
         </p>
         <nav className="flex flex-col">
           {menuLinks.map((link, i) => (
-            <button
+            <Link
               key={link.index}
-              type="button"
-              onClick={() => go(link.target)}
+              to={link.target as "/" | "/services" | "/portfolio" | "/about" | "/contact"}
+              onClick={() => setOpen(false)}
               tabIndex={open ? 0 : -1}
               className="group flex items-baseline gap-4 border-t border-border py-4 text-left transition-all duration-500 md:gap-8 md:py-5"
               style={{
@@ -127,7 +117,7 @@ export function Header() {
               <span className="ml-auto hidden max-w-48 text-right text-xs text-muted-foreground md:block">
                 {link.detail}
               </span>
-            </button>
+            </Link>
           ))}
         </nav>
       </div>
