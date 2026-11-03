@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 import { X } from "lucide-react";
 import { menuLinks } from "@/data/home";
-import { scrollToId, lockScroll } from "@/lib/scroll";
+import { lockScroll, scrollToId } from "@/lib/scroll";
 import { cn } from "@/lib/utils";
 import { BrandLogo } from "./BrandLogo";
 import "./header-menu.css";
@@ -30,7 +30,15 @@ export function Header() {
     setOpen(false);
     clearTimeout(navigationTimer.current);
     // Let the dialog release the scroll lock before navigating.
-    navigationTimer.current = setTimeout(() => scrollToId(target), 60);
+    navigationTimer.current = setTimeout(() => {
+      if (target.startsWith("/")) {
+        window.location.assign(target);
+      } else if (document.querySelector(target)) {
+        scrollToId(target);
+      } else {
+        window.location.assign(`/${target}`);
+      }
+    }, 60);
   };
 
   return (

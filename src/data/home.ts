@@ -6,16 +6,16 @@ export type MenuLink = {
 };
 
 export const menuLinks: MenuLink[] = [
-  { index: "01", name: "Home", detail: "Growth systems that move revenue", target: "#top" },
+  { index: "01", name: "Home", detail: "Growth systems that move revenue", target: "/" },
   {
     index: "02",
     name: "Services",
     detail: "Creative, growth and technology teams",
-    target: "#services",
+    target: "/services",
   },
-  { index: "03", name: "Work", detail: "Selected projects and previews", target: "#work" },
-  { index: "04", name: "About", detail: "One team built around your business", target: "#about" },
-  { index: "05", name: "Contact", detail: "Tell us where you want to go", target: "#contact" },
+  { index: "03", name: "Portfolio", detail: "Selected projects and capabilities", target: "/portfolio" },
+  { index: "04", name: "About", detail: "One team built around your business", target: "/about" },
+  { index: "05", name: "Contact", detail: "Tell us where you want to go", target: "/contact" },
 ];
 
 export type ServiceItem = {

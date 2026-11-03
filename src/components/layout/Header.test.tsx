@@ -1,4 +1,4 @@
-﻿import { afterEach, describe, expect, it, vi } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { cleanup, fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import { Header } from "./Header";
 import { lockScroll, scrollToId } from "@/lib/scroll";
@@ -27,10 +27,15 @@ describe("Header side menu", () => {
   });
 
   it("keeps existing section navigation working after the drawer closes", async () => {
+    const work = document.createElement("section");
+    work.id = "work";
+    document.body.append(work);
     render(<Header />);
     fireEvent.click(screen.getByRole("button", { name: "Menu" }));
-    fireEvent.click(within(screen.getByRole("dialog")).getByRole("button", { name: "Services" }));
-    await waitFor(() => expect(scrollToId).toHaveBeenCalledWith("#services"));
+    fireEvent.click(
+      within(screen.getByRole("dialog")).getByRole("button", { name: /SELECTED PROJECTS/ }),
+    );
+    await waitFor(() => expect(scrollToId).toHaveBeenCalledWith("#work"));
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
     fireEvent.click(screen.getByRole("button", { name: "Menu" }));
     fireEvent.click(screen.getByRole("button", { name: "Close" }));

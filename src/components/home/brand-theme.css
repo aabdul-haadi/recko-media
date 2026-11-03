@@ -270,9 +270,9 @@
   color: var(--brand-paper);
 }
 :root .recko-brand-logo-paper {
-  --logo-ground: var(--brand-lime);
-  --logo-r: var(--theme-black);
-  --logo-leg: var(--brand-blue);
+  --logo-ground: var(--brand-blue);
+  --logo-r: var(--brand-paper);
+  --logo-leg: var(--brand-lime);
   color: var(--brand-paper);
 }
 :root .recko-brand-logo-paper .recko-brand-logo-type > span:last-child {
