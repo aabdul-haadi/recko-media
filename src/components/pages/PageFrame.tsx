@@ -6,12 +6,12 @@ import { Reveal, SplitReveal } from "@/components/motion/SplitReveal";
 
 export function PageFrame({ children }: { children: ReactNode }) {
   return (
-    <>
+    <div className="recko-page-frame">
       <SmoothScroll />
       <Header />
       <main>{children}</main>
       <Footer />
-    </>
+    </div>
   );
 }
 
@@ -26,7 +26,10 @@ export function PageHero({
 }) {
   return (
     <section className="starfield relative overflow-hidden border-b border-border pt-32 sm:pt-40">
-      <div aria-hidden className="pointer-events-none absolute -right-48 top-12 size-[32rem] rounded-full bg-primary/10 blur-[120px]" />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -right-48 top-12 size-[32rem] rounded-full bg-primary/10 blur-[120px]"
+      />
       <div className="relative mx-auto max-w-7xl px-5 pb-20 md:px-10 md:pb-28">
         <Reveal>
           <p className="mb-6 text-[0.7rem] font-semibold uppercase tracking-[0.3em] text-muted-foreground md:text-xs">

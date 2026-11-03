@@ -72,9 +72,9 @@ export function SplitReveal({
           <span
             key={wi}
             aria-hidden
-            className="inline-block overflow-hidden align-bottom pb-[0.1em] -mb-[0.1em]"
+            className="recko-reveal-word inline-block overflow-hidden align-bottom pb-[0.1em] -mb-[0.1em]"
           >
-            <span className="inline-block whitespace-nowrap">
+            <span className="recko-reveal-letters inline-block whitespace-nowrap">
               {Array.from(word).map((ch, ci) => (
                 <span
                   key={ci}

@@ -1,0 +1,143 @@
+/* Shrink content at its source; only decorative animation scenes are clipped. */
+:is(.recko-home, .recko-page-frame) {
+  width: 100%;
+  min-width: 0;
+}
+:is(.recko-home, .recko-page-frame)
+  :is(main, section, article, aside, nav, form, fieldset, label, .grid > *, .flex > *) {
+  min-width: 0;
+}
+:is(.recko-home, .recko-page-frame) :is(h1, h2, h3, p, blockquote, li, label, a) {
+  overflow-wrap: anywhere;
+}
+:is(.recko-home, .recko-page-frame) :is(img, video, canvas) {
+  max-width: 100%;
+}
+:is(.recko-home, .recko-page-frame) :is(input, select, textarea) {
+  min-width: 0;
+  max-width: 100%;
+}
+.recko-reveal-word {
+  max-width: 100%;
+}
+.recko-reveal-word > .recko-reveal-letters {
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+.recko-menu-drawer {
+  max-width: 100%;
+  height: 100dvh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-bottom: max(24px, env(safe-area-inset-bottom));
+}
+.recko-motion-gallery-tabs {
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 100%;
+}
+.recko-motion-play {
+  flex-shrink: 0;
+}
+@media (max-width: 767px) {
+  .recko-home main h1 {
+    font-size: clamp(30px, 7.5vw, 44px);
+    line-height: 1.08;
+  }
+  .recko-home :is(main > section, #services > div, #work, #contact) {
+    padding-block: 48px;
+  }
+  .recko-home main > .recko-hero {
+    padding-block: 0;
+    min-height: 32rem;
+  }
+  .recko-home .recko-hero > .relative.z-10 {
+    padding-top: 120px;
+    padding-bottom: 48px;
+  }
+  .recko-home .recko-service-tab {
+    padding-right: 28px;
+  }
+  .recko-home .recko-contact-cta {
+    width: 100%;
+    gap: 8px;
+    padding-inline: 16px;
+  }
+  .recko-home .recko-contact-cta .contact-typewriter {
+    white-space: normal;
+    margin-inline: 0;
+  }
+  .recko-home .recko-story-brand {
+    max-width: 100%;
+  }
+  .recko-story-brand .recko-brand-logo-large {
+    gap: 10px;
+    max-width: 100%;
+  }
+  .recko-story-brand .recko-brand-logo-large svg {
+    width: 48px;
+    height: 48px;
+  }
+  .recko-story-brand .recko-brand-logo-large .recko-brand-logo-type > span:first-child {
+    font-size: 32px;
+    line-height: 36px;
+  }
+  .recko-home .recko-motion-stage {
+    height: clamp(260px, 85vw, 400px);
+  }
+  .recko-motion-detail {
+    padding: 24px 20px;
+  }
+  .recko-page-frame main h1 {
+    font-size: clamp(30px, 8vw, 54px);
+    line-height: 1.08;
+  }
+  .recko-page-frame main h2 {
+    font-size: 28px;
+    line-height: 34px;
+  }
+  .recko-page-frame main section {
+    padding-block: 48px;
+  }
+  .recko-page-frame main section:first-child {
+    padding-top: 120px;
+    padding-bottom: 0;
+  }
+}
+@media (max-width: 359px) {
+  .recko-site-header > div {
+    padding-inline: 16px;
+  }
+  .recko-site-header .recko-brand-logo {
+    gap: 8px;
+  }
+  .recko-site-header .recko-brand-logo svg {
+    width: 32px;
+    height: 32px;
+  }
+  .recko-site-header .recko-brand-logo-type > span:first-child {
+    font-size: 24px;
+    line-height: 26px;
+  }
+  .recko-menu-drawer {
+    padding-inline: 16px;
+  }
+  .recko-home .recko-story-activities {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .recko-motion-gallery .recko-motion-gallery-tabs button {
+    padding: 10px 7px;
+    letter-spacing: 0;
+  }
+  .recko-home .recko-motion-feature-copy {
+    padding-inline: 20px;
+  }
+}
+@media (pointer: coarse) {
+  .recko-motion-play,
+  .recko-motion-stack-controls button,
+  .recko-motion-detail-close {
+    min-width: 44px;
+    min-height: 44px;
+  }
+}

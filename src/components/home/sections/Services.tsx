@@ -57,7 +57,7 @@ export function Services() {
                 <a
                   key={item.number}
                   href="#contact"
-                  className="group grid grid-cols-[auto_1fr_auto] items-center gap-4 border-b border-border px-1 py-7 transition-colors duration-300 hover:bg-surface md:grid-cols-[auto_auto_1fr_auto] md:gap-8 md:px-4 md:py-9"
+                  className="group grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4 border-b border-border px-1 py-7 transition-colors duration-300 hover:bg-surface md:grid-cols-[auto_minmax(0,1fr)_minmax(0,1fr)_auto] md:gap-8 md:px-4 md:py-9"
                 >
                   <span className="hidden size-10 items-center justify-center rounded-md border border-border font-sans text-xs text-muted-foreground transition-colors duration-300 group-hover:border-primary group-hover:text-primary md:flex">
                     {item.number}
