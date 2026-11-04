@@ -9,6 +9,28 @@ const reviews = [
     name: "Scrubbers Med",
     role: "",
   },
+  // Placeholder testimonials: replace with real client quotes before launch.
+  {
+    quote: "The new site finally makes it easy for the right customers to understand what we do.",
+    name: "Marketing Director",
+    role: "B2B technology",
+  },
+  {
+    quote: "We have a clearer brand, a better customer journey and a team that keeps improving it.",
+    name: "Founder",
+    role: "Consumer brand",
+  },
+  {
+    quote:
+      "The automation gave our team hours back each week, and it fits the way we already work.",
+    name: "Operations Lead",
+    role: "Professional services",
+  },
+  {
+    quote: "Everything feels connected now: our campaigns, our website and the way we follow up.",
+    name: "Managing Partner",
+    role: "Growth stage business",
+  },
 ];
 export function Reviews() {
   const trackRef = useRef<HTMLDivElement>(null);

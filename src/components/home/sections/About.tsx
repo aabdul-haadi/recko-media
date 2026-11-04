@@ -2,6 +2,12 @@ import { BrandLogo } from "@/components/layout/BrandLogo";
 import { ArrowUpRight } from "lucide-react";
 import { SplitReveal } from "@/components/motion/SplitReveal";
 
+const pillars = [
+  { number: "01", title: "Creative", line: "Brands, content and social presence people remember." },
+  { number: "02", title: "Marketing", line: "Campaigns and search that turn attention into customers." },
+  { number: "03", title: "Technology", line: "Websites, stores and automation that keep it all running." },
+];
+
 export function About() {
   return (
     <section id="about" className="recko-story-about" aria-labelledby="recko-about-title">
@@ -38,6 +44,16 @@ export function About() {
         </p>
         <span className="recko-story-caption recko-story-system">WORKING SYSTEM</span>
       </div>
+
+      <ul className="recko-story-pillars">
+        {pillars.map((pillar) => (
+          <li key={pillar.number}>
+            <span className="recko-story-pillar-number">{pillar.number}</span>
+            <span className="recko-story-pillar-title font-display">{pillar.title}</span>
+            <span className="recko-story-pillar-line">{pillar.line}</span>
+          </li>
+        ))}
+      </ul>
     </section>
   );
 }

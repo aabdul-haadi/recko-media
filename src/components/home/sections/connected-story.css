@@ -79,8 +79,43 @@
   display: grid;
   grid-template-columns: 62% 38%;
   align-items: center;
-  min-height: 24rem;
+  min-height: 18rem;
   margin-top: 1.5rem;
+}
+.recko-story-pillars {
+  list-style: none;
+  margin: 0;
+  padding: 0 var(--story-right-inset) 4rem 0;
+  width: 62%;
+}
+.recko-story-pillars li {
+  display: grid;
+  grid-template-columns: 2.5rem minmax(0, 1fr) minmax(0, 1.2fr);
+  align-items: baseline;
+  gap: 1rem;
+  padding: 1.25rem 0;
+  border-top: 1px solid var(--story-divider);
+  transition: padding-left 0.3s, color 0.3s;
+}
+.recko-story-pillars li:last-child {
+  border-bottom: 1px solid var(--story-divider);
+}
+.recko-story-pillars li:hover {
+  padding-left: 0.75rem;
+  color: var(--story-lime);
+}
+.recko-story-pillar-number {
+  color: var(--story-muted);
+  font-size: 0.75rem;
+}
+.recko-story-pillar-title {
+  font-size: 1.5rem;
+  line-height: 1.2;
+}
+.recko-story-pillar-line {
+  color: var(--story-muted);
+  font-size: 0.875rem;
+  line-height: 1.5;
 }
 .recko-story-caption {
   position: absolute;
@@ -334,6 +369,19 @@
   }
   .recko-story-cta {
     padding-inline: 0.875rem;
+  }
+}
+@media (max-width: 767px) {
+  .recko-story-pillars {
+    width: 100%;
+    padding-right: 0;
+    padding-bottom: 3rem;
+  }
+  .recko-story-pillars li {
+    grid-template-columns: 2rem minmax(0, 1fr);
+  }
+  .recko-story-pillar-line {
+    grid-column: 2;
   }
 }
 @media (max-width: 359px) {

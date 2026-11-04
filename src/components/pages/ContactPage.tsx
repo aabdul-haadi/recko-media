@@ -2,27 +2,56 @@ import { useState, type FormEvent } from "react";
 import { ArrowRight, Clock3, Mail, MapPin } from "lucide-react";
 import { PageFrame, PageHero } from "@/components/pages/PageFrame";
 import { Reveal } from "@/components/motion/SplitReveal";
+import { isSupabaseConfigured } from "@/lib/supabase";
+import { submitInquiry } from "@/lib/inquiries";
 
 const inputClass = "mt-2 w-full rounded-lg border border-border bg-background px-4 py-3.5 text-base text-foreground outline-none transition-colors placeholder:text-muted-foreground/60 focus:border-primary focus:ring-2 focus:ring-primary/20";
 
 export function ContactPage() {
-  const [sent, setSent] = useState(false);
+  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const [errorMessage, setErrorMessage] = useState("");
 
-  function sendInquiry(event: FormEvent<HTMLFormElement>) {
+  async function sendInquiry(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const form = new FormData(event.currentTarget);
-    const subject = `Project inquiry from ${form.get("name")}`;
-    const body = [
-      `Name: ${form.get("name")}`,
-      `Email: ${form.get("email")}`,
-      `Company: ${form.get("company") || "Not provided"}`,
-      `Interested in: ${form.get("service")}`,
-      "",
-      "Project details:",
-      String(form.get("message")),
-    ].join("\n");
-    window.location.href = `mailto:team@reckomedia.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    setSent(true);
+    const formElement = event.currentTarget;
+    const form = new FormData(formElement);
+    const field = (key: string) => String(form.get(key) ?? "").trim();
+    setStatus("sending");
+    setErrorMessage("");
+
+    if (!isSupabaseConfigured()) {
+      // Local/preview builds without Supabase keep the original email-app behaviour.
+      const body = [
+        `Name: ${field("name")}`,
+        `Email: ${field("email")}`,
+        `Company: ${field("company") || "Not provided"}`,
+        `Interested in: ${field("service")}`,
+        "",
+        "Project details:",
+        field("message"),
+      ].join("\n");
+      window.location.href = `mailto:team@reckomedia.com?subject=${encodeURIComponent(`Project inquiry from ${field("name")}`)}&body=${encodeURIComponent(body)}`;
+      setStatus("sent");
+      return;
+    }
+
+    try {
+      await submitInquiry({
+        name: field("name"),
+        email: field("email"),
+        company: field("company"),
+        service: field("service"),
+        message: field("message"),
+        subject: `Project inquiry from ${field("name")}`,
+        source: "contact-page",
+        website: field("website"),
+      });
+      formElement.reset();
+      setStatus("sent");
+    } catch (error) {
+      setErrorMessage(error instanceof Error ? error.message : "Something went wrong.");
+      setStatus("error");
+    }
   }
 
   return (
@@ -57,6 +86,9 @@ export function ContactPage() {
                 <h2 className="mt-3 font-display text-2xl font-bold sm:text-3xl">What would you like to make happen?</h2>
               </div>
               <div className="grid gap-5 sm:grid-cols-2">
+                <div className="absolute -left-[9999px] h-0 w-0 overflow-hidden" aria-hidden="true">
+                  <label>Leave this field empty<input type="text" name="website" tabIndex={-1} autoComplete="off" /></label>
+                </div>
                 <label className="text-sm font-medium">Your name<input className={inputClass} type="text" name="name" autoComplete="name" placeholder="Name" required /></label>
                 <label className="text-sm font-medium">Email address<input className={inputClass} type="email" name="email" autoComplete="email" placeholder="you@company.com" required /></label>
                 <label className="text-sm font-medium">Company <span className="text-muted-foreground">(optional)</span><input className={inputClass} type="text" name="company" autoComplete="organization" placeholder="Your company" /></label>
@@ -64,10 +96,11 @@ export function ContactPage() {
                 <label className="text-sm font-medium sm:col-span-2">A little about your project<textarea className={`${inputClass} min-h-36 resize-y`} name="message" placeholder="What are you hoping to improve or create?" required /></label>
               </div>
               <div className="mt-7 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                <button type="submit" className="inline-flex w-fit items-center justify-center gap-3 rounded-full bg-primary px-6 py-3 font-semibold text-primary-foreground transition-transform hover:translate-x-1 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary">Send inquiry<ArrowRight className="size-4" /></button>
-                <p className="text-xs leading-relaxed text-muted-foreground">Your email app will open with your message ready to send.</p>
+                <button type="submit" disabled={status === "sending"} className="inline-flex disabled:opacity-60 w-fit items-center justify-center gap-3 rounded-full bg-primary px-6 py-3 font-semibold text-primary-foreground transition-transform hover:translate-x-1 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary">{status === "sending" ? "Sending…" : "Send inquiry"}<ArrowRight className="size-4" /></button>
+                <p className="text-xs leading-relaxed text-muted-foreground">We reply to every inquiry personally.</p>
               </div>
-              {sent && <p className="mt-5 text-sm text-primary" role="status">Your email app should be ready with your project details.</p>}
+              {status === "sent" && <p className="mt-5 text-sm text-primary" role="status">Thank you. Your inquiry has been received and we will be in touch soon.</p>}
+              {status === "error" && <p className="mt-5 text-sm text-red-500" role="alert">{errorMessage}</p>}
             </form>
           </Reveal>
         </div>
