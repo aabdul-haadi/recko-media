@@ -88,8 +88,12 @@
   }
 
   html {
-    scrollbar-width: thin;
-    scrollbar-color: var(--brand-slate) var(--brand-paper);
+    scrollbar-width: none;
+  }
+
+  html::-webkit-scrollbar,
+  body::-webkit-scrollbar {
+    display: none;
   }
 
   body {

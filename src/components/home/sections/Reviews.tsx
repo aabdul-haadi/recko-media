@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { ArrowLeft, ArrowRight, Quote } from "lucide-react";
 import { Reveal, SplitReveal } from "@/components/motion/SplitReveal";
 
@@ -32,9 +32,37 @@ export function Reviews() {
   function scrollReviews(direction: -1 | 1) {
     const track = trackRef.current;
     if (!track) return;
-    const card = track.querySelector<HTMLElement>("[data-review-card]");
-    track.scrollBy({ left: direction * ((card?.offsetWidth ?? 320) + 20), behavior: "smooth" });
+    const cards = Array.from(track.querySelectorAll<HTMLElement>("[data-review-card]"));
+    const step = cards[1] ? cards[1].offsetLeft - cards[0]!.offsetLeft : track.clientWidth;
+    const left = (Math.round(track.scrollLeft / step) + direction) * step;
+    track.scrollTo({
+      left,
+      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+    });
   }
+
+  useEffect(() => {
+    const track = trackRef.current;
+    if (!track) return;
+    let last = -Infinity;
+    const onWheel = (event: WheelEvent) => {
+      if (event.ctrlKey || Math.abs(event.deltaX) > Math.abs(event.deltaY) || !event.deltaY) return;
+      const end = track.scrollWidth - track.clientWidth;
+      if (
+        end <= 1 ||
+        (event.deltaY < 0 && track.scrollLeft <= 1) ||
+        (event.deltaY > 0 && track.scrollLeft >= end - 1)
+      )
+        return;
+      event.preventDefault();
+      event.stopPropagation();
+      if (performance.now() - last < 450) return;
+      last = performance.now();
+      scrollReviews(event.deltaY > 0 ? 1 : -1);
+    };
+    track.addEventListener("wheel", onWheel, { passive: false });
+    return () => track.removeEventListener("wheel", onWheel);
+  }, []);
 
   return (
     <section
@@ -76,33 +104,26 @@ export function Reviews() {
 
         <div
           ref={trackRef}
-          className="flex snap-x snap-mandatory gap-5 overflow-x-auto pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          className="recko-reviews-track flex snap-x snap-mandatory gap-5 overflow-x-auto pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
           role="list"
           aria-label="Client reviews"
         >
-          {reviews.map((review, index) => (
+          {reviews.map((review) => (
             <article
               key={review.name}
               data-review-card
               role="listitem"
-              className={`flex min-h-[19rem] w-[min(84vw,25rem)] shrink-0 snap-start flex-col justify-between border border-border p-6 sm:p-8 md:min-h-[21rem] ${index === 1 ? "bg-primary text-primary-foreground" : "bg-surface/60"}`}
+              className={`flex min-h-[19rem] w-full sm:w-[calc((100%_-_20px)/2)] lg:w-[calc((100%_-_40px)/3)] shrink-0 snap-start flex-col justify-between border border-border p-6 sm:p-8 md:min-h-[21rem] bg-surface/60`}
             >
               <div>
-                <Quote
-                  aria-hidden="true"
-                  className={`mb-6 size-7 ${index === 1 ? "text-primary-foreground/70" : "text-primary"}`}
-                />
+                <Quote aria-hidden="true" className={`mb-6 size-7 text-acid`} />
                 <blockquote className="font-display text-xl font-medium leading-snug sm:text-2xl">
                   “{review.quote}”
                 </blockquote>
               </div>
               <div className="mt-8 border-t border-current/15 pt-5">
                 <p className="font-semibold">{review.name}</p>
-                <p
-                  className={`mt-1 text-sm ${index === 1 ? "opacity-75" : "text-muted-foreground"}`}
-                >
-                  {review.role}
-                </p>
+                <p className={`mt-1 text-sm text-muted-foreground`}>{review.role}</p>
               </div>
             </article>
           ))}

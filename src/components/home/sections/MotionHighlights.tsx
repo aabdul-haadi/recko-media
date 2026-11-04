@@ -12,6 +12,7 @@ const stackProjects = Array.from(
 );
 
 export function MotionHighlights() {
+  const stage = useRef<HTMLDivElement>(null);
   const stack = useRef<HTMLDivElement>(null);
   const stackViewport = useRef<HTMLDivElement>(null);
   useAnimationFit(stackViewport, stack, fitPreviewStack);
@@ -20,6 +21,25 @@ export function MotionHighlights() {
   const [reduced, setReduced] = useState(false);
   const hovered = useRef(false);
   const visible = useRef(false);
+  useEffect(() => {
+    const element = stage.current;
+    if (!element) return;
+    let last = -Infinity;
+    const wheel = (event: WheelEvent) => {
+      if (event.ctrlKey) return;
+      const delta = Math.abs(event.deltaX) > Math.abs(event.deltaY) ? event.deltaX : event.deltaY;
+      if (!delta) return;
+      event.preventDefault();
+      event.stopPropagation();
+      if (performance.now() - last < 450) return;
+      last = performance.now();
+      setActive(
+        (value) => (value + (delta > 0 ? 1 : -1) + stackProjects.length) % stackProjects.length,
+      );
+    };
+    element.addEventListener("wheel", wheel, { passive: false });
+    return () => element.removeEventListener("wheel", wheel);
+  }, []);
   useEffect(() => {
     const media = matchMedia("(prefers-reduced-motion: reduce)");
     const sync = () => setReduced(media.matches);
@@ -67,6 +87,7 @@ export function MotionHighlights() {
     <section className="recko-motion-highlights" aria-label="Creative previews">
       <article className="recko-motion-feature">
         <div
+          ref={stage}
           className="recko-motion-stack-stage"
           aria-label="Interactive project card stack"
           onPointerEnter={() => {

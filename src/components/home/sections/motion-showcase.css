@@ -454,3 +454,13 @@
 .recko-motion-detail {
   box-sizing: border-box;
 }
+
+/* Hide scrollbar chrome without changing any scrolling or gallery controls. */
+.recko-motion-highlights,
+.recko-motion-highlights * {
+  scrollbar-width: none;
+}
+.recko-motion-highlights::-webkit-scrollbar,
+.recko-motion-highlights *::-webkit-scrollbar {
+  display: none;
+}

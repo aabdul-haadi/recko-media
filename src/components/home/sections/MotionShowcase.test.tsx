@@ -1,4 +1,4 @@
-﻿import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { act, cleanup, fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import { MotionGallery } from "./MotionGallery";
 import { MotionHighlights } from "./MotionHighlights";
@@ -70,6 +70,17 @@ describe("Motion-inspired homepage sections", () => {
     const tick = motion.add.mock.calls[0]![0];
     unmount();
     expect(motion.remove).toHaveBeenCalledWith(tick);
+  });
+  it("changes preview cards with the mouse wheel and preserves pinch zoom", () => {
+    render(<MotionHighlights />);
+    const stage = screen.getByLabelText("Interactive project card stack");
+    const active = () => stage.querySelector('[aria-pressed="true"].recko-motion-stack-card');
+    const before = active();
+    fireEvent.wheel(stage, { deltaY: 100 });
+    expect(active()).not.toBe(before);
+    const after = active();
+    fireEvent.wheel(stage, { deltaY: -100, ctrlKey: true });
+    expect(active()).toBe(after);
   });
   it("rotates the preview stack and lets visitors pause it", () => {
     vi.useFakeTimers();
