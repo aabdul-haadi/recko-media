@@ -7,7 +7,6 @@ import { Process } from "./sections/Process";
 import { ConnectedStory } from "./sections/ConnectedStory";
 import { Work } from "./sections/Work";
 import { MotionHighlights } from "./sections/MotionHighlights";
-import { MotionGallery } from "./sections/MotionGallery";
 import { Reviews } from "./sections/Reviews";
 import { Attention } from "./sections/Attention";
 import { Contact } from "./sections/Contact";
@@ -25,7 +24,6 @@ export function HomePage() {
         <ConnectedStory />
         <Work />
         <MotionHighlights />
-        <MotionGallery />
         <Reviews />
         <Attention />
         <Contact />
