@@ -177,3 +177,38 @@
 @utility scroll-nudge {
   animation: scroll-nudge 1.8s ease-in-out infinite;
 }
+
+/* Shared across every route, including direct loads of inner pages. */
+:root {
+  color-scheme: dark;
+  --theme-black: #000000;
+  --background: var(--theme-black);
+  --foreground: var(--brand-paper);
+  --surface: #111111;
+  --card: var(--surface);
+  --card-foreground: var(--brand-paper);
+  --popover: var(--surface);
+  --popover-foreground: var(--brand-paper);
+  --secondary: var(--surface);
+  --secondary-foreground: var(--brand-paper);
+  --muted: var(--surface);
+  --muted-foreground: color-mix(in srgb, var(--brand-paper) 76%, var(--theme-black));
+  --accent: var(--surface);
+  --accent-foreground: var(--brand-paper);
+  --border: color-mix(in srgb, var(--brand-paper) 18%, var(--theme-black));
+  --input: var(--border);
+  --theme-link: color-mix(in srgb, var(--brand-blue) 60%, var(--brand-paper));
+}
+:root body {
+  background: var(--background);
+  color: var(--foreground);
+}
+:root .recko-brand-logo-paper {
+  --logo-ground: var(--brand-blue);
+  --logo-r: var(--brand-paper);
+  --logo-leg: var(--brand-lime);
+  color: var(--brand-paper);
+}
+:root .recko-brand-logo-paper .recko-brand-logo-type > span:last-child {
+  color: var(--brand-lime);
+}

@@ -1,3 +1,4 @@
+import "./page-theme.css";
 import type { ReactNode } from "react";
 import { SmoothScroll } from "@/components/motion/SmoothScroll";
 import { Header } from "@/components/layout/Header";
@@ -32,7 +33,7 @@ export function PageHero({
       />
       <div className="relative mx-auto max-w-7xl px-5 pb-20 md:px-10 md:pb-28">
         <Reveal>
-          <p className="mb-6 text-[0.7rem] font-semibold uppercase tracking-[0.3em] text-muted-foreground md:text-xs">
+          <p className="recko-page-label mb-6 text-[0.7rem] font-semibold uppercase tracking-[0.3em] text-muted-foreground md:text-xs">
             {eyebrow}
           </p>
         </Reveal>
@@ -61,7 +62,7 @@ export function SectionIntro({
   return (
     <div className="mb-10 max-w-3xl md:mb-14">
       <Reveal>
-        <p className="mb-4 text-[0.7rem] font-semibold uppercase tracking-[0.3em] text-muted-foreground">
+        <p className="recko-page-label mb-4 text-[0.7rem] font-semibold uppercase tracking-[0.3em] text-muted-foreground">
           {eyebrow}
         </p>
       </Reveal>

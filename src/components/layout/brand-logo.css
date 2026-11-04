@@ -1,4 +1,4 @@
-﻿.recko-brand-logo {
+.recko-brand-logo {
   --logo-ground: var(--brand-blue);
   --logo-r: var(--brand-paper);
   --logo-leg: var(--brand-lime);
@@ -46,9 +46,9 @@
   padding-left: 2px;
 }
 .recko-brand-logo-ink {
-  --logo-ground: var(--brand-lime);
-  --logo-r: var(--brand-ink);
-  --logo-leg: var(--brand-blue);
+  --logo-ground: var(--brand-blue);
+  --logo-r: var(--brand-paper);
+  --logo-leg: var(--brand-lime);
   color: var(--brand-paper);
 }
 .recko-brand-logo-ink .recko-brand-logo-type > span:last-child {

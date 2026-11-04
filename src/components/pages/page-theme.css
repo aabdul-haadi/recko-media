@@ -1,0 +1,50 @@
+.recko-page-frame {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  font-size: var(--brand-body-size);
+  line-height: var(--brand-body-leading);
+  min-height: 100dvh;
+}
+.recko-page-frame main h1 {
+  font-family: var(--font-display);
+  font-size: var(--brand-h1-size);
+  line-height: var(--brand-h1-leading);
+  font-weight: 700;
+  letter-spacing: var(--brand-h1-tracking);
+}
+.recko-page-frame main :is(h2, h3) {
+  font-family: var(--font-display);
+  font-size: var(--brand-h2-size);
+  line-height: var(--brand-h2-leading);
+  font-weight: 500;
+  letter-spacing: var(--brand-h2-tracking);
+}
+.recko-page-frame :is(p, li, label, input, select, textarea, button, a) {
+  font-family: var(--font-sans);
+  font-size: var(--brand-body-size);
+  line-height: var(--brand-body-leading);
+  letter-spacing: normal;
+}
+.recko-page-frame :is(.recko-page-label, p.uppercase, span.uppercase) {
+  font-family: var(--font-sans);
+  font-size: var(--brand-label-size);
+  line-height: 18px;
+  font-weight: 600;
+  letter-spacing: var(--brand-label-tracking);
+  text-transform: uppercase;
+}
+.recko-page-frame main > section.bg-primary {
+  background: var(--surface);
+  color: var(--foreground);
+}
+.recko-page-frame main .text-primary {
+  color: var(--theme-link);
+}
+.recko-page-frame .recko-footer {
+  background: var(--background);
+}
+.recko-page-frame :is(a, button, input, select, textarea):focus-visible {
+  outline: 2px solid var(--brand-lime);
+  outline-offset: 4px;
+}
