@@ -14,7 +14,7 @@ export function Footer() {
   const year = new Date().getFullYear();
   return (
     <footer className="recko-footer border-t border-border">
-      <div className="mx-auto grid max-w-7xl gap-12 px-5 py-16 md:grid-cols-[1.4fr_1fr_1fr_auto] md:px-10">
+      <div className="mx-auto grid max-w-7xl gap-12 px-5 py-16 md:grid-cols-2 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,1.2fr)] md:px-10">
         <div>
           <BrandLogo variant="ink" />
           <p className="mt-4 max-w-xs text-sm leading-relaxed text-muted-foreground">
@@ -58,13 +58,13 @@ export function Footer() {
           </ul>
         </div>
 
-        <div className="md:text-right">
+        <div className="flex min-w-0 flex-col items-start md:items-end md:text-right">
           <p className="mb-4 text-xs font-semibold uppercase tracking-[0.25em] text-muted-foreground">
             Contact
           </p>
           <a
             href="mailto:hello@raytech.agency"
-            className="text-sm text-foreground/80 transition-colors hover:text-acid"
+            className="block max-w-full [overflow-wrap:anywhere] text-sm text-foreground/80 transition-colors hover:text-acid"
           >
             hello@raytech.agency
           </a>
