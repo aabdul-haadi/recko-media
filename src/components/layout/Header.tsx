@@ -124,7 +124,7 @@ export function Header() {
               SELECTED PROJECTS ↗
             </button>
             <span aria-hidden="true">/</span>
-            <span>RECKO MEDIA</span>
+            <span>RECKOMEDIA</span>
           </div>
         </Dialog.Content>
       </Dialog.Portal>

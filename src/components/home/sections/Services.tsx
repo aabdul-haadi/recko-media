@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { serviceTabs } from "@/data/home";
-import { Reveal } from "@/components/motion/SplitReveal";
+import { Reveal, SplitReveal } from "@/components/motion/SplitReveal";
 import { ArrowLink } from "@/components/ui/ArrowLink";
 import { ArrowUpRight } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -17,6 +17,13 @@ export function Services() {
             What we do
           </p>
         </Reveal>
+
+        <h2 className="mb-12 max-w-3xl font-display md:mb-16">
+          <SplitReveal text="Creative. Growth. Technology." />
+        </h2>
+        <p className="-mt-6 mb-12 max-w-md text-lg text-muted-foreground md:-mt-10 md:mb-16">
+          Three disciplines. One connected approach to building your business online.
+        </p>
 
         {/* Tabs */}
         <div className="flex flex-wrap items-baseline gap-x-10 gap-y-4">

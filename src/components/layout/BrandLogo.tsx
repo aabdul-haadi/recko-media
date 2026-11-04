@@ -7,7 +7,7 @@ export function BrandLogo({ variant = "paper", large = false }: BrandLogoProps) 
   return (
     <span
       role="img"
-      aria-label="Recko Media"
+      aria-label="ReckoMEDIA"
       className={`recko-brand-logo recko-brand-logo-${variant}${large ? " recko-brand-logo-large" : ""}`}
     >
       <svg viewBox="0 0 64 64" aria-hidden="true" focusable="false">

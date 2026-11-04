@@ -11,7 +11,7 @@ export function Partnership() {
     >
       <div className="recko-story-partnership-heading">
         <p className="recko-story-label">
-          <i aria-hidden="true" /> GROWTH PARTNERSHIPS / AN ONGOING ENGAGEMENT
+          <i aria-hidden="true" /> GROWTH PARTNERSHIPS
         </p>
         <h2 id="recko-partnership-title" className="font-display">
           <span>
@@ -28,8 +28,8 @@ export function Partnership() {
       <div className="recko-story-partnership-content">
         <span className="recko-story-marker recko-story-marker-small" aria-hidden="true" />
         <p className="recko-story-partnership-copy text-base leading-relaxed md:text-lg">
-          An ongoing partnership bringing strategy, creative, marketing, and technology
-          together—from setting priorities to building, launching, and improving.
+          An ongoing partnership bringing strategy, creative, marketing and technology
+          together, from setting priorities to building, launching and improving.
         </p>
         <ul className="recko-story-activities">
           {partnershipItems.map((item) => (

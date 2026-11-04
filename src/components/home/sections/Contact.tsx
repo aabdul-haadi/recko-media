@@ -4,8 +4,9 @@ export function Contact() {
   return (
     <section
       id="contact"
-      className="relative overflow-hidden border-t border-border py-28 md:py-40"
+      className="recko-contact-section relative overflow-hidden border-t border-border py-28 md:py-40"
     >
+      <div className="recko-contact-orbit" aria-hidden="true" />
       <div className="relative z-10 mx-auto max-w-7xl px-5 text-center md:px-10">
         <Reveal>
           <p className="recko-brand-label mb-8 text-[0.7rem] font-semibold uppercase tracking-[0.3em] text-muted-foreground">
@@ -17,7 +18,7 @@ export function Contact() {
           <h2 className="mb-8">Let's build what's next.</h2>
         </Reveal>
         <Reveal delay={100}>
-          <a href="mailto:hello@raytech.agency" className="recko-contact-cta group">
+          <a href="mailto:team@reckomedia.com" className="recko-contact-cta group">
             <span className="inline-block text-acid transition-transform duration-500 group-hover:-translate-x-3">
               [
             </span>

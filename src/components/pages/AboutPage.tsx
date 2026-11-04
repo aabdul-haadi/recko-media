@@ -21,7 +21,7 @@ export function AboutPage() {
   return (
     <PageFrame>
       <PageHero
-        eyebrow="About / Recko Media"
+        eyebrow="About / ReckoMEDIA"
         title="One team, built around your business."
         description="We bring creative thinking, growth experience and practical technology together so the work feels connected from the first conversation to the day-to-day details."
       />
@@ -34,7 +34,7 @@ export function AboutPage() {
           </div>
           <div className="space-y-5 text-base leading-relaxed text-muted-foreground md:text-lg">
             <Reveal><p>Growing a business can create a lot of moving parts. A new website, another campaign, a new tool: each can help, but only when it connects to the way people find you, choose you and work with you.</p></Reveal>
-            <Reveal delay={100}><p>Recko Media brings those parts into one conversation. We listen first, make the next move clear and build with the people who will use the result.</p></Reveal>
+            <Reveal delay={100}><p>ReckoMEDIA brings those parts into one conversation. We listen first, make the next move clear and build with the people who will use the result.</p></Reveal>
           </div>
         </div>
       </section>

@@ -21,7 +21,7 @@ export function ContactPage() {
       "Project details:",
       String(form.get("message")),
     ].join("\n");
-    window.location.href = `mailto:hello@raytech.agency?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    window.location.href = `mailto:team@reckomedia.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     setSent(true);
   }
 
@@ -38,7 +38,7 @@ export function ContactPage() {
           <aside>
             <Reveal>
               <p className="text-xs font-semibold uppercase tracking-[0.25em] text-muted-foreground">Reach the team</p>
-              <a href="mailto:hello@raytech.agency" className="mt-4 inline-flex items-center gap-3 text-lg font-medium transition-colors hover:text-primary sm:text-xl"><Mail className="size-5 text-primary" />hello@raytech.agency</a>
+              <a href="mailto:team@reckomedia.com" className="mt-4 inline-flex items-center gap-3 text-lg font-medium transition-colors hover:text-primary sm:text-xl"><Mail className="size-5 text-primary" />team@reckomedia.com</a>
             </Reveal>
             <div className="mt-10 space-y-6 border-t border-border pt-7">
               <Reveal delay={80}>

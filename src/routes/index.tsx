@@ -5,7 +5,7 @@ import { HomePage } from "@/components/home/HomePage";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Recko Media — Web Design, AI Automation & Digital Marketing" },
+      { title: "ReckoMEDIA — Web Design, AI Automation & Digital Marketing" },
       {
         name: "description",
         content:
@@ -13,7 +13,7 @@ export const Route = createFileRoute("/")({
       },
       {
         property: "og:title",
-        content: "Recko Media — Web Design, AI Automation & Digital Marketing",
+        content: "ReckoMEDIA — Web Design, AI Automation & Digital Marketing",
       },
       {
         property: "og:description",

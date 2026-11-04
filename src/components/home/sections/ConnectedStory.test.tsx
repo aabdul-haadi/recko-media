@@ -46,8 +46,8 @@ describe("Connected About and Growth Partnerships", () => {
     );
     const partnership = screen.getByRole("region", { name: /One team/ });
     expect(partnership).toHaveAttribute("id", "partnership");
-    expect(screen.getByLabelText("Recko Media")).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "Meet Recko" })).toHaveAttribute(
+    expect(screen.getByLabelText("ReckoMEDIA")).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Meet ReckoMEDIA" })).toHaveAttribute(
       "href",
       "#partnership",
     );

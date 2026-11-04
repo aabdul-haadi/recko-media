@@ -8,14 +8,14 @@ export function About() {
       <div className="recko-story-heading">
         <div>
           <p className="recko-story-label">
-            <span>04</span> ABOUT RECKO MEDIA
+            <span>04</span> ABOUT RECKOMEDIA
           </p>
           <h2 id="recko-about-title" className="font-display">
             <SplitReveal text="One connected path." /> <SplitReveal text="From idea to impact." />
           </h2>
         </div>
         <p className="recko-story-intro text-base leading-relaxed">
-          Strategy, design and technology, working toward the same goal.
+          ReckoMEDIA connects creative, marketing and technology around your business.
         </p>
       </div>
 
@@ -26,9 +26,14 @@ export function About() {
         </div>
         <span className="recko-story-marker" aria-hidden="true" />
         <p className="recko-story-description text-base leading-relaxed md:text-lg">
-          Recko Media connects web design, AI automation and digital marketing around your business.{" "}
+          From building a recognizable brand to producing engaging content, launching campaigns
+          and developing digital platforms, we bring the pieces together to create meaningful
+          growth.
+          <br />
+          We believe good marketing should be more than visibility. It should create stronger
+          customer relationships, better experiences and real opportunities.{" "}
           <a href="#partnership">
-            Meet Recko <ArrowUpRight aria-hidden="true" />
+            Meet ReckoMEDIA <ArrowUpRight aria-hidden="true" />
           </a>
         </p>
         <span className="recko-story-caption recko-story-system">WORKING SYSTEM</span>

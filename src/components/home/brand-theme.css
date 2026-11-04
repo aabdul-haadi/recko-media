@@ -72,12 +72,98 @@
   border-color: color-mix(in srgb, var(--brand-slate) 25%, transparent);
 }
 .recko-home .recko-attention {
+  isolation: isolate;
   --foreground: var(--brand-paper);
   --background: var(--theme-black);
   --muted-foreground: var(--brand-paper);
   --border: color-mix(in srgb, var(--brand-paper) 20%, var(--theme-black));
   color: var(--brand-paper);
   background: var(--theme-black);
+}
+.recko-home .recko-attention::before {
+  position: absolute;
+  inset: 12% -8% auto;
+  height: 24rem;
+  border: 1px solid color-mix(in srgb, var(--brand-blue) 30%, transparent);
+  border-radius: 50%;
+  content: "";
+  transform: rotate(-14deg);
+  box-shadow:
+    0 0 0 3rem color-mix(in srgb, var(--brand-blue) 4%, transparent),
+    0 0 80px color-mix(in srgb, var(--brand-blue) 16%, transparent);
+  pointer-events: none;
+}
+.recko-home .recko-attention::after {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, transparent 0 49.9%, color-mix(in srgb, var(--brand-paper) 8%, transparent) 50%, transparent 50.1%),
+    linear-gradient(0deg, transparent 0 49.9%, color-mix(in srgb, var(--brand-paper) 8%, transparent) 50%, transparent 50.1%);
+  background-size: 4rem 4rem;
+  mask-image: linear-gradient(90deg, transparent, black 18%, black 82%, transparent);
+  content: "";
+  opacity: 0.3;
+  pointer-events: none;
+}
+.recko-home .recko-attention-grid {
+  position: absolute;
+  z-index: 1;
+  top: 16%;
+  right: 8%;
+  width: 7rem;
+  height: 7rem;
+  border: 1px solid var(--brand-lime);
+  background:
+    linear-gradient(135deg, transparent 48%, var(--brand-lime) 49% 51%, transparent 52%),
+    color-mix(in srgb, var(--brand-lime) 8%, transparent);
+  opacity: 0.7;
+  transform: rotate(12deg);
+  pointer-events: none;
+}
+.recko-home .recko-contact-section {
+  isolation: isolate;
+  background:
+    radial-gradient(circle at 50% 35%, color-mix(in srgb, var(--brand-blue) 18%, transparent), transparent 34rem),
+    var(--theme-black);
+  color: var(--brand-paper);
+}
+.recko-home .recko-contact-section::before {
+  position: absolute;
+  inset: 1.5rem;
+  border: 1px solid color-mix(in srgb, var(--brand-paper) 12%, transparent);
+  border-radius: 1rem;
+  content: "";
+  pointer-events: none;
+}
+.recko-home .recko-contact-section::after {
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(
+    135deg,
+    transparent 0 49.8%,
+    color-mix(in srgb, var(--brand-lime) 20%, transparent) 50%,
+    transparent 50.2%
+  );
+  background-size: 5rem 5rem;
+  mask-image: linear-gradient(135deg, transparent 15%, black 50%, transparent 85%);
+  content: "";
+  opacity: 0.28;
+  pointer-events: none;
+}
+.recko-home .recko-contact-orbit {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  left: 50%;
+  width: min(72vw, 52rem);
+  aspect-ratio: 1.8;
+  border: 1px solid color-mix(in srgb, var(--brand-lime) 42%, transparent);
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 1.5rem color-mix(in srgb, var(--brand-lime) 3%, transparent),
+    0 0 90px color-mix(in srgb, var(--brand-blue) 20%, transparent);
+  transform: translate(-50%, -50%) rotate(-18deg);
+  pointer-events: none;
 }
 .recko-home .recko-cta-link {
   font-family: var(--font-sans);

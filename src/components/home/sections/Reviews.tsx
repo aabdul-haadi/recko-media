@@ -4,28 +4,12 @@ import { Reveal, SplitReveal } from "@/components/motion/SplitReveal";
 
 const reviews = [
   {
-    quote: "The new site finally makes it easy for the right customers to understand what we do.",
-    name: "Marketing Director",
-    role: "B2B technology",
-  },
-  {
-    quote: "We have a clearer brand, a better customer journey and a team that keeps improving it.",
-    name: "Founder",
-    role: "Consumer brand",
-  },
-  {
     quote:
-      "The automation gave our team hours back each week, and it fits the way we already work.",
-    name: "Operations Lead",
-    role: "Professional services",
-  },
-  {
-    quote: "Everything feels connected now: our campaigns, our website and the way we follow up.",
-    name: "Managing Partner",
-    role: "Growth stage business",
+      "The team has been on their toes since day one and helped us work through everything in the best possible way. Their knowledge of web development and commitment to answering every query made the experience genuinely valuable.",
+    name: "Scrubbers Med",
+    role: "",
   },
 ];
-
 export function Reviews() {
   const trackRef = useRef<HTMLDivElement>(null);
 
@@ -75,14 +59,14 @@ export function Reviews() {
           <div>
             <Reveal>
               <p className="recko-brand-label mb-4 text-[0.7rem] font-semibold uppercase tracking-[0.3em] text-muted-foreground">
-                The work, in their words
+                Client experiences
               </p>
             </Reveal>
             <h2 id="reviews-title" className="font-display">
               <SplitReveal text="Good work travels." />
             </h2>
           </div>
-          <div className="flex items-center gap-3">
+          <div className={reviews.length > 1 ? "flex items-center gap-3" : "hidden"}>
             <button
               type="button"
               onClick={() => scrollReviews(-1)}
@@ -123,12 +107,12 @@ export function Reviews() {
               </div>
               <div className="mt-8 border-t border-current/15 pt-5">
                 <p className="font-semibold">{review.name}</p>
-                <p className={`mt-1 text-sm text-muted-foreground`}>{review.role}</p>
+                {review.role && <p className="mt-1 text-sm text-muted-foreground">{review.role}</p>}
               </div>
             </article>
           ))}
         </div>
-        <p className="mt-3 text-xs text-muted-foreground sm:hidden">Swipe to read more</p>
+        {reviews.length > 1 && <p className="mt-3 text-xs text-muted-foreground sm:hidden">Swipe to read more</p>}
       </div>
     </section>
   );

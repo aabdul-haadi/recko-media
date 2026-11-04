@@ -154,8 +154,8 @@ export function MotionHighlights() {
           <span className="recko-motion-tag">CREATIVE</span>
           <h2 className="font-display">A new perspective on your brand.</h2>
           <p className="text-sm leading-relaxed">
-            Considered design, expressive campaigns and digital experiences. Explore the
-            possibilities from every angle.
+            Considered design, expressive campaigns and digital experiences. Explore our work
+            from every angle.
           </p>
           <a href="#work">
             EXPLORE OUR WORK <ArrowUpRight size={13} aria-hidden="true" />
