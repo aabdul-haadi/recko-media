@@ -157,8 +157,8 @@ export function MotionHighlights() {
             Considered design, expressive campaigns and digital experiences. Explore the
             possibilities from every angle.
           </p>
-          <a href="#motion-gallery">
-            EXPLORE THE GALLERY <ArrowUpRight size={13} aria-hidden="true" />
+          <a href="#work">
+            EXPLORE OUR WORK <ArrowUpRight size={13} aria-hidden="true" />
           </a>
         </div>
       </article>
