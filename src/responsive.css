@@ -133,3 +133,28 @@
     min-height: 44px;
   }
 }
+
+/* Keep long labels, nested cards and form controls within their layout track. */
+:is(.recko-home, .recko-page-frame) :is(.grid, .flex) {
+  min-width: 0;
+}
+.recko-page-frame main :is(a.inline-flex, button.inline-flex) {
+  max-width: 100%;
+}
+.recko-page-frame main :is(a.inline-flex, button.inline-flex) > svg {
+  flex-shrink: 0;
+}
+.recko-page-frame main input,
+.recko-page-frame main select,
+.recko-page-frame main textarea {
+  width: 100%;
+  box-sizing: border-box;
+}
+@media (max-width: 767px) {
+  .recko-page-frame main .recko-services-intro {
+    padding-block: 0 40px;
+  }
+  .recko-page-frame main .grid.md\:grid-cols-3 {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

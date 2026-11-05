@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
-import { X } from "lucide-react";
+import { X, Menu, ArrowUpRight } from "lucide-react";
 import { menuLinks } from "@/data/home";
 import { lockScroll, scrollToId } from "@/lib/scroll";
 import { cn } from "@/lib/utils";
@@ -26,6 +26,15 @@ export function Header() {
 
   useEffect(() => () => clearTimeout(navigationTimer.current), []);
 
+  useEffect(() => {
+    const desktop = window.matchMedia("(min-width: 1024px)");
+    const closeOnDesktop = () => {
+      if (desktop.matches) setOpen(false);
+    };
+    desktop.addEventListener("change", closeOnDesktop);
+    return () => desktop.removeEventListener("change", closeOnDesktop);
+  }, []);
+
   const go = (target: string) => {
     setOpen(false);
     clearTimeout(navigationTimer.current);
@@ -43,36 +52,26 @@ export function Header() {
 
   return (
     <Dialog.Root open={open} onOpenChange={setOpen}>
-      <header
-        className={cn(
-          "recko-site-header fixed inset-x-0 top-0 z-50 bg-background text-foreground transition-colors duration-300",
-          scrolled && !open ? "border-b border-border" : "border-b border-transparent",
-        )}
-      >
-        <div className="flex h-20 items-center justify-between px-5 md:px-10">
-          <button
-            type="button"
-            onClick={() => go("#top")}
-            className="group flex items-start gap-1.5 text-left"
-            aria-label="Back to top"
-          >
+      <header className={cn("recko-site-header", scrolled && "recko-header-scrolled")}>
+        <div className="recko-header-bar">
+          <a href="/" className="recko-header-brand" aria-label="Recko Media home">
             <BrandLogo />
-          </button>
-          <div className="flex items-center gap-4 md:gap-6">
+          </a>
+          <nav className="recko-desktop-nav" aria-label="Main navigation">
+            {menuLinks.map((link) => (
+              <a key={link.index} href={link.target} title={link.detail}>
+                {link.name}
+              </a>
+            ))}
+          </nav>
+          <div className="recko-header-actions">
+            <a href="/contact" className="recko-header-contact">
+              Let's talk <ArrowUpRight size={16} aria-hidden="true" />
+            </a>
             <Dialog.Trigger asChild>
-              <button type="button" className="group flex items-center gap-3 text-sm font-medium">
-                <span className="transition-colors group-hover:text-acid">Menu</span>
-                <span className="grid grid-cols-2 gap-1" aria-hidden>
-                  {[0, 1, 2, 3].map((index) => (
-                    <span
-                      key={index}
-                      className={cn(
-                        "size-2 rounded-[2px] transition-colors duration-300",
-                        index === 1 ? "bg-acid" : "bg-foreground/25 group-hover:bg-acid",
-                      )}
-                    />
-                  ))}
-                </span>
+              <button type="button" className="recko-header-menu-trigger">
+                <span>Menu</span>
+                <Menu size={20} aria-hidden="true" />
               </button>
             </Dialog.Trigger>
           </div>
@@ -83,14 +82,14 @@ export function Header() {
         <Dialog.Content className="recko-menu-drawer" data-lenis-prevent>
           <div className="recko-menu-top">
             <Dialog.Title className="recko-menu-label">
-              <span aria-hidden="true" /> MENU / 01–05
+              <span aria-hidden="true" /> Navigation
             </Dialog.Title>
             <Dialog.Close className="recko-menu-close text-sm">
               Close <X size={18} strokeWidth={1} aria-hidden="true" />
             </Dialog.Close>
           </div>
           <Dialog.Description className="sr-only">
-            Navigate to a section of the website.
+            Explore Recko Media pages and selected projects.
           </Dialog.Description>
           <nav className="recko-menu-links" aria-label="Main navigation">
             {menuLinks.map((link) => (

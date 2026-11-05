@@ -1,24 +1,114 @@
-/* A 400px drawer on desktop; the page stays visible behind a light scrim. */
+/* Floating navigation only: no page or hero layout rules. */
+.recko-site-header {
+  position: fixed;
+  inset: 16px 20px auto;
+  z-index: 50;
+  color: var(--brand-paper);
+  font-family: var(--font-sans);
+}
+.recko-site-header .recko-header-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  min-height: 76px;
+  max-width: 1200px;
+  margin-inline: auto;
+  padding: 12px 18px 12px 24px;
+  border: 1px solid rgb(247 248 252 / 14%);
+  border-radius: 28px;
+  background: rgb(17 17 17 / 94%);
+  backdrop-filter: blur(18px);
+  box-shadow: 0 12px 36px rgb(0 0 0 / 22%);
+  transition:
+    border-color 200ms,
+    background-color 200ms;
+}
+.recko-header-scrolled .recko-header-bar {
+  background: #111;
+  border-color: rgb(247 248 252 / 22%);
+}
+.recko-header-brand {
+  flex-shrink: 0;
+  text-decoration: none;
+}
+.recko-desktop-nav {
+  display: flex;
+  align-items: center;
+  gap: clamp(16px, 2vw, 30px);
+  margin-left: auto;
+}
+.recko-site-header :is(a, button),
+.recko-menu-drawer :is(a, button) {
+  font-family: var(--font-sans);
+  font-size: var(--brand-body-size);
+  line-height: var(--brand-body-leading);
+}
+.recko-desktop-nav a {
+  color: rgb(247 248 252 / 76%);
+  text-decoration: none;
+  padding-block: 10px;
+  transition: color 180ms;
+}
+.recko-desktop-nav a:is(:hover, :focus-visible) {
+  color: var(--brand-lime);
+}
+.recko-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.recko-site-header .recko-header-contact {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 46px;
+  padding: 10px 22px;
+  border-radius: 18px;
+  background: var(--brand-blue);
+  color: var(--brand-paper);
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color 180ms;
+}
+.recko-header-contact:hover {
+  background: #304bdc;
+}
+.recko-header-menu-trigger {
+  display: none;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  color: inherit;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+}
 .recko-menu-backdrop {
   position: fixed;
   inset: 0;
   z-index: 60;
-  background: color-mix(in srgb, var(--brand-paper) 78%, transparent);
+  background: rgb(0 0 0 / 65%);
+  backdrop-filter: blur(4px);
 }
 .recko-menu-drawer {
   position: fixed;
-  inset: 0 0 0 auto;
+  inset: 16px 16px auto;
   z-index: 61;
+  width: auto;
+  max-width: 560px;
+  height: auto;
+  max-height: calc(100dvh - 32px);
+  margin-left: auto;
+  padding: 24px;
   box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  width: min(400px, 100%);
-  height: 100dvh;
-  padding: 32px 40px;
   overflow-y: auto;
   overscroll-behavior: contain;
-  background: var(--brand-lime);
-  color: var(--brand-ink);
+  color: var(--brand-paper);
+  background: #111;
+  border: 1px solid rgb(247 248 252 / 18%);
+  border-radius: 24px;
   font-family: var(--font-sans);
 }
 .recko-menu-drawer:focus {
@@ -28,174 +118,142 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
-  min-height: 20px;
+  gap: 12px;
 }
 .recko-menu-label {
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin: 0;
+  gap: 10px;
   font-size: var(--brand-label-size);
-  font-weight: 500;
-  line-height: 1.4;
-  white-space: nowrap;
+  line-height: 18px;
+  font-weight: 600;
+  letter-spacing: var(--brand-label-tracking);
+  text-transform: uppercase;
 }
 .recko-menu-label > span {
-  width: 8px;
-  height: 8px;
-  background: currentColor;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--brand-blue);
 }
 .recko-menu-close {
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
+  padding: 10px 0 10px 10px;
   border: 0;
-  padding: 0;
+  color: inherit;
   background: transparent;
   cursor: pointer;
-  color: inherit;
 }
 .recko-menu-links {
   display: flex;
   flex-direction: column;
-  margin-top: 58px;
+  margin-top: 20px;
 }
 .recko-menu-link {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   gap: 16px;
-  min-height: 83px;
-  padding: 17px 0;
+  width: 100%;
+  min-height: 64px;
+  padding: 14px 0;
   border: 0;
-  border-bottom: 1px solid color-mix(in srgb, var(--brand-ink) 18%, transparent);
+  border-bottom: 1px solid rgb(247 248 252 / 12%);
   background: transparent;
   color: inherit;
   text-align: left;
   cursor: pointer;
 }
-.recko-menu-link:last-child {
-  border-bottom: 0;
-}
 .recko-menu-index {
-  flex-shrink: 0;
-  width: 12px;
   font-size: var(--brand-label-size);
-  font-weight: 400;
-  opacity: 0.65;
+  color: var(--muted-foreground);
 }
 .recko-menu-link > .font-display {
+  font-family: var(--font-display);
   font-size: var(--brand-h2-size);
   line-height: var(--brand-h2-leading);
   font-weight: 500;
   letter-spacing: var(--brand-h2-tracking);
-  transition: transform 0.25s ease;
+  transition: translate 180ms;
 }
 .recko-menu-link:hover > .font-display {
-  transform: translateX(4px);
+  translate: 4px 0;
 }
 .recko-menu-note {
-  font-size: var(--brand-label-size);
-  white-space: nowrap;
+  display: none;
 }
 .recko-menu-bottom {
   display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-top: auto;
-  padding-top: 52px;
   flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 24px;
   font-size: var(--brand-label-size);
-  letter-spacing: 0.02em;
+  color: var(--muted-foreground);
 }
 .recko-menu-bottom button {
-  border: 0;
-  padding: 0;
   background: transparent;
+  border: 0;
   color: inherit;
-  font: inherit;
+  padding: 0;
   cursor: pointer;
+  font-size: var(--brand-label-size);
 }
-.recko-menu-drawer :is(button, a):focus-visible {
-  outline: 2px solid currentColor;
-  outline-offset: 5px;
-}
-.recko-menu-backdrop[data-state="open"] {
-  animation: recko-menu-fade-in 0.3s ease both;
-}
-.recko-menu-backdrop[data-state="closed"] {
-  animation: recko-menu-fade-out 0.3s ease both;
+:is(.recko-site-header, .recko-menu-drawer) :is(a, button):focus-visible {
+  outline: 2px solid var(--brand-blue);
+  outline-offset: 4px;
 }
 .recko-menu-drawer[data-state="open"] {
-  animation: recko-menu-slide-in 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: recko-menu-enter 220ms ease-out;
 }
-.recko-menu-drawer[data-state="closed"] {
-  animation: recko-menu-slide-out 0.3s cubic-bezier(0.4, 0, 1, 1) both;
-}
-@keyframes recko-menu-fade-in {
+@keyframes recko-menu-enter {
   from {
     opacity: 0;
+    translate: 0 -12px;
   }
   to {
     opacity: 1;
+    translate: 0 0;
   }
 }
-@keyframes recko-menu-fade-out {
-  from {
-    opacity: 1;
+@media (max-width: 1023px) {
+  .recko-desktop-nav {
+    display: none;
   }
-  to {
-    opacity: 0;
-  }
-}
-@keyframes recko-menu-slide-in {
-  from {
-    transform: translateX(100%);
-  }
-  to {
-    transform: translateX(0);
+  .recko-header-menu-trigger {
+    display: inline-flex;
   }
 }
-@keyframes recko-menu-slide-out {
-  from {
-    transform: translateX(0);
+@media (max-width: 599px) {
+  .recko-site-header {
+    inset: 12px 12px auto;
   }
-  to {
-    transform: translateX(100%);
+  .recko-site-header .recko-header-bar {
+    min-height: 68px;
+    gap: 12px;
+    padding: 10px 12px 10px 16px;
+    border-radius: 22px;
   }
-}
-@media (max-width: 420px) {
+  .recko-site-header .recko-header-contact {
+    display: none;
+  }
   .recko-menu-drawer {
-    padding-inline: 24px;
-  }
-}
-@media (max-height: 600px) {
-  .recko-menu-links {
-    margin-top: 24px;
-  }
-  .recko-menu-link {
-    min-height: 64px;
-    padding-block: 12px;
-  }
-  .recko-menu-bottom {
-    padding-top: 28px;
+    padding: 20px;
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .recko-menu-backdrop,
   .recko-menu-drawer,
-  .recko-menu-link > .font-display {
+  .recko-header-bar,
+  .recko-menu-item-title {
     animation: none !important;
     transition: none !important;
   }
 }
-.recko-menu-label {
-  font-weight: 600;
-  letter-spacing: var(--brand-label-tracking);
+
+.recko-menu-link:is(:hover, :focus-visible) {
+  color: var(--brand-lime);
 }
-.recko-menu-close,
-.recko-site-header button {
-  font-family: var(--font-sans);
-  font-size: var(--brand-body-size);
-  line-height: var(--brand-body-leading);
+.recko-site-header .recko-header-contact:is(:hover, :focus-visible) {
+  background: var(--brand-lime);
+  color: #000;
 }
