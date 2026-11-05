@@ -31,6 +31,8 @@ export type Inquiry = {
   priority: InquiryPriority;
   follow_up_at: string | null;
   archived: boolean;
+  spam: boolean;
+  spam_reason: string | null;
   created_at: string;
   updated_at: string;
 };

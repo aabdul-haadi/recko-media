@@ -22,6 +22,7 @@ only the access they need (anonymous visitors get none) and registers `admin@rec
 
 Then run `supabase/migrations/0003_cms_content_services.sql` (Phase 2: homepage content and services).
 Until it is applied the website keeps showing its built-in content, so nothing breaks.
+Then run `supabase/migrations/0005_submission_hardening.sql` (spam protection and rate limits; the admin inbox needs it).
 Finally run `supabase/migrations/0004_realtime_tables.sql` so every admin screen (and open visitor tabs) update live when data changes.
 
 ## 3. Create the admin account (manual alternative)
@@ -68,3 +69,9 @@ On the host (Cloudflare/Lovable) add the same two `VITE_` variables, then redepl
 ## Admin safety behaviour
 - Every change in the admin asks for confirmation first ("Yes" or "Cancel"): status, priority, follow-ups, notes, tags, tasks, contacts, services (publish, feature, reorder, save), homepage drafts, revert, publish, delete and sign out. Nothing is changed until you confirm.
 - Screens update in real time (header shows **Live**). Edits you are typing are never overwritten by a live update.
+
+## Inquiry protection (migration 0005)
+- Honeypot field, minimum fill time, link/markup/repeat heuristics: suspicious inquiries are **kept but flagged as spam** (hidden from the inbox, counters and contacts) so a real person is never silently lost. Use **Show spam** in Inquiries and **Not spam** to restore one.
+- Rate limits enforced in the database: 5 per email per hour, 8 per hour and 30 per day per network address (stored only as a hash), and a 300 per hour global circuit breaker.
+- Duplicates (double clicks) collapse into one inquiry. Control characters are stripped and all lengths and formats validated server side.
+- Recommended next step for heavy attack traffic: add Cloudflare Turnstile (free) in front of the form.

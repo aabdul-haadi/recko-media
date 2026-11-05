@@ -52,6 +52,16 @@ function NavLinks({ badge, onNavigate }: { badge: number; onNavigate?: () => voi
   );
 }
 
+function notifyDesktop(id: string, title: string, body: string) {
+  if (typeof Notification === "undefined" || Notification.permission !== "granted") return;
+  if (document.visibilityState === "visible") return; // the in-app toast already covers this
+  try {
+    new Notification(title, { body, tag: id, icon: "/android-chrome-192x192.png" });
+  } catch {
+    /* some mobile browsers only allow notifications from a service worker */
+  }
+}
+
 /** Realtime table -> cached queries that must refresh when that table changes. */
 const liveTables: Record<string, string[]> = {
   inquiries: ["inquiries", "dashboard", "contacts"],
@@ -91,12 +101,21 @@ function AdminFrame({ children }: { children: ReactNode }) {
         .from("inquiries")
         .select("id", { count: "exact", head: true })
         .eq("status", "new")
-        .eq("archived", false);
+        .eq("archived", false)
+        .eq("spam", false);
       if (error) throw error;
       return count ?? 0;
     },
   });
   const badge = newCount.data ?? 0;
+
+  // Unread count in the browser tab title, so a new inquiry is visible from another tab.
+  useEffect(() => {
+    document.title = badge > 0 ? `(${badge}) Admin | ReckoMEDIA` : "Admin | ReckoMEDIA";
+  }, [badge]);
+  const [alerts, setAlerts] = useState<NotificationPermission | "unsupported">(
+    typeof Notification === "undefined" ? "unsupported" : Notification.permission,
+  );
 
   // One realtime channel for the whole admin: every table change refreshes the screens that show it.
   useEffect(() => {
@@ -114,7 +133,9 @@ function AdminFrame({ children }: { children: ReactNode }) {
       channel = channel.on("postgres_changes", { event: "*", schema: "public", table }, (payload) => {
         refresh(table);
         if (table === "inquiries" && payload.eventType === "INSERT") {
-          const row = payload.new as { id: string; name: string; service: string | null };
+          const row = payload.new as { id: string; name: string; service: string | null; spam?: boolean };
+          if (row.spam) return; // flagged submissions never interrupt the admin
+          notifyDesktop(row.id, `New inquiry from ${row.name}`, row.service ?? "Open the admin to reply");
           toast.success(`New inquiry from ${row.name}`, {
             description: row.service ?? undefined,
             action: { label: "Open", onClick: () => navigate({ to: "/admin/inquiries", search: { q: "", open: row.id } }) },
@@ -192,6 +213,14 @@ function AdminFrame({ children }: { children: ReactNode }) {
             <span className={"size-2 rounded-full " + (live ? "bg-emerald-500 shadow-[0_0_0_3px_rgb(16_185_129/0.2)]" : "bg-amber-400")} aria-hidden="true" />
             {live ? "Live" : "Connecting…"}
           </span>
+          {alerts === "default" && (
+            <Button
+              variant="outline" size="sm" className="hidden h-8 rounded-full text-xs sm:inline-flex"
+              onClick={async () => setAlerts(await Notification.requestPermission())}
+            >
+              Enable desktop alerts
+            </Button>
+          )}
           <Link
             to="/admin/inquiries"
             search={{ q: "", open: "" }}

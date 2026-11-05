@@ -1,27 +1,27 @@
 import "./inner-visuals.css";
 import { Link } from "@tanstack/react-router";
-import { ArrowRight, Compass, Layers3, MessageCircle, Sparkles } from "lucide-react";
+import { ArrowRight, ChartLineUp, Eye, Intersect, Target } from "@phosphor-icons/react";
 import { PageFrame, PageHero, SectionIntro } from "@/components/pages/PageFrame";
 import { Reveal } from "@/components/motion/SplitReveal";
 
 const principles = [
   {
-    icon: Compass,
+    icon: Target,
     title: "Start with the real problem",
     body: "We get clear on the people, constraints and outcomes before choosing a direction.",
   },
   {
-    icon: Layers3,
+    icon: Intersect,
     title: "Connect the disciplines",
     body: "Brand, experience, growth and technology work better when they share one plan.",
   },
   {
-    icon: MessageCircle,
+    icon: Eye,
     title: "Keep the work visible",
     body: "Frequent check-ins and clear decisions make progress easier to understand.",
   },
   {
-    icon: Sparkles,
+    icon: ChartLineUp,
     title: "Improve what matters",
     body: "We use feedback and real use to shape the next useful iteration.",
   },
@@ -150,7 +150,7 @@ export function AboutPage() {
                 className="recko-principle-card min-h-64 border border-border bg-background p-6 sm:p-7"
               >
                 <div className="flex items-center justify-between">
-                  <Icon className="size-5 text-primary" />
+                  <span className="grid size-11 place-items-center rounded-xl border border-primary/30 bg-primary/15 text-primary"><Icon size={24} weight="duotone" aria-hidden="true" /></span>
                   <span className="font-mono text-xs text-muted-foreground">0{index + 1}</span>
                 </div>
                 <h3 className="mt-12 font-display text-xl font-semibold leading-snug">{title}</h3>

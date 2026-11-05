@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate, useSearch } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { Archive, ArrowUUpLeft as ArchiveRestore, DownloadSimple as Download, ArrowSquareOut as ExternalLink, SlidersHorizontal, Trash as Trash2 } from "@phosphor-icons/react";
+import { ShieldWarning, ShieldCheck, Archive, ArrowUUpLeft as ArchiveRestore, DownloadSimple as Download, ArrowSquareOut as ExternalLink, SlidersHorizontal, Trash as Trash2 } from "@phosphor-icons/react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -23,11 +23,11 @@ import {
   downloadCsv, formatDateTime, fromLocalInput, toLocalInput,
 } from "./shared";
 
-type Filters = { status: string; service: string; source: string; from: string; to: string; archived: boolean };
+type Filters = { status: string; service: string; source: string; from: string; to: string; archived: boolean; spam: boolean };
 const ALL = "all";
 
 function applyFilters(query: any, q: string, f: Filters) {
-  query = query.eq("archived", f.archived);
+  query = query.eq("archived", f.archived).eq("spam", f.spam);
   if (f.status !== ALL) query = query.eq("status", f.status);
   if (f.service !== ALL) query = query.eq("service", f.service);
   if (f.source !== ALL) query = query.eq("source", f.source);
@@ -47,7 +47,7 @@ export function InquiriesPage() {
   const [q, setQ] = useState(search.q);
   const [page, setPage] = useState(0);
   const [showFilters, setShowFilters] = useState(false);
-  const [filters, setFilters] = useState<Filters>({ status: ALL, service: ALL, source: ALL, from: "", to: "", archived: false });
+  const [filters, setFilters] = useState<Filters>({ status: ALL, service: ALL, source: ALL, from: "", to: "", archived: false, spam: false });
 
   useEffect(() => { setQ(search.q); setPage(0); }, [search.q]);
 
@@ -115,6 +115,9 @@ export function InquiriesPage() {
         <div className={(showFilters ? "flex" : "hidden") + " items-center gap-2 md:col-span-3 md:flex xl:col-span-7"}>
           <Button variant={filters.archived ? "default" : "outline"} size="sm" onClick={() => set({ archived: !filters.archived })}>
             <Archive className="mr-2 size-4" />{filters.archived ? "Showing archived" : "Show archived"}
+          </Button>
+          <Button variant={filters.spam ? "default" : "outline"} size="sm" onClick={() => set({ spam: !filters.spam })}>
+            <ShieldWarning className="mr-2 size-4" />{filters.spam ? "Showing spam" : "Show spam"}
           </Button>
         </div>
       </div>
@@ -255,6 +258,24 @@ function InquiryDetail({ id, onClose }: { id: string; onClose: () => void }) {
     onSuccess: () => { setTaskTitle(""); toast.success("Follow-up task created"); queryClient.invalidateQueries({ queryKey: ["tasks"] }); queryClient.invalidateQueries({ queryKey: ["dashboard"] }); },
     onError: () => toast.error("Could not create the task"),
   });
+  const notSpam = useMutation({
+    mutationFn: async () => {
+      const row = inquiry.data!;
+      const supabase = getSupabase();
+      const email = row.email.trim().toLowerCase();
+      const found = await supabase.from("contacts").select("id").eq("email_normalized", email).maybeSingle();
+      let contactId = found.data?.id as string | undefined;
+      if (!contactId) {
+        const created = await supabase.from("contacts").insert({ full_name: row.name, email: row.email, phone: row.phone, company: row.company }).select("id").single();
+        if (created.error) throw created.error;
+        contactId = created.data.id as string;
+      }
+      const { error } = await supabase.from("inquiries").update({ spam: false, spam_reason: null, contact_id: contactId }).eq("id", id);
+      if (error) throw error;
+    },
+    onSuccess: () => { toast.success("Moved to your inbox"); refresh(); queryClient.invalidateQueries({ queryKey: ["contacts"] }); },
+    onError: () => toast.error("Could not update the inquiry"),
+  });
   const remove = useMutation({
     mutationFn: async () => {
       const { error } = await getSupabase().from("inquiries").delete().eq("id", id);
@@ -287,6 +308,12 @@ function InquiryDetail({ id, onClose }: { id: string; onClose: () => void }) {
               {inq.contact_id && (<><dt className="text-muted-foreground">Contact</dt><dd><Link className="underline" to="/admin/contacts" search={{ q: inq.email }}>View contact record</Link></dd></>)}
             </dl>
 
+            {inq.spam && (
+              <div role="alert" className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-amber-300 bg-amber-50 p-3 text-amber-900">
+                <span className="flex items-center gap-2 text-xs font-medium"><ShieldWarning className="size-4" />Flagged as spam: {inq.spam_reason?.replace(/_/g, " ") ?? "manual"}</span>
+                <Button size="sm" variant="outline" onClick={async () => { if (await confirm({ title: "Mark as not spam?", description: "It moves to your inbox and the sender is added to your contacts.", confirmLabel: "Yes, not spam" })) notSpam.mutate(); }}><ShieldCheck className="mr-2 size-4" />Not spam</Button>
+              </div>
+            )}
             <div className="rounded-lg border border-border bg-muted/40 p-4">
               {inq.subject && <p className="mb-2 font-medium">{inq.subject}</p>}
               <p className="whitespace-pre-wrap">{inq.message}</p>
@@ -353,6 +380,9 @@ function InquiryDetail({ id, onClose }: { id: string; onClose: () => void }) {
                 {inq.archived ? <ArchiveRestore className="mr-2 size-4" /> : <Archive className="mr-2 size-4" />}
                 {inq.archived ? "Restore" : "Archive"}
               </Button>
+              {!inq.spam && (
+                <Button variant="outline" size="sm" onClick={async () => { if (await confirm({ title: "Mark as spam?", description: "It is hidden from your inbox and counts. You can restore it from the spam view.", confirmLabel: "Yes, mark spam", destructive: true })) update.mutate({ spam: true, spam_reason: "manual" }); }}><ShieldWarning className="mr-2 size-4" />Spam</Button>
+              )}
               <Button variant="destructive" size="sm" onClick={() => setConfirmDelete(true)}><Trash2 className="mr-2 size-4" />Delete</Button>
             </div>
           </div>

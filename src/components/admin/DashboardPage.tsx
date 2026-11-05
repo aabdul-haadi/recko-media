@@ -35,9 +35,9 @@ export function DashboardPage() {
     queryKey: ["dashboard", "stats"],
     queryFn: async () => {
       const [total, contacts, ...byStatus] = await Promise.all([
-        countWhere("inquiries", (q) => q.eq("archived", false)),
+        countWhere("inquiries", (q) => q.eq("archived", false).eq("spam", false)),
         countWhere("contacts"),
-        ...INQUIRY_STATUSES.map((s) => countWhere("inquiries", (q) => q.eq("archived", false).eq("status", s))),
+        ...INQUIRY_STATUSES.map((s) => countWhere("inquiries", (q) => q.eq("archived", false).eq("spam", false).eq("status", s))),
       ]);
       return { total, contacts, byStatus: Object.fromEntries(INQUIRY_STATUSES.map((s, i) => [s, byStatus[i]!])) };
     },
@@ -52,6 +52,7 @@ export function DashboardPage() {
       const { data, error } = await getSupabase()
         .from("inquiries")
         .select("created_at")
+        .eq("spam", false)
         .gte("created_at", since.toISOString())
         .limit(5000);
       if (error) throw error;
@@ -75,6 +76,7 @@ export function DashboardPage() {
         .from("inquiries")
         .select("*")
         .eq("archived", false)
+        .eq("spam", false)
         .order("created_at", { ascending: false })
         .limit(6);
       if (error) throw error;
