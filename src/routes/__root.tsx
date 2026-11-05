@@ -12,6 +12,7 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportRuntimeError } from "../lib/runtime-error-reporting";
+import { ContentProvider, fetchPublishedContent } from "../lib/content/content";
 
 function NotFoundComponent() {
   return (
@@ -74,6 +75,7 @@ function ErrorComponent({ error, reset }: ErrorComponentProps) {
 }
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
+  loader: () => fetchPublishedContent(),
   head: () => ({
     meta: [
       { charSet: "utf-8" },
@@ -124,11 +126,14 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const content = Route.useLoaderData();
 
   return (
     <QueryClientProvider client={queryClient}>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
+      <ContentProvider value={content}>
+        <Outlet />
+      </ContentProvider>
     </QueryClientProvider>
   );
 }

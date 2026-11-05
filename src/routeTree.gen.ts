@@ -17,7 +17,9 @@ import { Route as PortfolioRouteImport } from './routes/portfolio'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminContactsRouteImport } from './routes/admin.contacts'
+import { Route as AdminHomepageRouteImport } from './routes/admin.homepage'
 import { Route as AdminInquiriesRouteImport } from './routes/admin.inquiries'
+import { Route as AdminServicesRouteImport } from './routes/admin.services'
 import { Route as AdminTasksRouteImport } from './routes/admin.tasks'
 import { Route as AdminForgotPasswordRouteImport } from './routes/admin_.forgot-password'
 import { Route as AdminLoginRouteImport } from './routes/admin_.login'
@@ -63,9 +65,19 @@ const AdminContactsRoute = AdminContactsRouteImport.update({
   path: '/contacts',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminHomepageRoute = AdminHomepageRouteImport.update({
+  id: '/homepage',
+  path: '/homepage',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminInquiriesRoute = AdminInquiriesRouteImport.update({
   id: '/inquiries',
   path: '/inquiries',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminServicesRoute = AdminServicesRouteImport.update({
+  id: '/services',
+  path: '/services',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminTasksRoute = AdminTasksRouteImport.update({
@@ -97,7 +109,9 @@ export interface FileRoutesByFullPath {
   '/portfolio': typeof PortfolioRoute
   '/services': typeof ServicesRoute
   '/admin/contacts': typeof AdminContactsRoute
+  '/admin/homepage': typeof AdminHomepageRoute
   '/admin/inquiries': typeof AdminInquiriesRoute
+  '/admin/services': typeof AdminServicesRoute
   '/admin/tasks': typeof AdminTasksRoute
   '/admin/forgot-password': typeof AdminForgotPasswordRoute
   '/admin/login': typeof AdminLoginRoute
@@ -111,7 +125,9 @@ export interface FileRoutesByTo {
   '/portfolio': typeof PortfolioRoute
   '/services': typeof ServicesRoute
   '/admin/contacts': typeof AdminContactsRoute
+  '/admin/homepage': typeof AdminHomepageRoute
   '/admin/inquiries': typeof AdminInquiriesRoute
+  '/admin/services': typeof AdminServicesRoute
   '/admin/tasks': typeof AdminTasksRoute
   '/admin/forgot-password': typeof AdminForgotPasswordRoute
   '/admin/login': typeof AdminLoginRoute
@@ -127,7 +143,9 @@ export interface FileRoutesById {
   '/portfolio': typeof PortfolioRoute
   '/services': typeof ServicesRoute
   '/admin/contacts': typeof AdminContactsRoute
+  '/admin/homepage': typeof AdminHomepageRoute
   '/admin/inquiries': typeof AdminInquiriesRoute
+  '/admin/services': typeof AdminServicesRoute
   '/admin/tasks': typeof AdminTasksRoute
   '/admin_/forgot-password': typeof AdminForgotPasswordRoute
   '/admin_/login': typeof AdminLoginRoute
@@ -144,7 +162,9 @@ export interface FileRouteTypes {
     | '/portfolio'
     | '/services'
     | '/admin/contacts'
+    | '/admin/homepage'
     | '/admin/inquiries'
+    | '/admin/services'
     | '/admin/tasks'
     | '/admin/forgot-password'
     | '/admin/login'
@@ -158,7 +178,9 @@ export interface FileRouteTypes {
     | '/portfolio'
     | '/services'
     | '/admin/contacts'
+    | '/admin/homepage'
     | '/admin/inquiries'
+    | '/admin/services'
     | '/admin/tasks'
     | '/admin/forgot-password'
     | '/admin/login'
@@ -173,7 +195,9 @@ export interface FileRouteTypes {
     | '/portfolio'
     | '/services'
     | '/admin/contacts'
+    | '/admin/homepage'
     | '/admin/inquiries'
+    | '/admin/services'
     | '/admin/tasks'
     | '/admin_/forgot-password'
     | '/admin_/login'
@@ -251,11 +275,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminContactsRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/homepage': {
+      id: '/admin/homepage'
+      path: '/homepage'
+      fullPath: '/admin/homepage'
+      preLoaderRoute: typeof AdminHomepageRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/inquiries': {
       id: '/admin/inquiries'
       path: '/inquiries'
       fullPath: '/admin/inquiries'
       preLoaderRoute: typeof AdminInquiriesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/services': {
+      id: '/admin/services'
+      path: '/services'
+      fullPath: '/admin/services'
+      preLoaderRoute: typeof AdminServicesRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/tasks': {
@@ -291,14 +329,18 @@ declare module '@tanstack/react-router' {
 
 interface AdminRouteChildren {
   AdminContactsRoute: typeof AdminContactsRoute
+  AdminHomepageRoute: typeof AdminHomepageRoute
   AdminInquiriesRoute: typeof AdminInquiriesRoute
+  AdminServicesRoute: typeof AdminServicesRoute
   AdminTasksRoute: typeof AdminTasksRoute
   AdminIndexRoute: typeof AdminIndexRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
   AdminContactsRoute: AdminContactsRoute,
+  AdminHomepageRoute: AdminHomepageRoute,
   AdminInquiriesRoute: AdminInquiriesRoute,
+  AdminServicesRoute: AdminServicesRoute,
   AdminTasksRoute: AdminTasksRoute,
   AdminIndexRoute: AdminIndexRoute,
 }

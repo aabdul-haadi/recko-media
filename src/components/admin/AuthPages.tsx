@@ -1,42 +1,17 @@
-import { useEffect, useState, type FormEvent, type ReactNode } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
-import { Loader2, Lock } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { getSupabase, isSupabaseConfigured } from "@/lib/supabase";
+import { getSupabase } from "@/lib/supabase";
 import { useAuth } from "@/lib/admin/auth";
+import { AuthFrame } from "./AuthFrame";
 
 /** "admin" is shorthand for the admin account's email address. */
 function toLoginEmail(value: string) {
   const v = value.trim().toLowerCase();
   return v.includes("@") ? v : `${v}@reckomedia.com`;
-}
-
-function AuthFrame({ title, subtitle, children }: { title: string; subtitle: string; children: ReactNode }) {
-  return (
-    <div className="grid min-h-screen place-items-center bg-muted/40 px-4 py-12">
-      <div className="w-full max-w-md rounded-2xl border border-border bg-background p-8 shadow-sm">
-        <div className="mb-8 flex items-center gap-3">
-          <span className="grid size-10 place-items-center rounded-xl bg-foreground text-background">
-            <Lock className="size-4" aria-hidden="true" />
-          </span>
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">ReckoMEDIA Admin</p>
-            <h1 className="text-xl font-semibold">{title}</h1>
-          </div>
-        </div>
-        <p className="mb-6 text-sm text-muted-foreground">{subtitle}</p>
-        {!isSupabaseConfigured() ? (
-          <p role="alert" className="rounded-lg border border-destructive/40 bg-destructive/10 p-3 text-sm">
-            Supabase is not configured. Add VITE_SUPABASE_URL and VITE_SUPABASE_PUBLISHABLE_KEY to your environment.
-          </p>
-        ) : (
-          children
-        )}
-      </div>
-    </div>
-  );
 }
 
 export function LoginPage() {

@@ -1,7 +1,9 @@
 import "./services-page.css";
 import { Link } from "@tanstack/react-router";
 import { ArrowDown, ArrowRight, ArrowUpRight, Check } from "lucide-react";
-import { processSteps, serviceTabs } from "@/data/home";
+import { processSteps } from "@/data/home";
+import { safeUrl, useSection, useServices } from "@/lib/content/content";
+import { SERVICE_CATEGORIES } from "@/lib/content/schema";
 import { PageFrame, PageHero, SectionIntro } from "@/components/pages/PageFrame";
 import { Reveal } from "@/components/motion/SplitReveal";
 
@@ -35,7 +37,19 @@ const outcomes = [
   "Less friction in daily operations",
 ];
 
+const categoryLabel = { creative: "Creative", growth: "Growth", technology: "Technology" } as const;
+
 export function ServicesPage() {
+  const { data: intro } = useSection("services_intro");
+  const services = useServices();
+  // Always three categories so the visual artwork stays aligned; items come from the database.
+  const serviceTabs = SERVICE_CATEGORIES.map((id, i) => ({
+    id,
+    index: String(i + 1).padStart(2, "0"),
+    label: categoryLabel[id],
+    intro: String(intro[`${id}_intro`] ?? ""),
+    items: services.filter((x) => x.category === id),
+  }));
   return (
     <PageFrame>
       <PageHero
@@ -149,7 +163,7 @@ export function ServicesPage() {
             <div className="grid gap-px overflow-hidden border border-border bg-border md:grid-cols-3">
               {service.items.map((item, itemIndex) => (
                 <article
-                  key={item.number}
+                  key={item.id}
                   className="recko-service-card group flex min-h-64 flex-col bg-background transition-colors hover:bg-surface md:min-h-72"
                 >
                   <div className="recko-service-card-image">
@@ -174,8 +188,27 @@ export function ServicesPage() {
                       {item.title}
                     </h3>
                     <p className="mt-4 text-sm leading-relaxed text-muted-foreground sm:text-base">
-                      {item.blurb}
+                      {item.summary}
                     </p>
+                    {item.features.length > 0 && (
+                      <ul className="mt-4 space-y-1 text-sm text-muted-foreground">
+                        {item.features.map((feature) => (
+                          <li key={feature} className="flex gap-2">
+                            <Check className="mt-0.5 size-3.5 shrink-0 text-primary" />
+                            {feature}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                    {item.price && <p className="mt-4 text-sm font-semibold">{item.price}</p>}
+                    {item.cta_label && (
+                      <a
+                        href={safeUrl(item.cta_url, "/contact")}
+                        className="mt-auto pt-6 text-sm font-medium text-primary underline-offset-4 hover:underline"
+                      >
+                        {item.cta_label}
+                      </a>
+                    )}
                   </div>
                 </article>
               ))}

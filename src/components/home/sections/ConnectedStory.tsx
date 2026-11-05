@@ -3,12 +3,15 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { About } from "./About";
 import { Partnership } from "./Partnership";
+import { useSection } from "@/lib/content/content";
 import "./connected-story.css";
 
 gsap.registerPlugin(ScrollTrigger);
 
 /** One scroll-linked rail shared by two independently editable sections. */
 export function ConnectedStory() {
+  const about = useSection("about").enabled;
+  const partnership = useSection("partnership").enabled;
   const root = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const element = root.current;
@@ -70,14 +73,14 @@ export function ConnectedStory() {
       media.revert();
       context.revert();
     };
-  }, []);
+  }, [about, partnership]);
   return (
     <div ref={root} className="recko-connected-story">
       <div className="recko-story-rail" aria-hidden="true">
         <div className="recko-story-rail-fill" />
       </div>
-      <About />
-      <Partnership />
+      {about && <About />}
+      {partnership && <Partnership />}
     </div>
   );
 }

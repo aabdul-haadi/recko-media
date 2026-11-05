@@ -10,7 +10,15 @@ import { MotionHighlights } from "./sections/MotionHighlights";
 import { Reviews } from "./sections/Reviews";
 import { Attention } from "./sections/Attention";
 import { Contact } from "./sections/Contact";
+import { useSection } from "@/lib/content/content";
+import type { ReactNode } from "react";
 import "./brand-theme.css";
+
+/** Renders a section only when the admin has it enabled. */
+function Toggle({ name, children }: { name: string; children: ReactNode }) {
+  const { enabled } = useSection(name);
+  return enabled ? <>{children}</> : null;
+}
 
 export function HomePage() {
   return (
@@ -19,13 +27,13 @@ export function HomePage() {
       <Header />
       <main>
         <Hero />
-        <Services />
-        <Process />
+        <Toggle name="services_intro"><Services /></Toggle>
+        <Toggle name="process"><Process /></Toggle>
         <ConnectedStory />
-        <Work />
+        <Toggle name="work"><Work /></Toggle>
         <MotionHighlights />
-        <Reviews />
-        <Attention />
+        <Toggle name="reviews"><Reviews /></Toggle>
+        <Toggle name="attention"><Attention /></Toggle>
         <Contact />
       </main>
       <Footer />

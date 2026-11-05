@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate, useSearch } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { Archive, ArchiveRestore, Download, ExternalLink, Trash2 } from "lucide-react";
+import { Archive, ArchiveRestore, Download, ExternalLink, SlidersHorizontal, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -15,6 +15,7 @@ import {
   AlertDialogFooter, AlertDialogHeader, AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { getSupabase } from "@/lib/supabase";
+import { useConfirm } from "./confirm";
 import type { ActivityLog, Inquiry, InquiryNote } from "@/lib/admin/types";
 import { INQUIRY_PRIORITIES, INQUIRY_STATUSES, statusLabel } from "@/lib/admin/types";
 import {
@@ -45,6 +46,7 @@ export function InquiriesPage() {
   const navigate = useNavigate();
   const [q, setQ] = useState(search.q);
   const [page, setPage] = useState(0);
+  const [showFilters, setShowFilters] = useState(false);
   const [filters, setFilters] = useState<Filters>({ status: ALL, service: ALL, source: ALL, from: "", to: "", archived: false });
 
   useEffect(() => { setQ(search.q); setPage(0); }, [search.q]);
@@ -98,14 +100,19 @@ export function InquiriesPage() {
         actions={<Button variant="outline" size="sm" onClick={exportCsv}><Download className="mr-2 size-4" />Export CSV</Button>}
       />
 
-      <div className="mb-4 grid gap-3 rounded-xl border border-border bg-background p-4 md:grid-cols-3 xl:grid-cols-7">
-        <Input className="xl:col-span-2" value={q} placeholder="Search name, email, message…" aria-label="Search inquiries" onChange={(e) => { setQ(e.target.value); setPage(0); }} />
+      <div className="admin-card mb-4 grid gap-2.5 p-3 sm:p-4 md:grid-cols-3 xl:grid-cols-7">
+        <div className="flex gap-2 xl:col-span-2">
+          <Input className="h-9" value={q} placeholder="Search name, email, message…" aria-label="Search inquiries" onChange={(e) => { setQ(e.target.value); setPage(0); }} />
+          <Button type="button" variant="outline" size="icon" className="size-9 shrink-0 md:hidden" aria-expanded={showFilters} aria-label="Toggle filters" onClick={() => setShowFilters((v) => !v)}><SlidersHorizontal className="size-4" /></Button>
+        </div>
+        <div className={(showFilters ? "grid" : "hidden") + " grid-cols-2 gap-2.5 md:contents"}>
         <FilterSelect label="Status" value={filters.status} onChange={(v) => set({ status: v })} items={INQUIRY_STATUSES.map((s) => [s, statusLabel[s]])} />
         <FilterSelect label="Service" value={filters.service} onChange={(v) => set({ service: v })} items={(options.data?.services ?? []).map((s) => [s, s])} />
         <FilterSelect label="Source" value={filters.source} onChange={(v) => set({ source: v })} items={(options.data?.sources ?? []).map((s) => [s, s])} />
         <Input type="date" aria-label="From date" value={filters.from} onChange={(e) => set({ from: e.target.value })} />
         <Input type="date" aria-label="To date" value={filters.to} onChange={(e) => set({ to: e.target.value })} />
-        <div className="flex items-center gap-2 md:col-span-3 xl:col-span-7">
+        </div>
+        <div className={(showFilters ? "flex" : "hidden") + " items-center gap-2 md:col-span-3 md:flex xl:col-span-7"}>
           <Button variant={filters.archived ? "default" : "outline"} size="sm" onClick={() => set({ archived: !filters.archived })}>
             <Archive className="mr-2 size-4" />{filters.archived ? "Showing archived" : "Show archived"}
           </Button>
@@ -117,7 +124,28 @@ export function InquiriesPage() {
       ) : list.data && list.data.rows.length === 0 ? (
         <EmptyState title="No inquiries found" hint="Try clearing your filters. New website submissions appear here automatically." />
       ) : (
-        <div className="overflow-x-auto rounded-xl border border-border bg-background">
+        <>
+        <ul className="space-y-2 md:hidden">
+          {list.data?.rows.map((inq) => (
+            <li key={inq.id}>
+              <button type="button" className="admin-card admin-card-hover block w-full p-3 text-left" onClick={() => navigate({ to: "/admin/inquiries", search: { q: search["q"], open: inq.id } })}>
+                <span className="flex items-start justify-between gap-2">
+                  <span className="min-w-0">
+                    <span className="block truncate font-semibold">{inq.name}</span>
+                    <span className="block truncate text-xs text-muted-foreground">{inq.email}</span>
+                  </span>
+                  <StatusBadge status={inq.status} />
+                </span>
+                <span className="mt-2 line-clamp-2 block text-xs text-muted-foreground">{inq.message}</span>
+                <span className="mt-2 flex items-center justify-between text-[11px] text-muted-foreground">
+                  <span>{inq.service ?? inq.source}</span>
+                  <span>{formatDateTime(inq.created_at)}</span>
+                </span>
+              </button>
+            </li>
+          ))}
+        </ul>
+        <div className="admin-card hidden overflow-x-auto md:block">
           <Table>
             <TableHeader>
               <TableRow>
@@ -142,6 +170,7 @@ export function InquiriesPage() {
             </TableBody>
           </Table>
         </div>
+        </>
       )}
       <Pager page={page} total={list.data?.total ?? 0} onPage={setPage} />
 
@@ -164,6 +193,7 @@ function FilterSelect({ label, value, onChange, items }: { label: string; value:
 
 function InquiryDetail({ id, onClose }: { id: string; onClose: () => void }) {
   const queryClient = useQueryClient();
+  const confirm = useConfirm();
   const [note, setNote] = useState("");
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [taskTitle, setTaskTitle] = useState("");
@@ -265,14 +295,14 @@ function InquiryDetail({ id, onClose }: { id: string; onClose: () => void }) {
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label>Status</Label>
-                <Select value={inq.status} onValueChange={(v) => update.mutate({ status: v as Inquiry["status"] })}>
+                <Select value={inq.status} onValueChange={async (v) => { if (await confirm({ title: "Change status?", description: `Set this inquiry to “${statusLabel[v as Inquiry["status"]]}”.`, confirmLabel: "Yes, change" })) update.mutate({ status: v as Inquiry["status"] }); }}>
                   <SelectTrigger><SelectValue /></SelectTrigger>
                   <SelectContent>{INQUIRY_STATUSES.map((s) => <SelectItem key={s} value={s}>{statusLabel[s]}</SelectItem>)}</SelectContent>
                 </Select>
               </div>
               <div className="space-y-2">
                 <Label>Priority</Label>
-                <Select value={inq.priority} onValueChange={(v) => update.mutate({ priority: v as Inquiry["priority"] })}>
+                <Select value={inq.priority} onValueChange={async (v) => { if (await confirm({ title: "Change priority?", description: `Set priority to “${v}”.`, confirmLabel: "Yes, change" })) update.mutate({ priority: v as Inquiry["priority"] }); }}>
                   <SelectTrigger><SelectValue /></SelectTrigger>
                   <SelectContent>{INQUIRY_PRIORITIES.map((p) => <SelectItem key={p} value={p} className="capitalize">{p}</SelectItem>)}</SelectContent>
                 </Select>
@@ -280,7 +310,7 @@ function InquiryDetail({ id, onClose }: { id: string; onClose: () => void }) {
               <div className="col-span-2 space-y-2">
                 <Label htmlFor="follow-up">Follow-up date</Label>
                 <Input id="follow-up" type="datetime-local" defaultValue={toLocalInput(inq.follow_up_at)} key={inq.updated_at}
-                  onBlur={(e) => { const next = fromLocalInput(e.target.value); if (next !== inq.follow_up_at) update.mutate({ follow_up_at: next }); }} />
+                  onBlur={async (e) => { const el = e.target; const next = fromLocalInput(el.value); if (next === inq.follow_up_at) return; const ok = await confirm({ title: next ? "Set follow-up date?" : "Clear follow-up date?", description: next ? `Follow up on ${formatDateTime(next)}.` : "The follow-up date will be removed.", confirmLabel: "Yes, save" }); if (ok) update.mutate({ follow_up_at: next }); else el.value = toLocalInput(inq.follow_up_at); }} />
               </div>
             </div>
 
@@ -288,14 +318,14 @@ function InquiryDetail({ id, onClose }: { id: string; onClose: () => void }) {
               <h3 className="font-semibold">Create follow-up task</h3>
               <div className="flex gap-2">
                 <Input value={taskTitle} onChange={(e) => setTaskTitle(e.target.value)} placeholder="e.g. Send proposal" aria-label="Task title" />
-                <Button disabled={!taskTitle.trim() || addTask.isPending} onClick={() => addTask.mutate()}>Add</Button>
+                <Button disabled={!taskTitle.trim() || addTask.isPending} onClick={async () => { if (await confirm({ title: "Create follow-up task?", description: `“${taskTitle.trim()}” will be added to your tasks.`, confirmLabel: "Yes, create" })) addTask.mutate(); }}>Add</Button>
               </div>
             </section>
 
             <section className="space-y-3">
               <h3 className="font-semibold">Internal notes</h3>
               <Textarea value={note} onChange={(e) => setNote(e.target.value)} placeholder="Only admins can see notes." aria-label="New note" />
-              <Button size="sm" disabled={!note.trim() || addNote.isPending} onClick={() => addNote.mutate()}>Add note</Button>
+              <Button size="sm" disabled={!note.trim() || addNote.isPending} onClick={async () => { if (await confirm({ title: "Add this note?", description: "Notes are visible to admins only.", confirmLabel: "Yes, add note" })) addNote.mutate(); }}>Add note</Button>
               <ul className="space-y-2">
                 {notes.data?.map((n) => (
                   <li key={n.id} className="rounded-lg border border-border p-3">
@@ -319,7 +349,7 @@ function InquiryDetail({ id, onClose }: { id: string; onClose: () => void }) {
             </section>
 
             <div className="flex flex-wrap gap-2 border-t border-border pt-4">
-              <Button variant="outline" size="sm" onClick={() => update.mutate({ archived: !inq.archived })}>
+              <Button variant="outline" size="sm" onClick={async () => { if (await confirm({ title: inq.archived ? "Restore this inquiry?" : "Archive this inquiry?", description: inq.archived ? "It will return to the main inquiries list." : "It will be hidden from the main list. You can restore it any time.", confirmLabel: inq.archived ? "Yes, restore" : "Yes, archive" })) update.mutate({ archived: !inq.archived }); }}>
                 {inq.archived ? <ArchiveRestore className="mr-2 size-4" /> : <Archive className="mr-2 size-4" />}
                 {inq.archived ? "Restore" : "Archive"}
               </Button>

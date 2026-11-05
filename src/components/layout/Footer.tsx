@@ -2,24 +2,8 @@ import { BrandLogo } from "./BrandLogo";
 import { menuLinks } from "@/data/home";
 import { Link } from "@tanstack/react-router";
 import { getLenis } from "@/lib/scroll";
+import { safeUrl, useSection } from "@/lib/content/content";
 import { ArrowUp, ArrowUpRight, Mail, MapPin, Phone } from "lucide-react";
-
-const socials = [
-  { label: "Instagram", href: "#" },
-  { label: "Facebook", href: "#" },
-  { label: "LinkedIn", href: "#" },
-  { label: "WhatsApp", href: "#" },
-];
-
-const footerServices = [
-  "Branding & Identity",
-  "Content Production",
-  "Social Media Marketing",
-  "Paid Advertising",
-  "SEO",
-  "Website Design & Development",
-  "AI Automation",
-];
 
 const legal = ["Privacy Policy", "Cookies", "Terms"];
 
@@ -44,16 +28,21 @@ function scrollToTop() {
 
 export function Footer() {
   const year = new Date().getFullYear();
+  const { data: c } = useSection("footer");
+  const socials = (c["socials"] ?? []) as { label: string; href: string }[];
+  const footerServices = (c["services"] ?? []) as string[];
+  const email = String(c["email"] ?? "");
+  const phone = String(c["phone"] ?? "");
   return (
     <footer className="recko-footer border-t border-border">
       {/* Call to action band */}
       <div className="border-b border-border">
         <div className="mx-auto flex max-w-7xl flex-col gap-6 px-5 py-12 md:flex-row md:items-center md:justify-between md:px-10">
           <p className="font-display text-2xl leading-tight md:text-4xl">
-            Ready to grow? <span className="text-acid">Let&rsquo;s talk.</span>
+            {c["cta_heading"]} <span className="text-acid">{c["cta_highlight"]}</span>
           </p>
           <a
-            href="mailto:team@reckomedia.com"
+            href={`mailto:${email}`}
             className="inline-flex w-fit items-center gap-2 rounded-full border border-border px-6 py-3 text-sm font-medium transition-colors duration-300 hover:border-acid hover:text-acid"
           >
             Build your brief
@@ -66,7 +55,7 @@ export function Footer() {
         <div>
           <BrandLogo variant="ink" />
           <p className="mt-5 max-w-xs text-sm leading-relaxed text-muted-foreground">
-            Web design, AI automation and digital marketing, built together to grow your business.
+            {c["tagline"]}
           </p>
         </div>
 
@@ -95,8 +84,8 @@ export function Footer() {
             Services
           </p>
           <ul className="space-y-3">
-            {footerServices.map((name) => (
-              <li key={name}>
+            {footerServices.map((name, i) => (
+              <li key={`${name}-${i}`}>
                 <Link to="/services" className={linkClass}>
                   {name}
                 </Link>
@@ -111,9 +100,9 @@ export function Footer() {
             Social
           </p>
           <ul className="space-y-3">
-            {socials.map((s) => (
-              <li key={s.label}>
-                <a href={s.href} className={linkClass}>
+            {socials.map((s, i) => (
+              <li key={`${s.label}-${i}`}>
+                <a href={safeUrl(s.href)} className={linkClass}>
                   {s.label}
                   <ArrowUpRight
                     className="size-3.5 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
@@ -134,21 +123,21 @@ export function Footer() {
             <li className="flex items-start gap-3">
               <Mail className="mt-0.5 size-4 shrink-0 text-acid" aria-hidden="true" />
               <a
-                href="mailto:team@reckomedia.com"
+                href={`mailto:${email}`}
                 className="wrap-anywhere transition-colors hover:text-acid"
               >
-                team@reckomedia.com
+                {email}
               </a>
             </li>
             <li className="flex items-start gap-3">
               <Phone className="mt-0.5 size-4 shrink-0 text-acid" aria-hidden="true" />
-              <a href="tel:03272514632" className="transition-colors hover:text-acid">
-                0327 2514632
+              <a href={`tel:${phone.replace(/[^+\d]/g, "")}`} className="transition-colors hover:text-acid">
+                {phone}
               </a>
             </li>
             <li className="flex items-start gap-3">
               <MapPin className="mt-0.5 size-4 shrink-0 text-acid" aria-hidden="true" />
-              <span>Karachi, Pakistan</span>
+              <span>{String(c["address"] ?? "")}</span>
             </li>
           </ul>
         </div>
@@ -157,7 +146,7 @@ export function Footer() {
       {/* Bottom bar */}
       <div className="border-t border-border">
         <div className="mx-auto flex max-w-7xl flex-col gap-4 px-5 py-6 text-xs text-muted-foreground md:flex-row md:items-center md:justify-between md:px-10">
-          <p>© {year} ReckoMEDIA. All rights reserved.</p>
+          <p>© {year} {c["copyright"]}. All rights reserved.</p>
           <ul className="flex flex-wrap items-center gap-x-5 gap-y-2">
             {legal.map((item) => (
               <li key={item}>

@@ -1,12 +1,27 @@
 import { useState } from "react";
-import { serviceTabs } from "@/data/home";
 import { Reveal, SplitReveal } from "@/components/motion/SplitReveal";
 import { ArrowLink } from "@/components/ui/ArrowLink";
 import { ArrowUpRight } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useSection, safeUrl } from "@/lib/content/content";
+import { useServices } from "@/lib/content/content";
+import { SERVICE_CATEGORIES } from "@/lib/content/schema";
+
+const categoryLabel = { creative: "Creative", growth: "Growth", technology: "Technology" } as const;
 
 export function Services() {
-  const [active, setActive] = useState(serviceTabs[0]?.id ?? "creative");
+  const { data: c } = useSection("services_intro");
+  const services = useServices();
+  const [active, setActive] = useState<string>("creative");
+  const serviceTabs = SERVICE_CATEGORIES.map((id, i) => ({
+    id,
+    index: String(i + 1).padStart(2, "0"),
+    label: categoryLabel[id],
+    intro: String(c[`${id}_intro`] ?? ""),
+    items: services
+      .filter((s) => s.category === id)
+      .map((s, n) => ({ number: String(n + 1).padStart(2, "0"), title: s.title, blurb: s.summary, href: safeUrl(s.cta_url, "#contact") })),
+  }));
   const tab = serviceTabs.find((t) => t.id === active);
 
   return (
@@ -14,15 +29,15 @@ export function Services() {
       <div className="mx-auto max-w-7xl px-5 py-24 md:px-10 md:py-32">
         <Reveal>
           <p className="recko-brand-label mb-4 text-[0.7rem] font-semibold uppercase tracking-[0.3em] text-muted-foreground">
-            What we do
+            {c["eyebrow"]}
           </p>
         </Reveal>
 
         <h2 className="mb-12 max-w-3xl font-display md:mb-16">
-          <SplitReveal text="Creative. Growth. Technology." />
+          <SplitReveal key={c["heading"]} text={c["heading"]} />
         </h2>
         <p className="-mt-6 mb-12 max-w-md text-lg text-muted-foreground md:-mt-10 md:mb-16">
-          Three disciplines. One connected approach to building your business online.
+          {c["subheading"]}
         </p>
 
         {/* Tabs */}
@@ -63,7 +78,7 @@ export function Services() {
               {tab.items.map((item) => (
                 <a
                   key={item.number}
-                  href="#contact"
+                  href={item.href}
                   className="group grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4 border-b border-border px-1 py-7 transition-colors duration-300 hover:bg-surface md:grid-cols-[auto_minmax(0,1fr)_minmax(0,1fr)_auto] md:gap-8 md:px-4 md:py-9"
                 >
                   <span className="hidden size-10 items-center justify-center rounded-md border border-border font-sans text-xs text-muted-foreground transition-colors duration-300 group-hover:border-primary group-hover:text-primary md:flex">
@@ -84,7 +99,7 @@ export function Services() {
 
             <div className="mt-10 flex justify-end">
               <ArrowLink variant="ghost" href="#contact">
-                Explore all services
+                {c["cta_label"]}
               </ArrowLink>
             </div>
           </div>

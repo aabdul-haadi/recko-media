@@ -9,10 +9,10 @@ export const PAGE_SIZE = 20;
 
 export function PageHeader({ title, description, actions }: { title: string; description?: string; actions?: ReactNode }) {
   return (
-    <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
-      <div>
-        <h1 className="text-2xl font-semibold tracking-tight">{title}</h1>
-        {description && <p className="mt-1 text-sm text-muted-foreground">{description}</p>}
+    <div className="mb-4 flex flex-wrap items-end justify-between gap-3 sm:mb-6">
+      <div className="min-w-0">
+        <h1 className="admin-gradient-text text-xl font-bold tracking-tight sm:text-2xl">{title}</h1>
+        {description && <p className="mt-0.5 text-xs text-muted-foreground sm:text-sm">{description}</p>}
       </div>
       {actions && <div className="flex flex-wrap items-center gap-2">{actions}</div>}
     </div>
@@ -79,7 +79,7 @@ export function Pager({ page, total, onPage }: { page: number; total: number; on
 
 export function EmptyState({ title, hint }: { title: string; hint?: string }) {
   return (
-    <div className="rounded-xl border border-dashed border-border p-10 text-center">
+    <div className="rounded-2xl border border-dashed border-indigo-200 bg-indigo-50/40 p-8 text-center sm:p-10">
       <p className="font-medium">{title}</p>
       {hint && <p className="mt-1 text-sm text-muted-foreground">{hint}</p>}
     </div>
@@ -88,7 +88,7 @@ export function EmptyState({ title, hint }: { title: string; hint?: string }) {
 
 export function ErrorState({ error }: { error: unknown }) {
   return (
-    <p role="alert" className="rounded-xl border border-destructive/40 bg-destructive/10 p-4 text-sm">
+    <p role="alert" className="rounded-2xl border border-destructive/40 bg-destructive/10 p-4 text-sm">
       {error instanceof Error ? error.message : "Something went wrong loading this data."}
     </p>
   );

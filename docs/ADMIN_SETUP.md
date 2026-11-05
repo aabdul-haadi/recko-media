@@ -10,15 +10,19 @@ settings are planned for the next phases.
 3. **Authentication > URL Configuration:** add `https://YOUR-DOMAIN/admin/reset-password` (and your local URL) to the redirect allow-list so password reset emails work.
 
 ## 2. Apply the database schema
-Open **SQL Editor** and run `supabase/migrations/20261104000001_crm_core.sql`, or use the CLI:
+Open **SQL Editor** and run `supabase/migrations/0001_crm_core.sql`, or use the CLI:
 
 ```
 supabase link --project-ref YOUR-PROJECT-REF
 supabase db push
 ```
 
-Then run `supabase/migrations/20261104000002_grants_and_admin.sql`. It grants the API roles
+Then run `supabase/migrations/0002_grants_and_admin.sql`. It grants the API roles
 only the access they need (anonymous visitors get none) and registers `admin@reckomedia.com` as admin.
+
+Then run `supabase/migrations/0003_cms_content_services.sql` (Phase 2: homepage content and services).
+Until it is applied the website keeps showing its built-in content, so nothing breaks.
+Finally run `supabase/migrations/0004_realtime_tables.sql` so every admin screen (and open visitor tabs) update live when data changes.
 
 ## 3. Create the admin account (manual alternative)
 1. **Authentication > Users > Add user**: enter email and password (tick "Auto confirm").
@@ -55,3 +59,12 @@ On the host (Cloudflare/Lovable) add the same two `VITE_` variables, then redepl
 - Turn off **Allow new users to sign up** (Authentication > Providers > Email).
 - Rotate any `sb_secret_...` key that was ever shared in chat or email (Project Settings > API Keys).
 - In Authentication > Attack Protection enable CAPTCHA and leaked-password protection, and set a minimum password length of 12.
+
+## Editing the website (Phase 2)
+- **Homepage editor** (`/admin/homepage`): pick a section, edit, **Save draft**, **Preview** (opens the site in preview mode, visible only to a signed-in admin), then **Publish**. Visitors only ever see published content.
+- **Services** (`/admin/services`): add, edit, delete, reorder, feature, and publish/unpublish. Changes appear on the homepage and the Services page without a deployment.
+- Section visibility toggles hide a section from the live homepage. Reordering sections and image uploads (Media Library) arrive in Phase 3.
+
+## Admin safety behaviour
+- Every change in the admin asks for confirmation first ("Yes" or "Cancel"): status, priority, follow-ups, notes, tags, tasks, contacts, services (publish, feature, reorder, save), homepage drafts, revert, publish, delete and sign out. Nothing is changed until you confirm.
+- Screens update in real time (header shows **Live**). Edits you are typing are never overwritten by a live update.

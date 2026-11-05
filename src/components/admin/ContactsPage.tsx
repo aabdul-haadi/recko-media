@@ -16,6 +16,7 @@ import {
   AlertDialogFooter, AlertDialogHeader, AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { getSupabase } from "@/lib/supabase";
+import { useConfirm } from "./confirm";
 import type { Contact, Inquiry } from "@/lib/admin/types";
 import { CONTACT_STATUSES } from "@/lib/admin/types";
 import { EmptyState, ErrorState, PAGE_SIZE, PageHeader, Pager, StatusBadge, formatDate, formatDateTime } from "./shared";
@@ -58,7 +59,7 @@ export function ContactsPage() {
         actions={<Button size="sm" onClick={() => setDraft(blank)}><Plus className="mr-2 size-4" />New contact</Button>}
       />
       <Input
-        className="mb-4 max-w-md bg-background" value={q} aria-label="Search contacts" placeholder="Search name, email, phone, company…"
+        className="mb-4 h-9 max-w-md" value={q} aria-label="Search contacts" placeholder="Search name, email, phone, company…"
         onChange={(e) => { setQ(e.target.value); setPage(0); navigate({ to: "/admin/contacts", search: { q: e.target.value }, replace: true }); }}
       />
       {list.error ? <ErrorState error={list.error} /> : list.isLoading ? (
@@ -66,7 +67,25 @@ export function ContactsPage() {
       ) : list.data?.rows.length === 0 ? (
         <EmptyState title="No contacts found" hint="Contacts are created automatically from website inquiries, or add one manually." />
       ) : (
-        <div className="overflow-x-auto rounded-xl border border-border bg-background">
+        <>
+        <ul className="space-y-2 md:hidden">
+          {list.data?.rows.map((c) => (
+            <li key={c.id}>
+              <button type="button" className="admin-card admin-card-hover block w-full p-3 text-left" onClick={() => setDraft({ id: c.id, full_name: c.full_name, email: c.email ?? "", phone: c.phone ?? "", company: c.company ?? "", status: c.status, notes: c.notes ?? "" })}>
+                <span className="flex items-center justify-between gap-2">
+                  <span className="min-w-0 truncate font-semibold">{c.full_name}</span>
+                  <span className="shrink-0 rounded-full bg-indigo-50 px-2 py-0.5 text-[11px] capitalize text-indigo-700">{c.status}</span>
+                </span>
+                <span className="mt-0.5 block truncate text-xs text-muted-foreground">{c.email ?? "No email"}{c.company ? ` · ${c.company}` : ""}</span>
+                <span className="mt-2 flex flex-wrap items-center gap-1">
+                  {c.contact_tags.map((t) => <Badge key={t.tags.id} variant="secondary">{t.tags.name}</Badge>)}
+                  <span className="ml-auto text-[11px] text-muted-foreground">Last: {formatDate(c.last_interaction_at)}</span>
+                </span>
+              </button>
+            </li>
+          ))}
+        </ul>
+        <div className="admin-card hidden overflow-x-auto md:block">
           <Table>
             <TableHeader>
               <TableRow><TableHead>Name</TableHead><TableHead>Phone</TableHead><TableHead>Status</TableHead><TableHead>Tags</TableHead><TableHead>First contact</TableHead><TableHead>Last interaction</TableHead></TableRow>
@@ -85,6 +104,7 @@ export function ContactsPage() {
             </TableBody>
           </Table>
         </div>
+        </>
       )}
       <Pager page={page} total={list.data?.total ?? 0} onPage={setPage} />
       <ContactSheet draft={draft} tags={editing?.contact_tags.map((t) => t.tags) ?? []} onClose={() => setDraft(null)} />
@@ -94,6 +114,7 @@ export function ContactsPage() {
 
 function ContactSheet({ draft, tags, onClose }: { draft: Draft | null; tags: Tag[]; onClose: () => void }) {
   const queryClient = useQueryClient();
+  const confirm = useConfirm();
   const [form, setForm] = useState<Draft>(blank);
   const [tagName, setTagName] = useState("");
   const [confirmDelete, setConfirmDelete] = useState(false);
@@ -152,7 +173,10 @@ function ContactSheet({ draft, tags, onClose }: { draft: Draft | null; tags: Tag
     onError: () => toast.error("Could not remove the tag."),
   });
 
-  function submit(event: FormEvent) { event.preventDefault(); save.mutate(); }
+  async function submit(event: FormEvent) {
+    event.preventDefault();
+    if (await confirm({ title: id ? "Save changes to this contact?" : "Create this contact?", description: form.full_name, confirmLabel: id ? "Yes, save" : "Yes, create" })) save.mutate();
+  }
   const set = (patch: Partial<Draft>) => setForm((f) => ({ ...f, ...patch }));
 
   return (
@@ -190,11 +214,11 @@ function ContactSheet({ draft, tags, onClose }: { draft: Draft | null; tags: Tag
               <div className="flex flex-wrap gap-2">
                 {tags.map((t) => (
                   <Badge key={t.id} variant="secondary" className="gap-1">{t.name}
-                    <button type="button" aria-label={`Remove tag ${t.name}`} onClick={() => removeTag.mutate(t.id)}><X className="size-3" /></button>
+                    <button type="button" aria-label={`Remove tag ${t.name}`} onClick={async () => { if (await confirm({ title: `Remove tag “${t.name}”?`, confirmLabel: "Yes, remove" })) removeTag.mutate(t.id); }}><X className="size-3" /></button>
                   </Badge>
                 ))}
               </div>
-              <form className="flex gap-2" onSubmit={(e) => { e.preventDefault(); if (tagName.trim()) addTag.mutate(); }}>
+              <form className="flex gap-2" onSubmit={async (e) => { e.preventDefault(); if (tagName.trim() && (await confirm({ title: `Add tag “${tagName.trim()}”?`, confirmLabel: "Yes, add" }))) addTag.mutate(); }}>
                 <Input value={tagName} maxLength={50} onChange={(e) => setTagName(e.target.value)} placeholder="Add a tag" aria-label="New tag" />
                 <Button type="submit" variant="outline" disabled={!tagName.trim()}>Add</Button>
               </form>

@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { getSupabase } from "@/lib/supabase";
+import { useConfirm } from "./confirm";
 import { TASK_STATUSES, type Task, type TaskStatus } from "@/lib/admin/types";
 import { EmptyState, ErrorState, PageHeader, formatDateTime, fromLocalInput, toLocalInput } from "./shared";
 
@@ -16,6 +17,7 @@ type TaskRow = Task & { contacts: { full_name: string } | null; inquiries: { nam
 
 export function TasksPage() {
   const queryClient = useQueryClient();
+  const confirm = useConfirm();
   const [status, setStatus] = useState<string>("pending");
   const [when, setWhen] = useState("all");
   const [editing, setEditing] = useState<Partial<Task> | null>(null);
@@ -62,9 +64,14 @@ export function TasksPage() {
     onError: () => toast.error("Could not delete the task"),
   });
 
-  function submit(event: FormEvent) {
+  async function submit(event: FormEvent) {
     event.preventDefault();
-    if (editing?.title?.trim()) save.mutate(editing);
+    if (!editing?.title?.trim()) return;
+    if (await confirm({ title: editing.id ? "Save changes to this task?" : "Create this task?", description: editing.title, confirmLabel: "Yes, save" })) save.mutate(editing);
+  }
+  async function changeStatus(task: Task, next: TaskStatus) {
+    const text = next === "completed" ? "Mark as completed?" : next === "cancelled" ? "Cancel this task?" : "Reopen this task?";
+    if (await confirm({ title: text, description: task.title, confirmLabel: "Yes", destructive: next === "cancelled" })) setTaskStatus.mutate({ id: task.id, next });
   }
 
   return (
@@ -76,14 +83,14 @@ export function TasksPage() {
       />
       <div className="mb-4 flex flex-wrap gap-3">
         <Select value={status} onValueChange={setStatus}>
-          <SelectTrigger className="w-40 bg-background" aria-label="Status"><SelectValue /></SelectTrigger>
+          <SelectTrigger className="h-9 w-36" aria-label="Status"><SelectValue /></SelectTrigger>
           <SelectContent>
             <SelectItem value="all">All statuses</SelectItem>
             {TASK_STATUSES.map((s) => <SelectItem key={s} value={s} className="capitalize">{s}</SelectItem>)}
           </SelectContent>
         </Select>
         <Select value={when} onValueChange={setWhen}>
-          <SelectTrigger className="w-40 bg-background" aria-label="Due date"><SelectValue /></SelectTrigger>
+          <SelectTrigger className="h-9 w-36" aria-label="Due date"><SelectValue /></SelectTrigger>
           <SelectContent>
             <SelectItem value="all">Any date</SelectItem>
             <SelectItem value="overdue">Overdue</SelectItem>
@@ -97,15 +104,15 @@ export function TasksPage() {
       ) : list.data?.length === 0 ? (
         <EmptyState title="No tasks here" hint="Create a task, or add a follow-up from an inquiry." />
       ) : (
-        <ul className="divide-y divide-border rounded-xl border border-border bg-background">
+        <ul className="admin-card divide-y divide-border">
           {list.data?.map((task) => {
             const overdue = task.status === "pending" && task.due_at && new Date(task.due_at) < new Date();
             return (
-              <li key={task.id} className="flex flex-wrap items-center gap-4 p-4">
+              <li key={task.id} className="flex flex-wrap items-center gap-x-3 gap-y-1 p-3 sm:gap-4 sm:p-4">
                 <input
                   type="checkbox" className="size-4" aria-label={`Mark "${task.title}" completed`}
                   checked={task.status === "completed"}
-                  onChange={(e) => setTaskStatus.mutate({ id: task.id, next: e.target.checked ? "completed" : "pending" })}
+                  onChange={(e) => changeStatus(task, e.target.checked ? "completed" : "pending")}
                 />
                 <button type="button" className="min-w-0 flex-1 text-left" onClick={() => setEditing(task)}>
                   <span className={task.status !== "pending" ? "text-muted-foreground line-through" : "font-medium"}>{task.title}</span>
@@ -115,7 +122,7 @@ export function TasksPage() {
                 </button>
                 <span className={overdue ? "text-sm text-red-600" : "text-sm text-muted-foreground"}>{overdue ? "Overdue · " : ""}{formatDateTime(task.due_at)}</span>
                 {task.status === "pending" && (
-                  <Button variant="ghost" size="sm" onClick={() => setTaskStatus.mutate({ id: task.id, next: "cancelled" })}>Cancel</Button>
+                  <Button variant="ghost" size="sm" onClick={() => changeStatus(task, "cancelled")}>Cancel</Button>
                 )}
               </li>
             );
@@ -136,7 +143,7 @@ export function TasksPage() {
               <div className="space-y-2"><Label htmlFor="t-due">Due</Label><Input id="t-due" type="datetime-local" value={toLocalInput(editing.due_at ?? null)} onChange={(e) => setEditing({ ...editing, due_at: fromLocalInput(e.target.value) })} /></div>
               <div className="flex justify-between">
                 <Button type="submit" disabled={save.isPending}>Save task</Button>
-                {editing.id && <Button type="button" variant="destructive" onClick={() => remove.mutate(editing.id!)}>Delete</Button>}
+                {editing.id && <Button type="button" variant="destructive" onClick={async () => { if (await confirm({ title: "Delete this task?", description: "This cannot be undone.", confirmLabel: "Yes, delete", destructive: true })) remove.mutate(editing.id!); }}>Delete</Button>}
               </div>
             </form>
           )}

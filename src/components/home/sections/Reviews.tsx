@@ -1,38 +1,11 @@
 import { useEffect, useRef } from "react";
 import { ArrowLeft, ArrowRight, Quote } from "lucide-react";
 import { Reveal, SplitReveal } from "@/components/motion/SplitReveal";
+import { useSection } from "@/lib/content/content";
 
-const reviews = [
-  {
-    quote:
-      "The team has been on their toes since day one and helped us work through everything in the best possible way. Their knowledge of web development and commitment to answering every query made the experience genuinely valuable.",
-    name: "Scrubbers Med",
-    role: "",
-  },
-  // Placeholder testimonials: replace with real client quotes before launch.
-  {
-    quote: "The new site finally makes it easy for the right customers to understand what we do.",
-    name: "Marketing Director",
-    role: "B2B technology",
-  },
-  {
-    quote: "We have a clearer brand, a better customer journey and a team that keeps improving it.",
-    name: "Founder",
-    role: "Consumer brand",
-  },
-  {
-    quote:
-      "The automation gave our team hours back each week, and it fits the way we already work.",
-    name: "Operations Lead",
-    role: "Professional services",
-  },
-  {
-    quote: "Everything feels connected now: our campaigns, our website and the way we follow up.",
-    name: "Managing Partner",
-    role: "Growth stage business",
-  },
-];
 export function Reviews() {
+  const { data: c } = useSection("reviews");
+  const reviews = (c["items"] ?? []) as { quote: string; name: string; role: string }[];
   const trackRef = useRef<HTMLDivElement>(null);
 
   function scrollReviews(direction: -1 | 1) {
@@ -81,11 +54,11 @@ export function Reviews() {
           <div>
             <Reveal>
               <p className="recko-brand-label mb-4 text-[0.7rem] font-semibold uppercase tracking-[0.3em] text-muted-foreground">
-                Client experiences
+                {c["eyebrow"]}
               </p>
             </Reveal>
             <h2 id="reviews-title" className="font-display">
-              <SplitReveal text="Good work travels." />
+              <SplitReveal key={c["heading"]} text={c["heading"]} />
             </h2>
           </div>
           <div className={reviews.length > 1 ? "flex items-center gap-3" : "hidden"}>
@@ -114,9 +87,9 @@ export function Reviews() {
           role="list"
           aria-label="Client reviews"
         >
-          {reviews.map((review) => (
+          {reviews.map((review, i) => (
             <article
-              key={review.name}
+              key={`${review.name}-${i}`}
               data-review-card
               role="listitem"
               className={`flex min-h-[19rem] w-full sm:w-[calc((100%_-_20px)/2)] lg:w-[calc((100%_-_40px)/3)] shrink-0 snap-start flex-col justify-between border border-border p-6 sm:p-8 md:min-h-[21rem] bg-surface/60`}
