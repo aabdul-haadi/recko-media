@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
-import { ArrowUpRight, CheckCircle2, CheckSquare, Inbox, Loader2, MessageSquareReply, Sparkles, Users } from "lucide-react";
+import { ArrowUpRight, CheckCircle as CheckCircle2, CheckSquare, Tray as Inbox, CircleNotch as Loader2, ChatCircleDots as MessageSquareReply, Sparkle as Sparkles, UsersThree as Users } from "@phosphor-icons/react";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { getSupabase } from "@/lib/supabase";

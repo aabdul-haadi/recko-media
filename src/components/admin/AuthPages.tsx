@@ -1,6 +1,6 @@
 import { useEffect, useState, type FormEvent } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
-import { Loader2 } from "lucide-react";
+import { CircleNotch as Loader2 } from "@phosphor-icons/react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -48,7 +48,7 @@ export function LoginPage() {
   }
 
   return (
-    <AuthFrame title="Sign in" subtitle="Enter your admin credentials to manage the website and inquiries.">
+    <AuthFrame title="Sign in">
       <form onSubmit={submit} className="space-y-4">
         <div className="space-y-2">
           <Label htmlFor="email">Username or email</Label>
@@ -89,7 +89,7 @@ export function ForgotPasswordPage() {
   }
 
   return (
-    <AuthFrame title="Reset password" subtitle="We will email you a link to choose a new password.">
+    <AuthFrame title="Reset password">
       {sent ? (
         <p role="status" className="text-sm">If an admin account exists for that email, a reset link is on its way.</p>
       ) : (
@@ -130,7 +130,7 @@ export function ResetPasswordPage() {
   }
 
   return (
-    <AuthFrame title="Choose a new password" subtitle="Pick a strong password you do not use elsewhere.">
+    <AuthFrame title="Choose a new password">
       {loading ? (
         <Loader2 className="size-5 animate-spin" aria-label="Loading" />
       ) : !session ? (

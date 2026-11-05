@@ -1,15 +1,15 @@
 import { useEffect, useState, type FormEvent, type ReactNode } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import {
-  Bell, Briefcase, CheckSquare, ExternalLink, FileEdit, Inbox, LayoutDashboard, LogOut, MoreHorizontal, Search, Users,
-} from "lucide-react";
+import { Bell, Briefcase, CheckSquare, ArrowSquareOut as ExternalLink, PencilSimpleLine as FileEdit, Tray as Inbox, SquaresFour as LayoutDashboard, SignOut as LogOut, DotsThree as MoreHorizontal, MagnifyingGlass as Search, UsersThree as Users } from "@phosphor-icons/react";
 import { Toaster, toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetDescription, SheetTitle } from "@/components/ui/sheet";
 import { getSupabase } from "@/lib/supabase";
 import { useAuth } from "@/lib/admin/auth";
+import { IconContext } from "@phosphor-icons/react";
+import { BrandLogo } from "@/components/layout/BrandLogo";
 import { useAdminTheme } from "./useAdminTheme";
 import { ConfirmProvider, useConfirm } from "./confirm";
 
@@ -24,12 +24,8 @@ const nav = [
 
 function Brand() {
   return (
-    <Link to="/admin" className="flex items-center gap-2.5">
-      <span className="admin-gradient grid size-9 place-items-center rounded-xl text-sm font-bold shadow-md shadow-indigo-500/30">R</span>
-      <span className="leading-tight">
-        <span className="block font-display text-[15px] font-bold tracking-tight">ReckoMEDIA</span>
-        <span className="block text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">Admin studio</span>
-      </span>
+    <Link to="/admin" className="admin-logo block" aria-label="ReckoMEDIA admin home">
+      <BrandLogo />
     </Link>
   );
 }
@@ -70,9 +66,11 @@ const liveTables: Record<string, string[]> = {
 
 export function AdminLayout({ children }: { children: ReactNode }) {
   return (
-    <ConfirmProvider>
-      <AdminFrame>{children}</AdminFrame>
-    </ConfirmProvider>
+    <IconContext.Provider value={{ weight: "duotone" }}>
+      <ConfirmProvider>
+        <AdminFrame>{children}</AdminFrame>
+      </ConfirmProvider>
+    </IconContext.Provider>
   );
 }
 

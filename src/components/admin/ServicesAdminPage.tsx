@@ -1,7 +1,7 @@
 import { useEffect, useState, type FormEvent } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { ArrowDown, ArrowUp, Eye, Plus, Star, Trash2 } from "lucide-react";
+import { ArrowDown, ArrowUp, Eye, Plus, Star, Trash as Trash2 } from "@phosphor-icons/react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -112,7 +112,7 @@ export function ServicesAdminPage() {
                       <span className="block truncate text-sm text-muted-foreground">{service.summary}</span>
                     </button>
                     <Button variant="ghost" size="icon" aria-label={service.featured ? "Remove from featured" : "Mark as featured"} aria-pressed={service.featured} onClick={async () => { if (await confirm({ title: service.featured ? "Remove from featured?" : "Mark as featured?", description: service.title, confirmLabel: "Yes" })) patch.mutate({ id: service.id, values: { featured: !service.featured } }); }}>
-                      <Star className={service.featured ? "size-4 fill-amber-400 text-amber-500" : "size-4"} />
+                      <Star className={service.featured ? "size-4 text-amber-500" : "size-4"} weight={service.featured ? "fill" : "duotone"} />
                     </Button>
                     <Badge variant="secondary" className={service.status === "published" ? "bg-emerald-500/15 text-emerald-700" : ""}>{service.status === "published" ? "Published" : "Draft"}</Badge>
                     <Switch checked={service.status === "published"} aria-label={`Publish ${service.title}`} onCheckedChange={async (v) => { if (await confirm({ title: v ? "Publish this service?" : "Unpublish this service?", description: v ? `“${service.title}” will appear on the live website immediately.` : `“${service.title}” will be removed from the live website immediately.`, confirmLabel: v ? "Yes, publish" : "Yes, unpublish" })) patch.mutate({ id: service.id, values: { status: v ? "published" : "draft" } }, { onSuccess: () => toast.success(v ? "Published to the website" : "Removed from the website") }); }} />

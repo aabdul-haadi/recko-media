@@ -1,6 +1,6 @@
 import { useEffect, type ReactNode } from "react";
 import { useNavigate } from "@tanstack/react-router";
-import { Loader2 } from "lucide-react";
+import { CircleNotch as Loader2 } from "@phosphor-icons/react";
 import { useAuth } from "@/lib/admin/auth";
 
 /** Client-side convenience guard. Real protection is Row Level Security in the database. */

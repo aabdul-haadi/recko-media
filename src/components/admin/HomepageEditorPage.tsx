@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { Eye, RotateCcw, Rocket, Save } from "lucide-react";
+import { Eye, ArrowCounterClockwise as RotateCcw, RocketLaunch as Rocket, FloppyDisk as Save } from "@phosphor-icons/react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";

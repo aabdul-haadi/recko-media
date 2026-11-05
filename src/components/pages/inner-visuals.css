@@ -82,10 +82,6 @@
 .recko-principle-card {
   border-radius: 18px;
   border-top: 3px solid var(--brand-blue);
-  transition: border-color 200ms;
-}
-.recko-principle-card:hover {
-  border-top-color: var(--brand-lime);
 }
 .recko-featured-work {
   display: grid;
@@ -216,10 +212,5 @@
   }
   .recko-contact-art {
     padding: 24px;
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .recko-principle-card {
-    transition: none;
   }
 }

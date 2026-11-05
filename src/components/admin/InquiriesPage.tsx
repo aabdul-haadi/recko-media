@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate, useSearch } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { Archive, ArchiveRestore, Download, ExternalLink, SlidersHorizontal, Trash2 } from "lucide-react";
+import { Archive, ArrowUUpLeft as ArchiveRestore, DownloadSimple as Download, ArrowSquareOut as ExternalLink, SlidersHorizontal, Trash as Trash2 } from "@phosphor-icons/react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
