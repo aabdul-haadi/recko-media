@@ -11,33 +11,33 @@ const serviceVisuals = [
   {
     src: "/thumbs/work-fashion.jpg",
     second: "/thumbs/work-snack.jpg",
-    caption: "Identity / Content / Campaigns",
+    caption: "Facebook / Instagram / YouTube",
     alt: "Fashion campaign creative direction preview",
-    tags: ["Art direction", "Brand systems", "Content"],
+    tags: ["Facebook Ads", "Instagram Ads", "YouTube Ads"],
   },
   {
     src: "/thumbs/work-dashboard.jpg",
     second: "/thumbs/work-fashion.jpg",
-    caption: "Discover / Connect / Convert",
+    caption: "SEO / SEM / Google Ads",
     alt: "Analytics dashboard and digital campaign concept",
-    tags: ["Paid media", "Search", "Optimisation"],
+    tags: ["SEO", "Search marketing", "Google Ads"],
   },
   {
     src: "/thumbs/work-robot.jpg",
     second: "/thumbs/work-dashboard.jpg",
-    caption: "Websites / Commerce / Automation",
+    caption: "Websites / WordPress / Shopify",
     alt: "AI product concept and connected digital tools",
-    tags: ["Digital experiences", "E-commerce", "Automation"],
+    tags: ["Web design", "WordPress", "Shopify"],
   },
 ];
 
 const outcomes = [
-  "A sharper customer experience",
-  "A connected growth engine",
-  "Less friction in daily operations",
+  "Affordable prices tailored for you",
+  "The best strategy for your business",
+  "Personalized strategies and reliable execution",
 ];
 
-const categoryLabel = { creative: "Creative", growth: "Growth", technology: "Technology" } as const;
+const categoryLabel = { creative: "Social Media", growth: "Search", technology: "Web" } as const;
 
 export function ServicesPage() {
   const { data: intro } = useSection("services_intro");
@@ -53,9 +53,15 @@ export function ServicesPage() {
   return (
     <PageFrame>
       <PageHero
+<<<<<<< HEAD
         eyebrow="Services / Strategy, design, technology"
         title="Services offered by our social media marketing agency"
         description="Connect with your audience, strengthen your online presence and turn attention into customers with tailored digital marketing services."
+=======
+        eyebrow="Services / Social, search, web"
+        title="Services offered by our agency."
+        description="Harness social media, search and a high-performing website to connect with your audience, build meaningful relationships and drive brand awareness, engagement and conversions."
+>>>>>>> 570819fa94f67af3b6f72a72806689d4dea7b2b0
       />
 
       <section className="recko-services-intro" aria-label="Explore our capabilities visually">
@@ -221,8 +227,8 @@ export function ServicesPage() {
         <div className="mx-auto grid max-w-7xl gap-12 px-5 md:grid-cols-2 md:px-10">
           <SectionIntro
             eyebrow="The outcome"
-            title="Built around what changes for you."
-            text="The right mix of services depends on where the friction is and where the next opportunity lives."
+            title="Why choose us."
+            text="Choose us because we have the experience and solutions that work. We focus on making you successful with personalized strategies and reliable execution."
           />
           <ul className="space-y-0 self-center border-t border-border">
             {outcomes.map((outcome) => (

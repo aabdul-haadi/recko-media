@@ -1,4 +1,9 @@
+<<<<<<< HEAD
 import { Reveal } from "@/components/motion/SplitReveal";
+=======
+﻿import { Reveal } from "@/components/motion/SplitReveal";
+import { InquiryForm } from "@/components/forms/InquiryForm";
+>>>>>>> 570819fa94f67af3b6f72a72806689d4dea7b2b0
 import { safeUrl, useSection } from "@/lib/content/content";
 
 export function Contact() {
@@ -6,7 +11,7 @@ export function Contact() {
   return (
     <section
       id="contact"
-      className="recko-contact-section relative overflow-hidden border-t border-border py-28 md:py-40"
+      className="recko-contact-section relative overflow-hidden border-t border-border py-14 md:py-20"
     >
       <div className="recko-contact-orbit" aria-hidden="true" />
       <div className="relative z-10 mx-auto max-w-7xl px-5 text-center md:px-10">
@@ -40,6 +45,12 @@ export function Contact() {
           <p className="mx-auto mt-8 max-w-md text-base text-muted-foreground md:text-lg">
             {c["text"]}
           </p>
+        </Reveal>
+
+        <Reveal delay={300}>
+          <div className="mx-auto mt-14 max-w-3xl text-left">
+            <InquiryForm source="home-page" />
+          </div>
         </Reveal>
       </div>
     </section>

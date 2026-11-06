@@ -1,16 +1,12 @@
 import { websiteCopy } from "@/data/website-copy";
 import "./inner-visuals.css";
-import { useEffect, useRef, useState, type FormEvent } from "react";
-import { ArrowRight, Check, Clock3, Mail, MapPin } from "lucide-react";
+import { ArrowRight, Clock3, Mail, MapPin } from "lucide-react";
 import { PageFrame, PageHero } from "@/components/pages/PageFrame";
 import { Reveal } from "@/components/motion/SplitReveal";
-import { isSupabaseConfigured } from "@/lib/supabase";
-import { cooldownRemaining, submitInquiry, validateInquiry } from "@/lib/inquiries";
-
-const inputClass =
-  "mt-2 w-full rounded-lg border border-border bg-background px-4 py-3.5 text-base text-foreground outline-none transition-colors placeholder:text-muted-foreground/60 focus:border-primary focus:ring-2 focus:ring-primary/20";
+import { InquiryForm } from "@/components/forms/InquiryForm";
 
 export function ContactPage() {
+<<<<<<< HEAD
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -107,6 +103,14 @@ export function ContactPage() {
         eyebrow="Contact / Start the conversation"
         title="Get In Touch"
         description="Ready to take the next step? Let’s chat about how Recko Media can craft a winning digital marketing strategy that ignites your online presence."
+=======
+  return (
+    <PageFrame>
+      <PageHero
+        eyebrow="Contact / Reach out to us"
+        title="Reach out to us."
+        description="Don't miss out on the opportunity to grow your online presence and take your business to new heights. Reach out to us today and let's discuss how we can help you achieve your digital marketing goals."
+>>>>>>> 570819fa94f67af3b6f72a72806689d4dea7b2b0
       />
 
       <section className="py-16 md:py-24">
@@ -161,9 +165,9 @@ export function ContactPage() {
                     <Clock3 className="size-4" />
                   </span>
                   <div>
-                    <h2 className="font-semibold">A good first step</h2>
+                    <h2 className="font-semibold">Need advice to grow your business?</h2>
                     <p className="mt-1 max-w-sm text-sm leading-relaxed text-muted-foreground">
-                      Tell us a little about your goals and we’ll help focus the conversation.
+                      Digital marketing helps businesses reach and connect with their audience online, paving the way for success in a competitive market.
                     </p>
                   </div>
                 </div>
@@ -176,7 +180,11 @@ export function ContactPage() {
                   <div>
                     <h2 className="font-semibold">Working together</h2>
                     <p className="mt-1 max-w-sm text-sm leading-relaxed text-muted-foreground">
+<<<<<<< HEAD
                       Find us in Gulshan-e-Iqbal, Karachi, Pakistan.
+=======
+                      Gulshan-e-Iqbal, Karachi, Pakistan. Call or WhatsApp 0327 2514632.
+>>>>>>> 570819fa94f67af3b6f72a72806689d4dea7b2b0
                     </p>
                   </div>
                 </div>
@@ -185,6 +193,7 @@ export function ContactPage() {
           </aside>
 
           <Reveal>
+<<<<<<< HEAD
             {status === "sent" ? (
               <div
                 role="status"
@@ -369,6 +378,9 @@ export function ContactPage() {
                 )}
               </form>
             )}
+=======
+            <InquiryForm source="contact-page" />
+>>>>>>> 570819fa94f67af3b6f72a72806689d4dea7b2b0
           </Reveal>
         </div>
       </section>

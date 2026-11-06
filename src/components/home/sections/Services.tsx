@@ -7,7 +7,7 @@ import { useSection, safeUrl } from "@/lib/content/content";
 import { useServices } from "@/lib/content/content";
 import { SERVICE_CATEGORIES } from "@/lib/content/schema";
 
-const categoryLabel = { creative: "Creative", growth: "Growth", technology: "Technology" } as const;
+const categoryLabel = { creative: "Social Media", growth: "Search", technology: "Web" } as const;
 
 export function Services() {
   const { data: c } = useSection("services_intro");
@@ -26,7 +26,7 @@ export function Services() {
 
   return (
     <section id="services" className="relative border-t border-border">
-      <div className="mx-auto max-w-7xl px-5 py-24 md:px-10 md:py-32">
+      <div className="mx-auto max-w-7xl px-5 py-14 md:px-10 md:py-20">
         <Reveal>
           <p className="recko-brand-label mb-4 text-[0.7rem] font-semibold uppercase tracking-[0.3em] text-muted-foreground">
             {c["eyebrow"]}

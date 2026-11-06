@@ -9,6 +9,7 @@ import { Work } from "./sections/Work";
 import { MotionHighlights } from "./sections/MotionHighlights";
 import { Reviews } from "./sections/Reviews";
 import { Attention } from "./sections/Attention";
+import { Faq } from "./sections/Faq";
 import { Contact } from "./sections/Contact";
 import { useSection } from "@/lib/content/content";
 import type { ReactNode } from "react";
@@ -33,6 +34,7 @@ export function HomePage() {
         <Toggle name="work"><Work /></Toggle>
         <MotionHighlights />
         <Toggle name="reviews"><Reviews /></Toggle>
+        <Toggle name="faq"><Faq /></Toggle>
         <Toggle name="attention"><Attention /></Toggle>
         <Contact />
       </main>

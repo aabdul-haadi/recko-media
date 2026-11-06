@@ -28,7 +28,7 @@ type Service = {
 };
 type Draft = Omit<Service, "id" | "features"> & { id?: string; features: string };
 
-const label = { creative: "Creative", growth: "Growth", technology: "Technology" } as const;
+const label = { creative: "Social Media", growth: "Search", technology: "Web" } as const;
 const slugify = (v: string) => v.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 100);
 
 const blank = (category: ServiceCategory, order: number): Draft => ({

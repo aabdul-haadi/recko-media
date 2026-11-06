@@ -5,26 +5,52 @@ import { ArrowRight } from "@phosphor-icons/react";
 import { PageFrame, PageHero, SectionIntro } from "@/components/pages/PageFrame";
 import { Reveal } from "@/components/motion/SplitReveal";
 
+<<<<<<< HEAD
+=======
+const principles = [
+  {
+    icon: Target,
+    title: "Proven track record",
+    body: "A portfolio of success stories, helping businesses of all sizes achieve their online goals, from brand awareness to skyrocketing sales.",
+  },
+  {
+    icon: ChartLineUp,
+    title: "Data-driven approach",
+    body: "We don't gamble; we analyze trends and user behavior to craft targeted campaigns that deliver measurable results.",
+  },
+  {
+    icon: Eye,
+    title: "Transparency & collaboration",
+    body: "We keep you informed every step of the way, working closely with you to refine your strategy.",
+  },
+  {
+    icon: Intersect,
+    title: "Creative powerhouse",
+    body: "Our wordsmiths and design wizards craft captivating content that grabs attention and drives engagement.",
+  },
+];
+
+>>>>>>> 570819fa94f67af3b6f72a72806689d4dea7b2b0
 const steps = [
   {
     number: "01",
-    title: "Listen",
-    body: "We learn what is working, what is getting in the way and what success should look like.",
+    title: "Our vision",
+    body: "We redefine digital marketing, delivering exceptional results globally with a focus on excellence.",
   },
   {
     number: "02",
-    title: "Focus",
-    body: "Together, we choose the right problem and make a plan that fits your team.",
+    title: "Our mission",
+    body: "Empower digital success through proven methods and continuous learning.",
   },
   {
     number: "03",
-    title: "Make",
-    body: "We design and build the experiences, campaigns and systems that move the plan forward.",
+    title: "Our support",
+    body: "Contact us on WhatsApp and Instagram. We are here to help you and grow your business.",
   },
   {
     number: "04",
-    title: "Learn",
-    body: "We review what happened, keep what works and improve the next step.",
+    title: "Our awards",
+    body: "We are certified with Meta Advertising and also with Google Advertising.",
   },
 ];
 
@@ -33,8 +59,13 @@ export function AboutPage() {
     <PageFrame>
       <PageHero
         eyebrow="About / ReckoMEDIA"
+<<<<<<< HEAD
         title="Empowering small businesses through social media mastery."
         description={websiteCopy.mission[0]!}
+=======
+        title="Your trusted partner in the digital marketing jungle."
+        description="Your brand deserves a megaphone, not a whisper. We are your experienced guide and strategic partner, leading you through the digital wilderness and helping you conquer the peaks of online success."
+>>>>>>> 570819fa94f67af3b6f72a72806689d4dea7b2b0
       />
 
       <section className="recko-about-studio" aria-label="Our connected disciplines">
@@ -56,18 +87,19 @@ export function AboutPage() {
             <span className="recko-studio-caption">Different disciplines. One direction.</span>
           </div>
           <div className="recko-studio-copy">
-            <p className="recko-page-label">The Recko approach</p>
+            <p className="recko-page-label">Our story</p>
             <h2>
-              Creative minds.
+              A passion for
               <br />
-              Connected thinking.
+              social media.
             </h2>
             <p>
-              From the way your brand looks to the way your business works, every piece should move
-              together.
+              We saw businesses struggling to navigate the ever-changing landscape and knew there was a
+              better way to unlock the transformative power of social media for businesses of all
+              sizes.
             </p>
             <div className="recko-discipline-list">
-              {["Creative direction", "Growth strategy", "Digital experiences"].map(
+              {["Social media advertising", "Search and SEO", "Web design"].map(
                 (name, index) => (
                   <div key={name}>
                     <span>0{index + 1}</span>
@@ -85,6 +117,7 @@ export function AboutPage() {
       </section>
 
       <section className="border-b border-border py-20 md:py-28">
+<<<<<<< HEAD
         <div className="mx-auto max-w-7xl px-5 md:px-10">
           <p className="recko-page-label">Welcome to Recko Media</p>
           <h2 className="mt-5 max-w-3xl">
@@ -114,6 +147,58 @@ export function AboutPage() {
           <div className="space-y-5 text-muted-foreground">
             {websiteCopy.mission.map((paragraph) => (
               <p key={paragraph}>{paragraph}</p>
+=======
+        <div className="mx-auto grid max-w-7xl gap-12 px-5 md:grid-cols-[0.8fr_1.2fr] md:px-10">
+          <div>
+            <Reveal>
+              <p className="text-[0.7rem] font-semibold uppercase tracking-[0.3em] text-muted-foreground">
+                Our story
+              </p>
+            </Reveal>
+            <h2 className="mt-5 font-display text-3xl font-bold tracking-tight sm:text-4xl">
+              Built to help businesses win online.
+            </h2>
+          </div>
+          <div className="space-y-5 text-base leading-relaxed text-muted-foreground md:text-lg">
+            <Reveal>
+              <p>
+                It all started with a passion for the power of social media. We saw businesses
+                drowning in a sea of irrelevant followers and frustrated by disappearing organic
+                reach, and we knew there was a better way.
+              </p>
+            </Reveal>
+            <Reveal delay={100}>
+              <p>
+                ReckoMEDIA is driven by experienced digital strategists, creative storytellers and
+                data wizards, dedicated to helping businesses achieve their online goals, from
+                growing brand awareness to generating leads and boosting sales.
+              </p>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-surface/35 py-20 md:py-28">
+        <div className="mx-auto max-w-7xl px-5 md:px-10">
+          <SectionIntro
+            eyebrow="Why choose us"
+            title="Why choose ReckoMEDIA?"
+            text="Choose us because we have the experience and solutions that work. We focus on making you successful with personalized strategies and reliable execution."
+          />
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {principles.map(({ icon: Icon, title, body }, index) => (
+              <article
+                key={title}
+                className="recko-principle-card min-h-64 border border-border bg-background p-6 sm:p-7"
+              >
+                <div className="flex items-center justify-between">
+                  <span className="grid size-11 place-items-center rounded-xl border border-primary/30 bg-primary/15 text-primary"><Icon size={24} weight="duotone" aria-hidden="true" /></span>
+                  <span className="font-mono text-xs text-muted-foreground">0{index + 1}</span>
+                </div>
+                <h3 className="mt-12 font-display text-xl font-semibold leading-snug">{title}</h3>
+                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{body}</p>
+              </article>
+>>>>>>> 570819fa94f67af3b6f72a72806689d4dea7b2b0
             ))}
           </div>
         </div>
@@ -122,9 +207,9 @@ export function AboutPage() {
       <section className="border-t border-border py-20 md:py-28">
         <div className="mx-auto max-w-7xl px-5 md:px-10">
           <SectionIntro
-            eyebrow="The partnership"
-            title="Work in the open, move with intent."
-            text="A straightforward rhythm helps everyone understand the work, make good decisions and see what comes next."
+            eyebrow="Vision, mission and support"
+            title="Excellence, learning and support."
+            text="We never settle; we continuously monitor and adjust your campaigns to maximize your ROI and stay ahead of the curve."
           />
           <div className="grid gap-0 border-t border-border md:grid-cols-4">
             {steps.map((step) => (
@@ -145,10 +230,10 @@ export function AboutPage() {
         <div className="mx-auto flex max-w-7xl flex-col gap-8 px-5 sm:flex-row sm:items-end sm:justify-between md:px-10">
           <div>
             <p className="mb-4 text-xs font-semibold uppercase tracking-[0.25em] opacity-75">
-              Let’s make progress
+              Contact us
             </p>
             <h2 className="max-w-3xl font-display text-4xl font-bold tracking-tight md:text-6xl">
-              Tell us where you want to go.
+              Craft your unique digital story.
             </h2>
           </div>
           <Link

@@ -1,0 +1,38 @@
+.recko-faq-trigger:focus-visible {
+  outline: 2px solid var(--brand-lime);
+  outline-offset: 4px;
+  border-radius: 8px;
+}
+.recko-faq-icon svg {
+  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.recko-faq-trigger[data-state="open"] .recko-faq-icon svg {
+  transform: rotate(135deg);
+}
+.recko-faq-trigger:hover span:nth-child(2) {
+  color: var(--brand-lime);
+}
+.recko-faq-content {
+  overflow: hidden;
+}
+.recko-faq-content[data-state="open"] {
+  animation: recko-faq-down 0.32s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.recko-faq-content[data-state="closed"] {
+  animation: recko-faq-up 0.26s cubic-bezier(0.4, 0, 0.2, 1);
+}
+@keyframes recko-faq-down {
+  from { height: 0; opacity: 0; }
+  to { height: var(--radix-accordion-content-height); opacity: 1; }
+}
+@keyframes recko-faq-up {
+  from { height: var(--radix-accordion-content-height); opacity: 1; }
+  to { height: 0; opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .recko-faq-content[data-state],
+  .recko-faq-icon svg {
+    animation: none;
+    transition: none;
+  }
+}

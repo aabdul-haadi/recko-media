@@ -183,7 +183,7 @@
   position: relative;
   display: grid;
   grid-template-columns: 62% 38%;
-  padding: 5.5rem var(--story-gutter) 3rem;
+  padding: 3.5rem var(--story-gutter) 3rem;
   border-top: 1px solid var(--story-divider);
   min-height: 28rem;
 }

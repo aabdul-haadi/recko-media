@@ -40,7 +40,11 @@ afterEach(cleanup);
 describe("Connected About and Growth Partnerships", () => {
   it("preserves navigation targets, Recko identity and every existing partnership item", () => {
     render(<ConnectedStory />);
+<<<<<<< HEAD
     expect(screen.getByRole("region", { name: /Empowering small businesses/ })).toHaveAttribute(
+=======
+    expect(screen.getByRole("region", { name: /Your trusted partner/ })).toHaveAttribute(
+>>>>>>> 570819fa94f67af3b6f72a72806689d4dea7b2b0
       "id",
       "about",
     );
@@ -77,9 +81,13 @@ describe("Connected About and Growth Partnerships", () => {
     render(<ConnectedStory />);
     expect(motion.fromTo).not.toHaveBeenCalled();
     expect(motion.from).not.toHaveBeenCalled();
+<<<<<<< HEAD
     expect(
       screen.getByRole("heading", { name: /Empowering small businesses/ }),
     ).toBeInTheDocument();
+=======
+    expect(screen.getByRole("heading", { name: /Your trusted partner/ })).toBeInTheDocument();
+>>>>>>> 570819fa94f67af3b6f72a72806689d4dea7b2b0
     expect(screen.getByRole("link", { name: /talk about your business/ })).toBeInTheDocument();
   });
 });

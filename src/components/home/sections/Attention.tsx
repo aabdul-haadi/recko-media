@@ -5,7 +5,7 @@ import { safeUrl, useSection } from "@/lib/content/content";
 export function Attention() {
   const { data: c } = useSection("attention");
   return (
-    <section className="recko-attention relative overflow-hidden border-t border-border py-24 md:py-36">
+    <section className="recko-attention relative overflow-hidden border-t border-border py-14 md:py-20">
       <div className="recko-attention-grid" aria-hidden="true" />
       <div className="relative z-10 mx-auto grid max-w-7xl gap-12 px-5 md:grid-cols-[1.2fr_1fr] md:px-10">
         <h2 className="font-display">
