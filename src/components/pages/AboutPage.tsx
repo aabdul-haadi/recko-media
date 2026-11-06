@@ -1,31 +1,9 @@
+import { websiteCopy } from "@/data/website-copy";
 import "./inner-visuals.css";
 import { Link } from "@tanstack/react-router";
-import { ArrowRight, ChartLineUp, Eye, Intersect, Target } from "@phosphor-icons/react";
+import { ArrowRight } from "@phosphor-icons/react";
 import { PageFrame, PageHero, SectionIntro } from "@/components/pages/PageFrame";
 import { Reveal } from "@/components/motion/SplitReveal";
-
-const principles = [
-  {
-    icon: Target,
-    title: "Start with the real problem",
-    body: "We get clear on the people, constraints and outcomes before choosing a direction.",
-  },
-  {
-    icon: Intersect,
-    title: "Connect the disciplines",
-    body: "Brand, experience, growth and technology work better when they share one plan.",
-  },
-  {
-    icon: Eye,
-    title: "Keep the work visible",
-    body: "Frequent check-ins and clear decisions make progress easier to understand.",
-  },
-  {
-    icon: ChartLineUp,
-    title: "Improve what matters",
-    body: "We use feedback and real use to shape the next useful iteration.",
-  },
-];
 
 const steps = [
   {
@@ -55,8 +33,8 @@ export function AboutPage() {
     <PageFrame>
       <PageHero
         eyebrow="About / ReckoMEDIA"
-        title="One team, built around your business."
-        description="We bring creative thinking, growth experience and practical technology together so the work feels connected from the first conversation to the day-to-day details."
+        title="Empowering small businesses through social media mastery."
+        description={websiteCopy.mission[0]!}
       />
 
       <section className="recko-about-studio" aria-label="Our connected disciplines">
@@ -107,55 +85,35 @@ export function AboutPage() {
       </section>
 
       <section className="border-b border-border py-20 md:py-28">
-        <div className="mx-auto grid max-w-7xl gap-12 px-5 md:grid-cols-[0.8fr_1.2fr] md:px-10">
-          <div>
-            <Reveal>
-              <p className="text-[0.7rem] font-semibold uppercase tracking-[0.3em] text-muted-foreground">
-                Why we’re here
-              </p>
-            </Reveal>
-            <h2 className="mt-5 font-display text-3xl font-bold tracking-tight sm:text-4xl">
-              Good work should make business feel simpler.
-            </h2>
-          </div>
-          <div className="space-y-5 text-base leading-relaxed text-muted-foreground md:text-lg">
-            <Reveal>
-              <p>
-                Growing a business can create a lot of moving parts. A new website, another
-                campaign, a new tool: each can help, but only when it connects to the way people
-                find you, choose you and work with you.
-              </p>
-            </Reveal>
-            <Reveal delay={100}>
-              <p>
-                ReckoMEDIA brings those parts into one conversation. We listen first, make the next
-                move clear and build with the people who will use the result.
-              </p>
-            </Reveal>
+        <div className="mx-auto max-w-7xl px-5 md:px-10">
+          <p className="recko-page-label">Welcome to Recko Media</p>
+          <h2 className="mt-5 max-w-3xl">
+            Achieve your digital goals with our social media marketing agency.
+          </h2>
+          <p className="mt-6 max-w-4xl text-muted-foreground">{websiteCopy.intro}</p>
+          <div className="mt-12 grid gap-6 md:grid-cols-3">
+            {[
+              { title: "Why Choose Us", body: websiteCopy.why },
+              { title: "Affordable Price For You", body: websiteCopy.price },
+              { title: "Best Strategy", body: websiteCopy.strategy },
+            ].map((item) => (
+              <article key={item.title} className="rounded-2xl border border-border bg-surface p-6">
+                <h3>{item.title}</h3>
+                <p className="mt-4 text-muted-foreground">{item.body}</p>
+              </article>
+            ))}
           </div>
         </div>
       </section>
-
-      <section className="bg-surface/35 py-20 md:py-28">
-        <div className="mx-auto max-w-7xl px-5 md:px-10">
-          <SectionIntro
-            eyebrow="What guides us"
-            title="Clear thinking. Useful work. Shared momentum."
-            text="The way we work matters as much as what we make. These principles keep the relationship practical, open and focused."
-          />
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {principles.map(({ icon: Icon, title, body }, index) => (
-              <article
-                key={title}
-                className="recko-principle-card min-h-64 border border-border bg-background p-6 sm:p-7"
-              >
-                <div className="flex items-center justify-between">
-                  <span className="grid size-11 place-items-center rounded-xl border border-primary/30 bg-primary/15 text-primary"><Icon size={24} weight="duotone" aria-hidden="true" /></span>
-                  <span className="font-mono text-xs text-muted-foreground">0{index + 1}</span>
-                </div>
-                <h3 className="mt-12 font-display text-xl font-semibold leading-snug">{title}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{body}</p>
-              </article>
+      <section className="border-b border-border py-20 md:py-28">
+        <div className="mx-auto grid max-w-7xl gap-8 px-5 md:grid-cols-2 md:px-10">
+          <div>
+            <p className="recko-page-label">Our Mission</p>
+            <h2 className="mt-5">Empowering small businesses through social media mastery.</h2>
+          </div>
+          <div className="space-y-5 text-muted-foreground">
+            {websiteCopy.mission.map((paragraph) => (
+              <p key={paragraph}>{paragraph}</p>
             ))}
           </div>
         </div>
@@ -200,6 +158,32 @@ export function AboutPage() {
             Start a conversation
             <ArrowRight className="size-4" />
           </Link>
+        </div>
+      </section>
+      <section className="border-t border-border py-20 md:py-28">
+        <div className="mx-auto max-w-7xl px-5 md:px-10">
+          <p className="recko-page-label">FAQs</p>
+          <h2 className="mt-4 mb-8">Frequently Asked Questions</h2>
+          <ul className="divide-y divide-border">
+            {websiteCopy.questions.map((question, index) => (
+              <li key={question} className="py-5">
+                {index === 3 ? (
+                  <details>
+                    <summary className="cursor-pointer font-medium">{question}</summary>
+                    <p className="mt-4 max-w-4xl text-muted-foreground">{websiteCopy.faqAnswer}</p>
+                  </details>
+                ) : (
+                  <p>{question}</p>
+                )}
+              </li>
+            ))}
+          </ul>
+          <p className="mt-6 text-muted-foreground">
+            Have another question?{" "}
+            <Link to="/contact" className="text-acid">
+              Contact Us
+            </Link>
+          </p>
         </div>
       </section>
     </PageFrame>

@@ -9,13 +9,23 @@ export const menuLinks: MenuLink[] = [
   { index: "01", name: "Home", detail: "Growth systems that move revenue", target: "/" },
   {
     index: "02",
-    name: "Services",
+    name: "Our Services",
     detail: "Creative, growth and technology",
     target: "/services",
   },
-  { index: "03", name: "Portfolio", detail: "Selected projects and capabilities", target: "/portfolio" },
-  { index: "04", name: "About", detail: "One team built around your business", target: "/about" },
-  { index: "05", name: "Contact", detail: "Tell us where you want to go", target: "/contact" },
+  {
+    index: "03",
+    name: "Portfolio",
+    detail: "Selected projects and capabilities",
+    target: "/portfolio",
+  },
+  {
+    index: "04",
+    name: "About Us",
+    detail: "One team built around your business",
+    target: "/about",
+  },
+  { index: "05", name: "Contact Us", detail: "Tell us where you want to go", target: "/contact" },
 ];
 
 export type ServiceItem = {
@@ -67,17 +77,32 @@ export const serviceTabs: ServiceTab[] = [
       {
         number: "01",
         title: "Social Media Advertising",
-        blurb: "Reach the right audience through strategic paid campaigns.",
+        blurb:
+          "Harness the power of social media platforms to connect with your audience and build meaningful relationships. Drive brand awareness, engagement, and conversions with our dynamic social media marketing strategies.",
       },
       {
         number: "02",
         title: "Search Engine Optimization",
-        blurb: "Improve visibility and help customers discover your business.",
+        blurb:
+          "Increase your website's visibility and ranking on search engines through strategic optimization techniques. Drive organic traffic and improve your online presence with our tailored SEO solutions.",
       },
       {
         number: "03",
         title: "Search Engine Marketing",
-        blurb: "Connect your business with people actively searching for your services.",
+        blurb:
+          "Achieve instant visibility and exposure for your business through targeted pay-per-click advertising campaigns. Maximize your ROI and reach your target audience effectively with our SEM services.",
+      },
+      {
+        number: "04",
+        title: "Facebook Ads",
+        blurb:
+          "Harness the power of social media with our targeted Facebook Ads. Reach your ideal audience, increase brand awareness, and drive conversions with engaging and effective ad campaigns.",
+      },
+      {
+        number: "05",
+        title: "Instagram Ads",
+        blurb:
+          "Capture the attention of millions of active users with Instagram Ads. From stunning visuals to compelling storytelling, we create campaigns that inspire, engage, and convert your target audience.",
       },
     ],
   },
@@ -90,7 +115,8 @@ export const serviceTabs: ServiceTab[] = [
       {
         number: "01",
         title: "Website Design & Development",
-        blurb: "Modern websites designed to communicate clearly and convert visitors.",
+        blurb:
+          "Create an impactful online presence with our top-notch website design and development services. We craft dynamic and user-friendly websites that effectively represent your brand, drive traffic, and generate leads.",
       },
       {
         number: "02",
@@ -118,7 +144,11 @@ export const processSteps: ProcessStep[] = [
     title: "Understand",
     description: "Find the friction, the opportunity and the next useful move.",
   },
-  { number: "02", title: "Design", description: "Shape the experience and the strategy behind it." },
+  {
+    number: "02",
+    title: "Design",
+    description: "Shape the experience and the strategy behind it.",
+  },
   {
     number: "03",
     title: "Build",

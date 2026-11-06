@@ -6,12 +6,17 @@ describe("site content", () => {
   it("falls back to built-in copy and services when nothing is published", () => {
     expect(fallbackContent.sections["hero"]!.data).toEqual(contentDefaults["hero"]);
     expect(fallbackContent.services).toEqual(defaultServices);
-    expect(fallbackContent.services).toHaveLength(9);
+    expect(fallbackContent.services).toHaveLength(11);
   });
   it("overlays published values on defaults and keeps missing fields", () => {
-    const content = buildContent([{ key: "hero", data: { headline_1: "New headline" }, enabled: true }], []);
+    const content = buildContent(
+      [{ key: "hero", data: { headline_1: "New headline" }, enabled: true }],
+      [],
+    );
     expect(content.sections["hero"]!.data["headline_1"]).toBe("New headline");
-    expect(content.sections["hero"]!.data["headline_2"]).toBe("that move");
+    expect(content.sections["hero"]!.data["headline_2"]).toBe(
+      contentDefaults["hero"]!["headline_2"],
+    );
   });
   it("respects disabled sections and an intentionally empty services list", () => {
     const content = buildContent([{ key: "work", data: {}, enabled: false }], []);

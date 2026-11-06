@@ -1,4 +1,4 @@
-﻿import { Reveal } from "@/components/motion/SplitReveal";
+import { Reveal } from "@/components/motion/SplitReveal";
 import { safeUrl, useSection } from "@/lib/content/content";
 
 export function Contact() {
@@ -20,7 +20,10 @@ export function Contact() {
           <h2 className="mb-8">{c["heading"]}</h2>
         </Reveal>
         <Reveal delay={100}>
-          <a href={safeUrl(c["cta_url"], "mailto:team@reckomedia.com")} className="recko-contact-cta group">
+          <a
+            href={safeUrl(c["cta_url"], "mailto:team@socialadservices.com")}
+            className="recko-contact-cta group"
+          >
             <span className="inline-block text-acid transition-transform duration-500 group-hover:-translate-x-3">
               [
             </span>

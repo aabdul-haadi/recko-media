@@ -1,3 +1,4 @@
+import { websiteCopy } from "@/data/website-copy";
 import { BrandLogo } from "./BrandLogo";
 import { menuLinks } from "@/data/home";
 import { Link } from "@tanstack/react-router";
@@ -45,7 +46,7 @@ export function Footer() {
             href={`mailto:${email}`}
             className="inline-flex w-fit items-center gap-2 rounded-full border border-border px-6 py-3 text-sm font-medium transition-colors duration-300 hover:border-acid hover:text-acid"
           >
-            Build your brief
+            Make Appointment
             <ArrowUpRight className="size-4" aria-hidden="true" />
           </a>
         </div>
@@ -131,8 +132,17 @@ export function Footer() {
             </li>
             <li className="flex items-start gap-3">
               <Phone className="mt-0.5 size-4 shrink-0 text-acid" aria-hidden="true" />
-              <a href={`tel:${phone.replace(/[^+\d]/g, "")}`} className="transition-colors hover:text-acid">
+              <a
+                href={`tel:${phone.replace(/[^+\d]/g, "")}`}
+                className="transition-colors hover:text-acid"
+              >
                 {phone}
+              </a>
+            </li>
+            <li className="flex items-start gap-3">
+              <Phone className="mt-0.5 size-4 shrink-0 text-acid" aria-hidden="true" />
+              <a href="tel:+19842741027" className="transition-colors hover:text-acid">
+                {websiteCopy.phoneInternational}
               </a>
             </li>
             <li className="flex items-start gap-3">
@@ -146,7 +156,9 @@ export function Footer() {
       {/* Bottom bar */}
       <div className="border-t border-border">
         <div className="mx-auto flex max-w-7xl flex-col gap-4 px-5 py-6 text-xs text-muted-foreground md:flex-row md:items-center md:justify-between md:px-10">
-          <p>© {year} {c["copyright"]}. All rights reserved.</p>
+          <p>
+            © {year} {c["copyright"]}. All rights reserved.
+          </p>
           <ul className="flex flex-wrap items-center gap-x-5 gap-y-2">
             {legal.map((item) => (
               <li key={item}>

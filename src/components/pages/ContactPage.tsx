@@ -1,3 +1,4 @@
+import { websiteCopy } from "@/data/website-copy";
 import "./inner-visuals.css";
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { ArrowRight, Check, Clock3, Mail, MapPin } from "lucide-react";
@@ -27,8 +28,12 @@ export function ContactPage() {
     const form = new FormData(formElement);
     const field = (key: string) => String(form.get(key) ?? "").trim();
     const values = {
-      name: field("name"), email: field("email"), phone: field("phone"),
-      company: field("company"), service: field("service"), message: field("message"),
+      name: field("name"),
+      email: field("email"),
+      phone: field("phone"),
+      company: field("company"),
+      service: field("service"),
+      message: field("message"),
     };
 
     const found = validateInquiry(values);
@@ -42,7 +47,9 @@ export function ContactPage() {
     const wait = cooldownRemaining();
     if (wait > 0) {
       setStatus("error");
-      setErrorMessage(`Your message was just sent. You can send another in ${Math.ceil(wait / 1000)} seconds.`);
+      setErrorMessage(
+        `Your message was just sent. You can send another in ${Math.ceil(wait / 1000)} seconds.`,
+      );
       return;
     }
 
@@ -53,10 +60,15 @@ export function ContactPage() {
     if (!isSupabaseConfigured()) {
       // Local/preview builds without Supabase keep the original email-app behaviour.
       const body = [
-        `Name: ${values.name}`, `Email: ${values.email}`, `Company: ${values.company || "Not provided"}`,
-        `Interested in: ${values.service}`, "", "Project details:", values.message,
+        `Name: ${values.name}`,
+        `Email: ${values.email}`,
+        `Company: ${values.company || "Not provided"}`,
+        `Interested in: ${values.service}`,
+        "",
+        "Project details:",
+        values.message,
       ].join("\n");
-      window.location.href = `mailto:team@reckomedia.com?subject=${encodeURIComponent(`Project inquiry from ${values.name}`)}&body=${encodeURIComponent(body)}`;
+      window.location.href = `mailto:team@socialadservices.com?subject=${encodeURIComponent(`Project inquiry from ${values.name}`)}&body=${encodeURIComponent(body)}`;
       busy.current = false;
       setStatus("sent");
       return;
@@ -74,7 +86,9 @@ export function ContactPage() {
       setLength(0);
       setStatus("sent");
     } catch (error) {
-      setErrorMessage(error instanceof Error ? error.message : "Something went wrong. Please try again.");
+      setErrorMessage(
+        error instanceof Error ? error.message : "Something went wrong. Please try again.",
+      );
       setStatus("error");
     } finally {
       busy.current = false;
@@ -91,8 +105,8 @@ export function ContactPage() {
     <PageFrame>
       <PageHero
         eyebrow="Contact / Start the conversation"
-        title="Tell us what you’re working toward."
-        description="Share the opportunity, the problem or the idea you want to explore. We’ll start with a useful conversation about what could come next."
+        title="Get In Touch"
+        description="Ready to take the next step? Let’s chat about how Recko Media can craft a winning digital marketing strategy that ignites your online presence."
       />
 
       <section className="py-16 md:py-24">
@@ -121,13 +135,25 @@ export function ContactPage() {
                 Reach the team
               </p>
               <a
-                href="mailto:team@reckomedia.com"
+                href="mailto:team@socialadservices.com"
                 className="recko-contact-email mt-4 inline-flex items-center gap-3 text-lg font-medium transition-colors hover:text-primary sm:text-xl"
               >
                 <Mail className="size-5 text-primary" />
-                team@reckomedia.com
+                team@socialadservices.com
               </a>
             </Reveal>
+            <div className="mt-5 flex flex-col items-start gap-3 text-muted-foreground">
+              <a href="tel:+923272514632" className="hover:text-acid">
+                {websiteCopy.phone}
+              </a>
+              <a href="tel:+19842741027" className="hover:text-acid">
+                {websiteCopy.phoneInternational}
+              </a>
+              <p>{websiteCopy.address}</p>
+              <a href="https://wa.me/923272514632" className="hover:text-acid">
+                Chat on WhatsApp
+              </a>
+            </div>
             <div className="mt-10 space-y-6 border-t border-border pt-7">
               <Reveal delay={80}>
                 <div className="flex gap-4">
@@ -150,7 +176,7 @@ export function ContactPage() {
                   <div>
                     <h2 className="font-semibold">Working together</h2>
                     <p className="mt-1 max-w-sm text-sm leading-relaxed text-muted-foreground">
-                      Remote-friendly collaboration, built around your team and time zone.
+                      Find us in Gulshan-e-Iqbal, Karachi, Pakistan.
                     </p>
                   </div>
                 </div>
@@ -168,9 +194,12 @@ export function ContactPage() {
                 <span className="recko-success-check" aria-hidden="true">
                   <Check className="size-8" strokeWidth={3} />
                 </span>
-                <h2 className="mt-6 font-display text-2xl font-bold sm:text-3xl">Message received.</h2>
+                <h2 className="mt-6 font-display text-2xl font-bold sm:text-3xl">
+                  Message received.
+                </h2>
                 <p className="mx-auto mt-3 max-w-sm text-sm leading-relaxed text-muted-foreground">
-                  Thank you. We have your inquiry and will reply personally, usually within one working day.
+                  Thank you. We have your inquiry and will reply personally, usually within one
+                  working day.
                 </p>
                 <button
                   type="button"
@@ -187,13 +216,18 @@ export function ContactPage() {
                 className="recko-contact-form border border-border bg-surface/45 p-5 sm:p-8 md:p-10"
               >
                 <div className="mb-8">
-                  <p className="text-xs font-semibold uppercase tracking-[0.25em] text-primary">Project inquiry</p>
+                  <p className="text-xs font-semibold uppercase tracking-[0.25em] text-primary">
+                    Project inquiry
+                  </p>
                   <h2 className="mt-3 font-display text-2xl font-bold sm:text-3xl">
                     What would you like to make happen?
                   </h2>
                 </div>
                 <div className="grid gap-5 sm:grid-cols-2">
-                  <div className="absolute -left-[9999px] h-0 w-0 overflow-hidden" aria-hidden="true">
+                  <div
+                    className="absolute -left-[9999px] h-0 w-0 overflow-hidden"
+                    aria-hidden="true"
+                  >
                     <label>
                       Leave this field empty
                       <input type="text" name="website" tabIndex={-1} autoComplete="off" />
@@ -201,22 +235,80 @@ export function ContactPage() {
                   </div>
                   <label className="text-sm font-medium">
                     Your name
-                    <input className={inputClass} type="text" name="name" autoComplete="name" placeholder="Name" maxLength={200} aria-invalid={Boolean(errors["name"])} aria-describedby={errors["name"] ? "err-name" : undefined} />
-                    {errors["name"] && <span id="err-name" role="alert" className="mt-1.5 block text-xs text-red-400">{errors["name"]}</span>}
+                    <input
+                      className={inputClass}
+                      type="text"
+                      name="name"
+                      autoComplete="name"
+                      placeholder="Name"
+                      maxLength={200}
+                      aria-invalid={Boolean(errors["name"])}
+                      aria-describedby={errors["name"] ? "err-name" : undefined}
+                    />
+                    {errors["name"] && (
+                      <span
+                        id="err-name"
+                        role="alert"
+                        className="mt-1.5 block text-xs text-red-400"
+                      >
+                        {errors["name"]}
+                      </span>
+                    )}
                   </label>
                   <label className="text-sm font-medium">
                     Email address
-                    <input className={inputClass} type="email" name="email" autoComplete="email" placeholder="you@company.com" maxLength={320} aria-invalid={Boolean(errors["email"])} aria-describedby={errors["email"] ? "err-email" : undefined} />
-                    {errors["email"] && <span id="err-email" role="alert" className="mt-1.5 block text-xs text-red-400">{errors["email"]}</span>}
+                    <input
+                      className={inputClass}
+                      type="email"
+                      name="email"
+                      autoComplete="email"
+                      placeholder="you@company.com"
+                      maxLength={320}
+                      aria-invalid={Boolean(errors["email"])}
+                      aria-describedby={errors["email"] ? "err-email" : undefined}
+                    />
+                    {errors["email"] && (
+                      <span
+                        id="err-email"
+                        role="alert"
+                        className="mt-1.5 block text-xs text-red-400"
+                      >
+                        {errors["email"]}
+                      </span>
+                    )}
                   </label>
                   <label className="text-sm font-medium">
                     Phone <span className="text-muted-foreground">(optional)</span>
-                    <input className={inputClass} type="tel" name="phone" autoComplete="tel" placeholder="+92 300 0000000" maxLength={50} aria-invalid={Boolean(errors["phone"])} aria-describedby={errors["phone"] ? "err-phone" : undefined} />
-                    {errors["phone"] && <span id="err-phone" role="alert" className="mt-1.5 block text-xs text-red-400">{errors["phone"]}</span>}
+                    <input
+                      className={inputClass}
+                      type="tel"
+                      name="phone"
+                      autoComplete="tel"
+                      placeholder="+92 300 0000000"
+                      maxLength={50}
+                      aria-invalid={Boolean(errors["phone"])}
+                      aria-describedby={errors["phone"] ? "err-phone" : undefined}
+                    />
+                    {errors["phone"] && (
+                      <span
+                        id="err-phone"
+                        role="alert"
+                        className="mt-1.5 block text-xs text-red-400"
+                      >
+                        {errors["phone"]}
+                      </span>
+                    )}
                   </label>
                   <label className="text-sm font-medium">
                     Company <span className="text-muted-foreground">(optional)</span>
-                    <input className={inputClass} type="text" name="company" autoComplete="organization" placeholder="Your company" maxLength={200} />
+                    <input
+                      className={inputClass}
+                      type="text"
+                      name="company"
+                      autoComplete="organization"
+                      placeholder="Your company"
+                      maxLength={200}
+                    />
                   </label>
                   <label className="text-sm font-medium sm:col-span-2">
                     Area of interest
@@ -226,6 +318,9 @@ export function ContactPage() {
                       <option>Growth and marketing</option>
                       <option>Web and technology</option>
                       <option>Ongoing partnership</option>
+                      {websiteCopy.services.map((service) => (
+                        <option key={service.title}>{service.title}</option>
+                      ))}
                     </select>
                   </label>
                   <label className="text-sm font-medium sm:col-span-2">
@@ -240,7 +335,13 @@ export function ContactPage() {
                       aria-describedby={errors["message"] ? "err-message" : undefined}
                     />
                     <span className="mt-1.5 flex items-start justify-between gap-3 text-xs">
-                      <span id="err-message" role={errors["message"] ? "alert" : undefined} className="text-red-400">{errors["message"]}</span>
+                      <span
+                        id="err-message"
+                        role={errors["message"] ? "alert" : undefined}
+                        className="text-red-400"
+                      >
+                        {errors["message"]}
+                      </span>
                       <span className="ml-auto shrink-0 text-muted-foreground">{length}/5000</span>
                     </span>
                   </label>
@@ -254,10 +355,15 @@ export function ContactPage() {
                     {status === "sending" ? "Sending…" : "Send inquiry"}
                     <ArrowRight className="size-4" />
                   </button>
-                  <p className="text-xs leading-relaxed text-muted-foreground">We reply to every inquiry personally.</p>
+                  <p className="text-xs leading-relaxed text-muted-foreground">
+                    We reply to every inquiry personally.
+                  </p>
                 </div>
                 {status === "error" && (
-                  <p className="mt-5 rounded-lg border border-red-400/40 bg-red-500/10 p-3 text-sm text-red-300" role="alert">
+                  <p
+                    className="mt-5 rounded-lg border border-red-400/40 bg-red-500/10 p-3 text-sm text-red-300"
+                    role="alert"
+                  >
                     {errorMessage}
                   </p>
                 )}

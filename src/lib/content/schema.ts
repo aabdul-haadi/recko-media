@@ -1,3 +1,4 @@
+import { websiteCopy } from "@/data/website-copy";
 import { partnershipItems, processSteps, serviceTabs } from "@/data/home";
 
 /** Field types the homepage editor can render. */
@@ -19,16 +20,28 @@ export type SectionDef = {
 export type SectionData = Record<string, unknown>;
 
 const reviewsDefault = [
+  websiteCopy.testimonial,
+  {
+    quote: "The new site finally makes it easy for the right customers to understand what we do.",
+    name: "Example: Marketing Director",
+    role: "Sample review / B2B technology",
+  },
+  {
+    quote: "We have a clearer brand, a better customer journey and a team that keeps improving it.",
+    name: "Example: Founder",
+    role: "Sample review / Consumer brand",
+  },
   {
     quote:
-      "The team has been on their toes since day one and helped us work through everything in the best possible way. Their knowledge of web development and commitment to answering every query made the experience genuinely valuable.",
-    name: "Scrubbers Med",
-    role: "",
+      "The automation gave our team hours back each week, and it fits the way we already work.",
+    name: "Example: Operations Lead",
+    role: "Sample review / Professional services",
   },
-  { quote: "The new site finally makes it easy for the right customers to understand what we do.", name: "Marketing Director", role: "B2B technology" },
-  { quote: "We have a clearer brand, a better customer journey and a team that keeps improving it.", name: "Founder", role: "Consumer brand" },
-  { quote: "The automation gave our team hours back each week, and it fits the way we already work.", name: "Operations Lead", role: "Professional services" },
-  { quote: "Everything feels connected now: our campaigns, our website and the way we follow up.", name: "Managing Partner", role: "Growth stage business" },
+  {
+    quote: "Everything feels connected now: our campaigns, our website and the way we follow up.",
+    name: "Example: Managing Partner",
+    role: "Sample review / Growth stage business",
+  },
 ];
 
 export const sectionDefs: SectionDef[] = [
@@ -38,12 +51,29 @@ export const sectionDefs: SectionDef[] = [
     description: "Title, description and social sharing details for the homepage.",
     toggleable: false,
     fields: [
-      { name: "title", label: "SEO title", type: "text", max: 70, help: "Shown in search results. Keep under 60 characters." },
-      { name: "description", label: "Meta description", type: "textarea", max: 320, help: "Aim for 140–160 characters." },
+      {
+        name: "title",
+        label: "SEO title",
+        type: "text",
+        max: 70,
+        help: "Shown in search results. Keep under 60 characters.",
+      },
+      {
+        name: "description",
+        label: "Meta description",
+        type: "textarea",
+        max: 320,
+        help: "Aim for 140–160 characters.",
+      },
       { name: "og_title", label: "Social share title", type: "text", max: 100 },
       { name: "og_description", label: "Social share description", type: "textarea", max: 300 },
       { name: "og_image", label: "Social share image URL", type: "url" },
-      { name: "canonical", label: "Canonical URL", type: "url", help: "Leave empty to use the page's own address." },
+      {
+        name: "canonical",
+        label: "Canonical URL",
+        type: "url",
+        help: "Leave empty to use the page's own address.",
+      },
     ],
   },
   {
@@ -58,7 +88,12 @@ export const sectionDefs: SectionDef[] = [
       { name: "headline_highlight", label: "Highlighted word", type: "text", max: 40 },
       { name: "subtitle", label: "Subheading", type: "textarea", max: 300 },
       { name: "cta_label", label: "Button text", type: "text", max: 40 },
-      { name: "cta_url", label: "Button link", type: "url", help: "Use #contact for the contact section, or a full address." },
+      {
+        name: "cta_url",
+        label: "Button link",
+        type: "url",
+        help: "Use #contact for the contact section, or a full address.",
+      },
       { name: "scroll_label", label: "Scroll hint", type: "text", max: 30 },
     ],
   },
@@ -86,7 +121,11 @@ export const sectionDefs: SectionDef[] = [
       { name: "eyebrow", label: "Eyebrow", type: "text", max: 60 },
       { name: "heading", label: "Heading", type: "text", max: 100 },
       {
-        name: "steps", label: "Steps", type: "list", itemLabel: "Step", max: 8,
+        name: "steps",
+        label: "Steps",
+        type: "list",
+        itemLabel: "Step",
+        max: 8,
         fields: [
           { name: "title", label: "Title", type: "text", max: 60 },
           { name: "description", label: "Description", type: "textarea", max: 250 },
@@ -108,7 +147,11 @@ export const sectionDefs: SectionDef[] = [
       { name: "description_2", label: "Paragraph 2", type: "textarea", max: 500 },
       { name: "link_label", label: "Link text", type: "text", max: 50 },
       {
-        name: "pillars", label: "Pillars", type: "list", itemLabel: "Pillar", max: 6,
+        name: "pillars",
+        label: "Pillars",
+        type: "list",
+        itemLabel: "Pillar",
+        max: 6,
         fields: [
           { name: "title", label: "Title", type: "text", max: 40 },
           { name: "line", label: "One-line description", type: "text", max: 160 },
@@ -155,7 +198,11 @@ export const sectionDefs: SectionDef[] = [
       { name: "eyebrow", label: "Eyebrow", type: "text", max: 60 },
       { name: "heading", label: "Heading", type: "text", max: 100 },
       {
-        name: "items", label: "Testimonials", type: "list", itemLabel: "Testimonial", max: 20,
+        name: "items",
+        label: "Testimonials",
+        type: "list",
+        itemLabel: "Testimonial",
+        max: 20,
         fields: [
           { name: "quote", label: "Quote", type: "textarea", max: 600 },
           { name: "name", label: "Name / company", type: "text", max: 80 },
@@ -186,7 +233,12 @@ export const sectionDefs: SectionDef[] = [
       { name: "eyebrow", label: "Eyebrow", type: "text", max: 60 },
       { name: "heading", label: "Heading", type: "text", max: 100 },
       { name: "cta_label", label: "Button text", type: "text", max: 50 },
-      { name: "cta_url", label: "Button link", type: "url", help: "Example: mailto:team@reckomedia.com or /contact" },
+      {
+        name: "cta_url",
+        label: "Button link",
+        type: "url",
+        help: "Example: mailto:team@socialadservices.com or /contact",
+      },
       { name: "text", label: "Paragraph", type: "textarea", max: 300 },
     ],
   },
@@ -204,7 +256,11 @@ export const sectionDefs: SectionDef[] = [
       { name: "phone", label: "Phone", type: "text", max: 50 },
       { name: "address", label: "Address", type: "text", max: 200 },
       {
-        name: "socials", label: "Social links", type: "list", itemLabel: "Link", max: 10,
+        name: "socials",
+        label: "Social links",
+        type: "list",
+        itemLabel: "Link",
+        max: 10,
         fields: [
           { name: "label", label: "Name", type: "text", max: 40 },
           { name: "href", label: "URL", type: "url" },
@@ -215,7 +271,7 @@ export const sectionDefs: SectionDef[] = [
   },
 ];
 
-export const contentDefaults: Record<string, SectionData> = {
+const baseContentDefaults: Record<string, SectionData> = {
   seo: {
     title: "ReckoMEDIA — Web Design, AI Automation & Digital Marketing",
     description:
@@ -231,7 +287,8 @@ export const contentDefaults: Record<string, SectionData> = {
     headline_1: "Growth systems",
     headline_2: "that move",
     headline_highlight: "revenue.",
-    subtitle: "Web design, AI automation and digital marketing, working together to help your business grow.",
+    subtitle:
+      "Web design, AI automation and digital marketing, working together to help your business grow.",
     cta_label: "Build your brief",
     cta_url: "#contact",
     scroll_label: "Scroll",
@@ -271,8 +328,7 @@ export const contentDefaults: Record<string, SectionData> = {
     heading_1: "One team.",
     heading_2: "Built around",
     heading_3: "your business.",
-    copy:
-      "An ongoing partnership bringing strategy, creative, marketing and technology together, from setting priorities to building, launching and improving.",
+    copy: "An ongoing partnership bringing strategy, creative, marketing and technology together, from setting priorities to building, launching and improving.",
     items: [...partnershipItems],
     cta_label: "Let’s talk about your business",
     cta_url: "#contact",
@@ -282,7 +338,12 @@ export const contentDefaults: Record<string, SectionData> = {
     heading: "See what we’ve been building.",
     description:
       "From memorable brand campaigns to digital experiences and performance driven marketing, explore the work we’ve created for businesses across different industries.",
-    categories: ["Web & E-commerce", "Social Media Campaigns", "Media Buying Case Studies", "Content Production"],
+    categories: [
+      "Web & E-commerce",
+      "Social Media Campaigns",
+      "Media Buying Case Studies",
+      "Content Production",
+    ],
     cta_label: "Explore our portfolio",
     cta_url: "/portfolio",
   },
@@ -290,8 +351,7 @@ export const contentDefaults: Record<string, SectionData> = {
   attention: {
     heading_1: "Your ambition.",
     heading_2: "Our attention.",
-    text:
-      "Good partnerships need more than a handoff. They need clear roles, honest conversations and people who care about the result.",
+    text: "Good partnerships need more than a handoff. They need clear roles, honest conversations and people who care about the result.",
     cta_label: "Meet ReckoMEDIA",
     cta_url: "/about",
   },
@@ -299,11 +359,12 @@ export const contentDefaults: Record<string, SectionData> = {
     eyebrow: "Start the conversation",
     heading: "Let's build what's next.",
     cta_label: "Build your brief",
-    cta_url: "mailto:team@reckomedia.com",
+    cta_url: "mailto:team@socialadservices.com",
     text: "Tell us where you want to go. We'll work out what comes next.",
   },
   footer: {
-    tagline: "Web design, AI automation and digital marketing, built together to grow your business.",
+    tagline:
+      "Web design, AI automation and digital marketing, built together to grow your business.",
     cta_heading: "Ready to grow?",
     cta_highlight: "Let’s talk.",
     services: [
@@ -315,7 +376,7 @@ export const contentDefaults: Record<string, SectionData> = {
       "Website Design & Development",
       "AI Automation",
     ],
-    email: "team@reckomedia.com",
+    email: "team@socialadservices.com",
     phone: "0327 2514632",
     address: "Karachi, Pakistan",
     socials: [
@@ -327,6 +388,111 @@ export const contentDefaults: Record<string, SectionData> = {
     copyright: "ReckoMEDIA",
   },
 };
+
+const suppliedCopy: Record<string, SectionData> = {
+  seo: {
+    title: "Recko Media | Social Media Marketing Agency",
+    description:
+      "Achieve your digital goals with Recko Media. Social media advertising, SEO, website design and development, search engine marketing, Facebook Ads and Instagram Ads.",
+    og_title: "Recko Media | Social Media Marketing Agency",
+    og_description:
+      "Personalized strategies and reliable execution to help your small business grow online.",
+  },
+  hero: {
+    label: "Welcome to Recko Media",
+    headline_1: "Achieve your digital goals",
+    headline_2: "with our social media",
+    headline_highlight: "marketing agency.",
+    subtitle:
+      "Your brand deserves to shine, not get swallowed by social media noise or buried in search results. We turn clicks into customers and likes into loyal fans.",
+    cta_label: "Get Started",
+    cta_url: "/contact",
+  },
+  services_intro: {
+    eyebrow: "Our Services",
+    heading: "Services offered by our social media marketing agency",
+    subheading:
+      "Connect with your audience, increase your visibility and build an impactful online presence.",
+  },
+  about: {
+    label: "OUR MISSION",
+    heading_1: "Empowering small businesses.",
+    heading_2: "Through social media mastery.",
+    intro:
+      "At Recko Media, our mission is clear: to empower small businesses and propel them to online success through the magic of social media marketing.",
+    description_1:
+      "We understand the unique challenges faced by small businesses \u2013 limited budgets, tight resources, and the constant pressure to stand out in a crowded marketplace. That\u2019s why we\u2019re passionate about providing accessible, results-driven social media solutions that level the playing field and help you compete with the big brands.",
+    description_2:
+      "We believe that every small business, no matter the size or industry, deserves a powerful social media presence.",
+    link_label: "About Us",
+  },
+  work: {
+    eyebrow: "Our Portfolio",
+    heading: "Our work, across the digital world.",
+    description:
+      "Explore our capabilities across websites, e-commerce, social media and media buying.",
+    categories: ["WEB & ECOM PORTFOLIO", "SOCIAL MEDIA PORTFOLIO", "MEDIA BUYING CASE STUDIES"],
+    cta_label: "View All Portfolio",
+    cta_url: "/portfolio",
+  },
+  reviews: {
+    eyebrow: "Testimonials",
+    heading: "What clients say about Recko Media",
+  },
+  attention: {
+    heading_1: "Why choose us?",
+    heading_2: "Strategies built for you.",
+    text: "Choose us because we have the experience and solutions that work. We focus on making you successful with personalized strategies and reliable execution.",
+    cta_label: "About Us",
+    cta_url: "/about",
+  },
+  contact: {
+    eyebrow: "Get In Touch",
+    heading: "Ready to take the next step?",
+    cta_label: "Make Appointment",
+    cta_url: "/contact",
+    text: "Let's chat about how Recko Media can craft a winning digital marketing strategy that ignites your online presence.",
+  },
+  footer: {
+    tagline:
+      "Recko Media is your one-stop social media marketing agency, here to turn clicks into customers and likes into loyal fans.",
+    cta_heading: "Ready to take the next step?",
+    cta_highlight: "Let's chat.",
+    services: [
+      "Social Media Advertising",
+      "Search Engine Optimization",
+      "Website Design & Development",
+      "Search Engine Marketing",
+      "Facebook Ads",
+      "Instagram Ads",
+    ],
+    email: "team@socialadservices.com",
+    phone: "(+92) 327 2514632",
+    address: "Gulshan-e-Iqbal, Karachi, PAK",
+    socials: [
+      {
+        label: "WhatsApp",
+        href: "https://wa.me/923272514632",
+      },
+      {
+        label: "Email",
+        href: "mailto:team@socialadservices.com",
+      },
+      {
+        label: "Phone",
+        href: "tel:+923272514632",
+      },
+    ],
+    copyright: "Recko Media",
+  },
+};
+
+export const contentDefaults: Record<string, SectionData> = Object.fromEntries(
+  Object.entries(baseContentDefaults).map(([key, value]) => [
+    key,
+    { ...value, ...suppliedCopy[key] },
+  ]),
+);
 
 export type ServiceCategory = "creative" | "growth" | "technology";
 export const SERVICE_CATEGORIES: ServiceCategory[] = ["creative", "growth", "technology"];
@@ -356,7 +522,10 @@ export const SERVICE_COLUMNS =
 export const defaultServices: PublicService[] = serviceTabs.flatMap((tab) =>
   tab.items.map((item, i) => ({
     id: `${tab.id}-${i}`,
-    slug: item.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, ""),
+    slug: item.title
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/(^-|-$)/g, ""),
     category: tab.id as ServiceCategory,
     title: item.title,
     summary: item.blurb,

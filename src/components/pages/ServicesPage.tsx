@@ -54,8 +54,8 @@ export function ServicesPage() {
     <PageFrame>
       <PageHero
         eyebrow="Services / Strategy, design, technology"
-        title="Everything connected. Everything moving."
-        description="Bring your brand, digital experience and operations into one practical growth system. Start with a focused need or build a joined-up plan across the whole business."
+        title="Services offered by our social media marketing agency"
+        description="Connect with your audience, strengthen your online presence and turn attention into customers with tailored digital marketing services."
       />
 
       <section className="recko-services-intro" aria-label="Explore our capabilities visually">

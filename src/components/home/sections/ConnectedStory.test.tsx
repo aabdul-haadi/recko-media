@@ -1,4 +1,4 @@
-﻿import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { cleanup, render, screen, within } from "@testing-library/react";
 import { ConnectedStory } from "./ConnectedStory";
 import { partnershipItems } from "@/data/home";
@@ -40,17 +40,14 @@ afterEach(cleanup);
 describe("Connected About and Growth Partnerships", () => {
   it("preserves navigation targets, Recko identity and every existing partnership item", () => {
     render(<ConnectedStory />);
-    expect(screen.getByRole("region", { name: /One connected path/ })).toHaveAttribute(
+    expect(screen.getByRole("region", { name: /Empowering small businesses/ })).toHaveAttribute(
       "id",
       "about",
     );
     const partnership = screen.getByRole("region", { name: /One team/ });
     expect(partnership).toHaveAttribute("id", "partnership");
     expect(screen.getByLabelText("ReckoMEDIA")).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "Meet ReckoMEDIA" })).toHaveAttribute(
-      "href",
-      "#partnership",
-    );
+    expect(screen.getByRole("link", { name: "About Us" })).toHaveAttribute("href", "#partnership");
     expect(screen.getByRole("link", { name: /talk about your business/ })).toHaveAttribute(
       "href",
       "#contact",
@@ -80,7 +77,9 @@ describe("Connected About and Growth Partnerships", () => {
     render(<ConnectedStory />);
     expect(motion.fromTo).not.toHaveBeenCalled();
     expect(motion.from).not.toHaveBeenCalled();
-    expect(screen.getByRole("heading", { name: /One connected path/ })).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: /Empowering small businesses/ }),
+    ).toBeInTheDocument();
     expect(screen.getByRole("link", { name: /talk about your business/ })).toBeInTheDocument();
   });
 });
