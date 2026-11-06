@@ -56,3 +56,8 @@
     animation: none;
   }
 }
+
+.recko-hero .transition-transform,
+.recko-hero .transition-\[opacity\,transform\] {
+  transition-duration: 350ms;
+}

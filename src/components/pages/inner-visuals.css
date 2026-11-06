@@ -223,23 +223,56 @@
   background: var(--brand-lime);
   color: var(--brand-ink);
   box-shadow: 0 0 0 0 rgb(201 247 59 / 0.5);
-  animation: recko-success-pop 0.55s cubic-bezier(0.2, 1.2, 0.3, 1) both, recko-success-ring 1.6s ease-out 0.4s 2;
+  animation:
+    recko-success-pop 0.55s cubic-bezier(0.2, 1.2, 0.3, 1) both,
+    recko-success-ring 1.6s ease-out 0.4s 2;
 }
 .recko-contact-success {
   animation: recko-success-rise 0.5s ease both;
 }
 @keyframes recko-success-pop {
-  from { transform: scale(0.4); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
+  from {
+    transform: scale(0.4);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 @keyframes recko-success-ring {
-  from { box-shadow: 0 0 0 0 rgb(201 247 59 / 0.5); }
-  to { box-shadow: 0 0 0 28px rgb(201 247 59 / 0); }
+  from {
+    box-shadow: 0 0 0 0 rgb(201 247 59 / 0.5);
+  }
+  to {
+    box-shadow: 0 0 0 28px rgb(201 247 59 / 0);
+  }
 }
 @keyframes recko-success-rise {
-  from { opacity: 0; transform: translateY(12px); }
-  to { opacity: 1; transform: none; }
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 @media (prefers-reduced-motion: reduce) {
-  .recko-success-check, .recko-contact-success { animation: none; }
+  .recko-success-check,
+  .recko-contact-success {
+    animation: none;
+  }
+}
+
+/* Separate the first visual panels from the page hero divider on every screen. */
+.recko-page-frame main > .recko-about-studio {
+  padding-block: clamp(36px, 5vw, 64px);
+}
+.recko-contact-aside,
+.recko-contact-form {
+  min-width: 0;
+}
+.recko-contact-art {
+  margin-top: 0;
 }

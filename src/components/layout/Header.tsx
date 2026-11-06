@@ -1,3 +1,4 @@
+import { useRouter } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 import { X, Menu, ArrowUpRight } from "lucide-react";
@@ -8,6 +9,7 @@ import { BrandLogo } from "./BrandLogo";
 import "./header-menu.css";
 
 export function Header() {
+  const router = useRouter({ warn: false });
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const navigationTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
@@ -41,7 +43,8 @@ export function Header() {
     // Let the dialog release the scroll lock before navigating.
     navigationTimer.current = setTimeout(() => {
       if (target.startsWith("/")) {
-        window.location.assign(target);
+        if (router) void router.navigate({ href: target });
+        else window.location.assign(target);
       } else if (document.querySelector(target)) {
         scrollToId(target);
       } else {
@@ -54,18 +57,68 @@ export function Header() {
     <Dialog.Root open={open} onOpenChange={setOpen}>
       <header className={cn("recko-site-header", scrolled && "recko-header-scrolled")}>
         <div className="recko-header-bar">
-          <a href="/" className="recko-header-brand" aria-label="Recko Media home">
+          <a
+            href="/"
+            className="recko-header-brand"
+            onClick={(event) => {
+              if (
+                router &&
+                event.button === 0 &&
+                !event.ctrlKey &&
+                !event.metaKey &&
+                !event.shiftKey &&
+                !event.altKey
+              ) {
+                event.preventDefault();
+                void router.navigate({ href: "/" });
+              }
+            }}
+            aria-label="Recko Media home"
+          >
             <BrandLogo />
           </a>
           <nav className="recko-desktop-nav" aria-label="Main navigation">
             {menuLinks.map((link) => (
-              <a key={link.index} href={link.target} title={link.detail}>
+              <a
+                key={link.index}
+                href={link.target}
+                title={link.detail}
+                onClick={(event) => {
+                  if (
+                    router &&
+                    event.button === 0 &&
+                    !event.ctrlKey &&
+                    !event.metaKey &&
+                    !event.shiftKey &&
+                    !event.altKey
+                  ) {
+                    event.preventDefault();
+                    void router.navigate({ href: link.target });
+                  }
+                }}
+              >
                 {link.name}
               </a>
             ))}
           </nav>
           <div className="recko-header-actions">
-            <a href="/contact" className="recko-header-contact">
+            <a
+              href="/contact"
+              className="recko-header-contact"
+              onClick={(event) => {
+                if (
+                  router &&
+                  event.button === 0 &&
+                  !event.ctrlKey &&
+                  !event.metaKey &&
+                  !event.shiftKey &&
+                  !event.altKey
+                ) {
+                  event.preventDefault();
+                  void router.navigate({ href: "/contact" });
+                }
+              }}
+            >
               Let's talk <ArrowUpRight size={16} aria-hidden="true" />
             </a>
             <Dialog.Trigger asChild>

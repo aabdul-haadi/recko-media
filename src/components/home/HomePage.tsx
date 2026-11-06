@@ -6,7 +6,7 @@ import { Services } from "./sections/Services";
 import { Process } from "./sections/Process";
 import { ConnectedStory } from "./sections/ConnectedStory";
 import { Work } from "./sections/Work";
-import { MotionHighlights } from "./sections/MotionHighlights";
+import { DeferredMotionHighlights } from "./DeferredMotionHighlights";
 import { Reviews } from "./sections/Reviews";
 import { Attention } from "./sections/Attention";
 import { Faq } from "./sections/Faq";
@@ -28,14 +28,26 @@ export function HomePage() {
       <Header />
       <main>
         <Hero />
-        <Toggle name="services_intro"><Services /></Toggle>
-        <Toggle name="process"><Process /></Toggle>
+        <Toggle name="services_intro">
+          <Services />
+        </Toggle>
+        <Toggle name="process">
+          <Process />
+        </Toggle>
         <ConnectedStory />
-        <Toggle name="work"><Work /></Toggle>
-        <MotionHighlights />
-        <Toggle name="reviews"><Reviews /></Toggle>
-        <Toggle name="faq"><Faq /></Toggle>
-        <Toggle name="attention"><Attention /></Toggle>
+        <Toggle name="work">
+          <Work />
+        </Toggle>
+        <DeferredMotionHighlights />
+        <Toggle name="reviews">
+          <Reviews />
+        </Toggle>
+        <Toggle name="faq">
+          <Faq />
+        </Toggle>
+        <Toggle name="attention">
+          <Attention />
+        </Toggle>
         <Contact />
       </main>
       <Footer />

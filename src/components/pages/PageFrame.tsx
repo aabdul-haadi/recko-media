@@ -26,7 +26,7 @@ export function PageHero({
   description: string;
 }) {
   return (
-    <section className="starfield relative overflow-hidden border-b border-border pt-32 sm:pt-40">
+    <section className="recko-page-hero starfield relative overflow-hidden border-b border-border pt-32 sm:pt-40">
       <div
         aria-hidden
         className="pointer-events-none absolute -right-48 top-12 size-[32rem] rounded-full bg-primary/10 blur-[120px]"

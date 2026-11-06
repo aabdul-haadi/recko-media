@@ -691,3 +691,12 @@
     padding: 16px 12px;
   }
 }
+
+/* Keep category chips clear of the opening section divider. */
+.recko-portfolio-v2 .recko-page-hero {
+  border-bottom: 0;
+}
+.recko-portfolio-v2 > [aria-label="Portfolio disciplines"] {
+  padding-top: 24px;
+  padding-bottom: 8px;
+}
