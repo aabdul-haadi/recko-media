@@ -65,7 +65,7 @@ export function InquiryForm({ source = "contact-page" }: { source?: string }) {
         "Project details:",
         values.message,
       ].join("\n");
-      window.location.href = `mailto:team@reckomedia.com?subject=${encodeURIComponent(`Project inquiry from ${values.name}`)}&body=${encodeURIComponent(body)}`;
+      window.location.href = `mailto:team@socialadservices.com?subject=${encodeURIComponent(`Project inquiry from ${values.name}`)}&body=${encodeURIComponent(body)}`;
       busy.current = false;
       setStatus("sent");
       return;

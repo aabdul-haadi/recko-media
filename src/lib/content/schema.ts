@@ -19,30 +19,7 @@ export type SectionDef = {
 
 export type SectionData = Record<string, unknown>;
 
-const reviewsDefault = [
-  websiteCopy.testimonial,
-  {
-    quote: "The new site finally makes it easy for the right customers to understand what we do.",
-    name: "Example: Marketing Director",
-    role: "Sample review / B2B technology",
-  },
-  {
-    quote: "We have a clearer brand, a better customer journey and a team that keeps improving it.",
-    name: "Example: Founder",
-    role: "Sample review / Consumer brand",
-  },
-  {
-    quote:
-      "The automation gave our team hours back each week, and it fits the way we already work.",
-    name: "Example: Operations Lead",
-    role: "Sample review / Professional services",
-  },
-  {
-    quote: "Everything feels connected now: our campaigns, our website and the way we follow up.",
-    name: "Example: Managing Partner",
-    role: "Sample review / Growth stage business",
-  },
-];
+const reviewsDefault = [websiteCopy.testimonial];
 
 export const sectionDefs: SectionDef[] = [
   {
@@ -308,13 +285,13 @@ const baseContentDefaults: Record<string, SectionData> = {
     canonical: "",
   },
   hero: {
-    label: "ReckoMEDIA — Web design, AI automation & digital marketing",
-    headline_1: "Growth systems",
-    headline_2: "that move",
-    headline_highlight: "revenue.",
+    label: "ReckoMEDIA — Social media marketing agency",
+    headline_1: "Achieve your",
+    headline_2: "digital goals",
+    headline_highlight: "online.",
     subtitle:
-      "Web design, AI automation and digital marketing, working together to help your business grow.",
-    cta_label: "Build your brief",
+      "Your brand deserves to shine, not get swallowed by the social media noise or buried in search results. We craft campaigns that turn clicks into customers and likes into loyal fans.",
+    cta_label: "Get started",
     cta_url: "#contact",
     scroll_label: "Scroll",
   },
@@ -372,14 +349,9 @@ const baseContentDefaults: Record<string, SectionData> = {
     eyebrow: "Our portfolio",
     heading: "Check out our past projects.",
     description:
-      "From memorable brand campaigns to digital experiences and performance driven marketing, explore the work we’ve created for businesses across different industries.",
-    categories: [
-      "Web & E-commerce",
-      "Social Media Campaigns",
-      "Media Buying Case Studies",
-      "Content Production",
-    ],
-    cta_label: "Explore our portfolio",
+      "See the work we've done. We're proud of our diverse and successful accomplishments, showing our commitment to doing great work.",
+    categories: ["Web & E-commerce", "Social Media", "Media Buying Case Studies"],
+    cta_label: "View all portfolio",
     cta_url: "/portfolio",
   },
   reviews: {
@@ -424,20 +396,20 @@ const baseContentDefaults: Record<string, SectionData> = {
   attention: {
     heading_1: "Your ambition.",
     heading_2: "Our attention.",
-    text: "Good partnerships need more than a handoff. They need clear roles, honest conversations and people who care about the result.",
+    text:
+      "We're not just working for you; we're working with you. We share your passion for your business and are invested in your success every step of the way.",
     cta_label: "Meet ReckoMEDIA",
     cta_url: "/about",
   },
   contact: {
-    eyebrow: "Start the conversation",
-    heading: "Let's build what's next.",
-    cta_label: "Build your brief",
+    eyebrow: "Make appointment",
+    heading: "Ready to take the next step?",
+    cta_label: "Get started",
     cta_url: "mailto:team@socialadservices.com",
-    text: "Tell us where you want to go. We'll work out what comes next.",
+    text: "Let's chat about how we can craft a winning digital marketing strategy that ignites your online presence. Contact us today and watch your brand take flight!",
   },
   footer: {
-    tagline:
-      "Web design, AI automation and digital marketing, built together to grow your business.",
+    tagline: "Social media advertising, SEO, PPC and web design to drive engagement and growth for your business.",
     cta_heading: "Ready to grow?",
     cta_highlight: "Let’s talk.",
     services: [
@@ -539,6 +511,14 @@ const suppliedCopy: Record<string, SectionData> = {
     phone: "(+92) 327 2514632",
     address: "Gulshan-e-Iqbal, Karachi, PAK",
     socials: [
+      {
+        label: "Facebook",
+        href: "https://www.facebook.com/socialadservices",
+      },
+      {
+        label: "Instagram",
+        href: "https://www.instagram.com/socialadservices/",
+      },
       {
         label: "WhatsApp",
         href: "https://wa.me/923272514632",

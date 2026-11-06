@@ -6,7 +6,7 @@ describe("site content", () => {
   it("falls back to built-in copy and services when nothing is published", () => {
     expect(fallbackContent.sections["hero"]!.data).toEqual(contentDefaults["hero"]);
     expect(fallbackContent.services).toEqual(defaultServices);
-    expect(fallbackContent.services).toHaveLength(11);
+    expect(fallbackContent.services).toHaveLength(9);
   });
   it("overlays published values on defaults and keeps missing fields", () => {
     const content = buildContent(

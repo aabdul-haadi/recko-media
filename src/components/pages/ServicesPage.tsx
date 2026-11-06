@@ -53,7 +53,7 @@ export function ServicesPage() {
   return (
     <PageFrame>
       <PageHero
-        eyebrow="Services / Strategy, design, technology"
+        eyebrow="Services / Social, search, web"
         title="Services offered by our social media marketing agency"
         description="Connect with your audience, strengthen your online presence and turn attention into customers with tailored digital marketing services."
       />

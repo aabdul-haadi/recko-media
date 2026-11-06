@@ -1,5 +1,5 @@
-import { InquiryForm } from "@/components/forms/InquiryForm";
 import { Reveal } from "@/components/motion/SplitReveal";
+import { InquiryForm } from "@/components/forms/InquiryForm";
 import { safeUrl, useSection } from "@/lib/content/content";
 
 export function Contact() {

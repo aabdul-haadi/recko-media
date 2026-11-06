@@ -33,8 +33,8 @@ export function AboutPage() {
     <PageFrame>
       <PageHero
         eyebrow="About / ReckoMEDIA"
-        title="Empowering small businesses through social media mastery."
-        description={websiteCopy.mission[0]!}
+        title="Your trusted partner in the digital marketing jungle."
+        description="Your brand deserves a megaphone, not a whisper. We are your experienced guide and strategic partner, leading you through the digital wilderness and helping you conquer the peaks of online success."
       />
 
       <section className="recko-about-studio" aria-label="Our connected disciplines">
@@ -63,9 +63,11 @@ export function AboutPage() {
               social media.
             </h2>
             <p>
-              We saw businesses struggling to navigate the ever-changing landscape and knew there
-              was a better way to unlock the transformative power of social media for businesses of
-              all sizes.
+              We saw businesses struggling to navigate the ever-changing landscape and knew there was a
+              better way to unlock the transformative power of social media. ReckoMEDIA is driven by
+              experienced digital strategists, creative storytellers and data wizards, dedicated to
+              helping businesses achieve their online goals, from growing brand awareness to
+              generating leads and boosting sales.
             </p>
             <div className="recko-discipline-list">
               {["Social media advertising", "Search and SEO", "Web design"].map((name, index) => (
