@@ -26,7 +26,7 @@ export function Services() {
 
   return (
     <section id="services" className="relative border-t border-border">
-      <div className="mx-auto max-w-7xl px-5 py-24 md:px-10 md:py-32">
+      <div className="mx-auto max-w-7xl px-5 py-14 md:px-10 md:py-20">
         <Reveal>
           <p className="recko-brand-label mb-4 text-[0.7rem] font-semibold uppercase tracking-[0.3em] text-muted-foreground">
             {c["eyebrow"]}

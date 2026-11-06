@@ -17,7 +17,7 @@ export function Work() {
   return (
     <section
       id="work"
-      className="relative overflow-hidden border-t border-border bg-background py-24 md:py-32"
+      className="relative overflow-hidden border-t border-border bg-background py-14 md:py-20"
     >
       <div className="mx-auto mb-14 max-w-7xl px-5 md:mb-20 md:px-10">
         <Reveal>

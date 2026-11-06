@@ -165,6 +165,26 @@ export const sectionDefs: SectionDef[] = [
     ],
   },
   {
+    key: "faq",
+    label: "FAQ",
+    description: "Frequently asked questions. Also published to search engines as FAQ rich results.",
+    toggleable: true,
+    fields: [
+      { name: "eyebrow", label: "Eyebrow", type: "text", max: 60 },
+      { name: "heading", label: "Heading", type: "text", max: 100 },
+      { name: "intro", label: "Intro", type: "textarea", max: 300 },
+      {
+        name: "items", label: "Questions", type: "list", itemLabel: "Question", max: 30,
+        fields: [
+          { name: "question", label: "Question", type: "text", max: 200 },
+          { name: "answer", label: "Answer", type: "textarea", max: 1000 },
+        ],
+      },
+      { name: "cta_label", label: "Link text", type: "text", max: 50 },
+      { name: "cta_url", label: "Link", type: "url" },
+    ],
+  },
+  {
     key: "attention",
     label: "Ambition banner",
     description: "'Your ambition. Our attention.'",
@@ -287,6 +307,54 @@ export const contentDefaults: Record<string, SectionData> = {
     cta_url: "/portfolio",
   },
   reviews: { eyebrow: "Client experiences", heading: "Good work travels.", items: reviewsDefault },
+  faq: {
+    eyebrow: "FAQ",
+    heading: "Questions, answered.",
+    intro: "Everything you might want to know before we talk. Can't find it? Ask us directly.",
+    items: [
+      {
+        question: "What does ReckoMEDIA do?",
+        answer:
+          "We bring web design, AI automation and digital marketing together, so your brand, website and growth work as one connected system instead of separate efforts.",
+      },
+      {
+        question: "Which services do you offer?",
+        answer:
+          "Creative (branding, content production, social media management), Growth (social media advertising, SEO and search marketing) and Technology (website design and development, e-commerce and AI automation).",
+      },
+      {
+        question: "How does a project start?",
+        answer:
+          "With a conversation. We learn what is working, what is getting in the way and what success should look like, then agree a clear plan before any work begins.",
+      },
+      {
+        question: "Can you work with our existing website and tools?",
+        answer:
+          "Yes. We improve what you already have, connect your tools and workflows, and only rebuild something when it genuinely helps your business.",
+      },
+      {
+        question: "How long does a project take?",
+        answer:
+          "It depends on the scope. We agree timelines with you up front, keep progress visible with regular check-ins, and adjust together as we learn.",
+      },
+      {
+        question: "Do you offer ongoing support?",
+        answer:
+          "Yes. Our growth partnerships cover content production, social media management, campaigns, website improvements, automation, CRM management and reporting.",
+      },
+      {
+        question: "Where are you based?",
+        answer: "We are based in Karachi, Pakistan, and work with businesses across different industries and time zones.",
+      },
+      {
+        question: "How do I get started?",
+        answer:
+          "Send us a short brief through the contact form or email team@reckomedia.com, and we will reply personally to plan the first step.",
+      },
+    ],
+    cta_label: "Build your brief",
+    cta_url: "#contact",
+  },
   attention: {
     heading_1: "Your ambition.",
     heading_2: "Our attention.",

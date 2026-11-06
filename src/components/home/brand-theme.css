@@ -361,3 +361,85 @@
 :root .recko-motion-detail a {
   color: var(--theme-link);
 }
+
+/* Compact phone layout for the FAQ and Contact (inquiry form) sections. */
+@media (max-width: 640px) {
+  .recko-home .recko-contact-section {
+    padding-block: 3.5rem; 
+  }
+  .recko-home .recko-contact-section::before {
+    inset: 0.5rem;
+    border-radius: 0.75rem;
+  }
+  .recko-home .recko-contact-section h2 {
+    margin-bottom: 1.25rem;
+    font-size: clamp(1.75rem, 8vw, 2.25rem);
+    line-height: 1.1;
+  }
+  .recko-home .recko-contact-section > div > p:first-child,
+  .recko-home .recko-contact-section .recko-brand-label {
+    margin-bottom: 1rem;
+  }
+  .recko-home .recko-contact-cta {
+    min-height: 48px;
+    padding: 12px 16px;
+    font-size: 0.9rem;
+  }
+  .recko-home .recko-contact-cta .contact-typewriter {
+    margin-inline: 0.35rem;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+  .recko-home .recko-contact-section p.max-w-md {
+    margin-top: 1.25rem;
+    font-size: 0.9rem;
+  }
+  .recko-home .recko-contact-section .recko-contact-form {
+    padding: 1rem;
+  }
+  .recko-home .recko-contact-section .recko-contact-form h2 {
+    margin-bottom: 0;
+    font-size: 1.25rem;
+  }
+  .recko-home .recko-contact-section .recko-contact-form .mb-8 {
+    margin-bottom: 1.25rem;
+  }
+  .recko-home .recko-contact-section .recko-contact-form .grid {
+    gap: 0.875rem;
+  }
+  .recko-home .recko-contact-section .recko-contact-form :is(input, select, textarea) {
+    margin-top: 0.375rem;
+    padding: 0.625rem 0.75rem;
+    font-size: 0.9rem;
+  }
+  .recko-home .recko-contact-section .recko-contact-form textarea {
+    min-height: 6rem;
+  }
+  .recko-home .recko-contact-section .recko-contact-form button[type="submit"] {
+    width: 100%;
+    padding: 0.7rem 1.25rem;
+  }
+  .recko-home .recko-faq > div {
+    gap: 1.5rem;
+    padding-block: 3.5rem;
+  }
+  .recko-home .recko-faq .recko-faq-trigger {
+    gap: 0.75rem;
+    padding-block: 0.875rem;
+  }
+  .recko-home .recko-faq .recko-faq-trigger > span:nth-child(2) {
+    font-size: 1rem;
+  }
+  .recko-home .recko-faq .recko-faq-icon {
+    width: 1.75rem;
+    height: 1.75rem;
+  }
+  .recko-home .recko-faq .recko-faq-content p {
+    padding: 0 0.25rem 1rem 1.75rem;
+    font-size: 0.9rem;
+  }
+  .recko-home .recko-faq .recko-cta-link {
+    padding: 0.5rem 0;
+    font-size: 0.85rem;
+  }
+}

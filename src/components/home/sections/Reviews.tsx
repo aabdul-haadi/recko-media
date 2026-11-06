@@ -47,7 +47,7 @@ export function Reviews() {
     <section
       id="reviews"
       aria-labelledby="reviews-title"
-      className="overflow-hidden border-t border-border py-20 md:py-28"
+      className="overflow-hidden border-t border-border py-14 md:py-20"
     >
       <div className="mx-auto max-w-7xl px-5 md:px-10">
         <div className="mb-10 flex flex-col gap-8 sm:flex-row sm:items-end sm:justify-between md:mb-14">
