@@ -33,7 +33,6 @@ const reviewsDefault = [
   },
   {
     quote:
-<<<<<<< HEAD
       "The automation gave our team hours back each week, and it fits the way we already work.",
     name: "Example: Operations Lead",
     role: "Sample review / Professional services",
@@ -42,11 +41,6 @@ const reviewsDefault = [
     quote: "Everything feels connected now: our campaigns, our website and the way we follow up.",
     name: "Example: Managing Partner",
     role: "Sample review / Growth stage business",
-=======
-      "Yes you guys have been on toes since day 1 and helped us work out things in the best manner. Hats off to you guys for answering and reviewing all our queries, no matter how many times we've asked you to evaluate them. The developers in your team are really up to the mark. So thank you so much.",
-    name: "Scrubbers Med",
-    role: "",
->>>>>>> 570819fa94f67af3b6f72a72806689d4dea7b2b0
   },
 ];
 
@@ -220,14 +214,19 @@ export const sectionDefs: SectionDef[] = [
   {
     key: "faq",
     label: "FAQ",
-    description: "Frequently asked questions. Also published to search engines as FAQ rich results.",
+    description:
+      "Frequently asked questions. Also published to search engines as FAQ rich results.",
     toggleable: true,
     fields: [
       { name: "eyebrow", label: "Eyebrow", type: "text", max: 60 },
       { name: "heading", label: "Heading", type: "text", max: 100 },
       { name: "intro", label: "Intro", type: "textarea", max: 300 },
       {
-        name: "items", label: "Questions", type: "list", itemLabel: "Question", max: 30,
+        name: "items",
+        label: "Questions",
+        type: "list",
+        itemLabel: "Question",
+        max: 30,
         fields: [
           { name: "question", label: "Question", type: "text", max: 200 },
           { name: "answer", label: "Answer", type: "textarea", max: 1000 },
@@ -309,7 +308,6 @@ const baseContentDefaults: Record<string, SectionData> = {
     canonical: "",
   },
   hero: {
-<<<<<<< HEAD
     label: "ReckoMEDIA — Web design, AI automation & digital marketing",
     headline_1: "Growth systems",
     headline_2: "that move",
@@ -317,22 +315,14 @@ const baseContentDefaults: Record<string, SectionData> = {
     subtitle:
       "Web design, AI automation and digital marketing, working together to help your business grow.",
     cta_label: "Build your brief",
-=======
-    label: "ReckoMEDIA — Social media marketing agency",
-    headline_1: "Achieve your",
-    headline_2: "digital goals",
-    headline_highlight: "online.",
-    subtitle:
-      "Your brand deserves to shine, not get swallowed by the social media noise or buried in search results. We craft campaigns that turn clicks into customers and likes into loyal fans.",
-    cta_label: "Get started",
->>>>>>> 570819fa94f67af3b6f72a72806689d4dea7b2b0
     cta_url: "#contact",
     scroll_label: "Scroll",
   },
   services_intro: {
     eyebrow: "Our services",
     heading: "Services offered by our agency.",
-    subheading: "Social media advertising, search marketing and web design, working together to grow your business.",
+    subheading:
+      "Social media advertising, search marketing and web design, working together to grow your business.",
     creative_intro: serviceTabs[0]!.intro,
     growth_intro: serviceTabs[1]!.intro,
     technology_intro: serviceTabs[2]!.intro,
@@ -354,9 +344,18 @@ const baseContentDefaults: Record<string, SectionData> = {
       "Our mission: empower digital success through proven methods and continuous learning, with a focus on excellence and results that last.",
     link_label: "Meet ReckoMEDIA",
     pillars: [
-      { title: "Social Media", line: "Facebook, Instagram and YouTube ads that grow awareness and engagement." },
-      { title: "Search", line: "SEO and search marketing that put you in front of people who are looking." },
-      { title: "Web", line: "WordPress and Shopify websites that look sharp and convert visitors." },
+      {
+        title: "Social Media",
+        line: "Facebook, Instagram and YouTube ads that grow awareness and engagement.",
+      },
+      {
+        title: "Search",
+        line: "SEO and search marketing that put you in front of people who are looking.",
+      },
+      {
+        title: "Web",
+        line: "WordPress and Shopify websites that look sharp and convert visitors.",
+      },
     ],
   },
   partnership: {
@@ -373,7 +372,6 @@ const baseContentDefaults: Record<string, SectionData> = {
     eyebrow: "Our portfolio",
     heading: "Check out our past projects.",
     description:
-<<<<<<< HEAD
       "From memorable brand campaigns to digital experiences and performance driven marketing, explore the work we’ve created for businesses across different industries.",
     categories: [
       "Web & E-commerce",
@@ -382,14 +380,13 @@ const baseContentDefaults: Record<string, SectionData> = {
       "Content Production",
     ],
     cta_label: "Explore our portfolio",
-=======
-      "See the work we've done. We're proud of our diverse and successful accomplishments, showing our commitment to doing great work.",
-    categories: ["Web & E-commerce", "Social Media", "Media Buying Case Studies"],
-    cta_label: "View all portfolio",
->>>>>>> 570819fa94f67af3b6f72a72806689d4dea7b2b0
     cta_url: "/portfolio",
   },
-  reviews: { eyebrow: "Testimonials", heading: "What clients say about us.", items: reviewsDefault },
+  reviews: {
+    eyebrow: "Testimonials",
+    heading: "What clients say about us.",
+    items: reviewsDefault,
+  },
   faq: {
     eyebrow: "FAQ",
     heading: "Frequently asked questions.",
@@ -427,17 +424,11 @@ const baseContentDefaults: Record<string, SectionData> = {
   attention: {
     heading_1: "Your ambition.",
     heading_2: "Our attention.",
-<<<<<<< HEAD
     text: "Good partnerships need more than a handoff. They need clear roles, honest conversations and people who care about the result.",
-=======
-    text:
-      "We're not just working for you; we're working with you. We share your passion for your business and are invested in your success every step of the way.",
->>>>>>> 570819fa94f67af3b6f72a72806689d4dea7b2b0
     cta_label: "Meet ReckoMEDIA",
     cta_url: "/about",
   },
   contact: {
-<<<<<<< HEAD
     eyebrow: "Start the conversation",
     heading: "Let's build what's next.",
     cta_label: "Build your brief",
@@ -447,16 +438,6 @@ const baseContentDefaults: Record<string, SectionData> = {
   footer: {
     tagline:
       "Web design, AI automation and digital marketing, built together to grow your business.",
-=======
-    eyebrow: "Make appointment",
-    heading: "Ready to take the next step?",
-    cta_label: "Get started",
-    cta_url: "mailto:team@reckomedia.com",
-    text: "Let's chat about how we can craft a winning digital marketing strategy that ignites your online presence. Contact us today and watch your brand take flight!",
-  },
-  footer: {
-    tagline: "Social media advertising, SEO, PPC and web design to drive engagement and growth for your business.",
->>>>>>> 570819fa94f67af3b6f72a72806689d4dea7b2b0
     cta_heading: "Ready to grow?",
     cta_highlight: "Let’s talk.",
     services: [

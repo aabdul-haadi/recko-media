@@ -70,7 +70,6 @@ const projects = [
 export function PortfolioPage() {
   return (
     <PageFrame>
-<<<<<<< HEAD
       <div className="recko-portfolio-v2">
         <PageHero
           eyebrow="Our Portfolio"
@@ -82,36 +81,6 @@ export function PortfolioPage() {
             (label) => (
               <span key={label} className="rounded-full border border-border px-4 py-2 text-xs">
                 {label}
-=======
-      <PageHero
-        eyebrow="Portfolio / Our projects"
-        title="Our projects."
-        description="Check out our past projects to see the work we've done. We're proud of our diverse and successful accomplishments, showing our commitment to doing great work."
-      />
-
-      <section className="recko-portfolio-feature" aria-label="Featured creative concept">
-        <div className="recko-inner-container">
-          <a href="#selected-projects" className="recko-featured-work">
-            <img
-              className="recko-featured-main"
-              src="/thumbs/work-snack.jpg"
-              alt="Consumer brand campaign concept"
-              width="1200"
-              height="800"
-            />
-            <div className="recko-featured-copy">
-              <p className="recko-page-label">Creative exploration / 01</p>
-              <h2>
-                A little different.
-                <br />
-                Hard to ignore.
-              </h2>
-              <p>
-                A visual direction bringing product, personality and campaign design into one frame.
-              </p>
-              <span className="recko-inner-text-link">
-                Explore the collection <ArrowUpRight size={20} aria-hidden="true" />
->>>>>>> 570819fa94f67af3b6f72a72806689d4dea7b2b0
               </span>
             ),
           )}
@@ -361,33 +330,8 @@ export function PortfolioPage() {
               </Link>
             </div>
           </div>
-<<<<<<< HEAD
         </section>
       </div>
-=======
-        </div>
-      </section>
-
-      <section className="border-t border-border bg-surface/35 py-20 md:py-28">
-        <div className="mx-auto grid max-w-7xl gap-8 px-5 md:grid-cols-[1fr_auto] md:items-end md:px-10">
-          <div>
-            <p className="mb-4 text-[0.7rem] font-semibold uppercase tracking-[0.3em] text-muted-foreground">
-              Your next project
-            </p>
-            <h2 className="max-w-3xl font-display text-4xl font-bold tracking-tight md:text-6xl">
-              Need advice for your social media marketing?
-            </h2>
-          </div>
-          <Link
-            to="/contact"
-            className="inline-flex w-fit items-center gap-3 rounded-full bg-primary px-6 py-3 font-semibold text-primary-foreground transition-transform hover:translate-x-1"
-          >
-            Talk with our team
-            <ArrowUpRight className="size-4" />
-          </Link>
-        </div>
-      </section>
->>>>>>> 570819fa94f67af3b6f72a72806689d4dea7b2b0
     </PageFrame>
   );
 }

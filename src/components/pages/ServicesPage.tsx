@@ -53,15 +53,9 @@ export function ServicesPage() {
   return (
     <PageFrame>
       <PageHero
-<<<<<<< HEAD
         eyebrow="Services / Strategy, design, technology"
         title="Services offered by our social media marketing agency"
         description="Connect with your audience, strengthen your online presence and turn attention into customers with tailored digital marketing services."
-=======
-        eyebrow="Services / Social, search, web"
-        title="Services offered by our agency."
-        description="Harness social media, search and a high-performing website to connect with your audience, build meaningful relationships and drive brand awareness, engagement and conversions."
->>>>>>> 570819fa94f67af3b6f72a72806689d4dea7b2b0
       />
 
       <section className="recko-services-intro" aria-label="Explore our capabilities visually">

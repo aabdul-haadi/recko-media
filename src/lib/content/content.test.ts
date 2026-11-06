@@ -14,13 +14,9 @@ describe("site content", () => {
       [],
     );
     expect(content.sections["hero"]!.data["headline_1"]).toBe("New headline");
-<<<<<<< HEAD
     expect(content.sections["hero"]!.data["headline_2"]).toBe(
       contentDefaults["hero"]!["headline_2"],
     );
-=======
-    expect(content.sections["hero"]!.data["headline_2"]).toBe("digital goals");
->>>>>>> 570819fa94f67af3b6f72a72806689d4dea7b2b0
   });
   it("respects disabled sections and an intentionally empty services list", () => {
     const content = buildContent([{ key: "work", data: {}, enabled: false }], []);

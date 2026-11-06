@@ -1,9 +1,5 @@
-<<<<<<< HEAD
-import { Reveal } from "@/components/motion/SplitReveal";
-=======
-﻿import { Reveal } from "@/components/motion/SplitReveal";
 import { InquiryForm } from "@/components/forms/InquiryForm";
->>>>>>> 570819fa94f67af3b6f72a72806689d4dea7b2b0
+import { Reveal } from "@/components/motion/SplitReveal";
 import { safeUrl, useSection } from "@/lib/content/content";
 
 export function Contact() {
