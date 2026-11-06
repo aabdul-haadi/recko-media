@@ -7,7 +7,7 @@ import { useSection, safeUrl } from "@/lib/content/content";
 import { useServices } from "@/lib/content/content";
 import { SERVICE_CATEGORIES } from "@/lib/content/schema";
 
-const categoryLabel = { creative: "Creative", growth: "Growth", technology: "Technology" } as const;
+const categoryLabel = { creative: "Social Media", growth: "Search", technology: "Web" } as const;
 
 export function Services() {
   const { data: c } = useSection("services_intro");

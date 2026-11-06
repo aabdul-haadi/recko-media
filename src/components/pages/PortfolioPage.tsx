@@ -47,9 +47,9 @@ export function PortfolioPage() {
   return (
     <PageFrame>
       <PageHero
-        eyebrow="Portfolio / Selected capabilities"
-        title="Useful ideas, made real."
-        description="A look at the kinds of challenges we help solve across brand, digital product, growth and technology. Each project starts with the people it needs to work for."
+        eyebrow="Portfolio / Our projects"
+        title="Our projects."
+        description="Check out our past projects to see the work we've done. We're proud of our diverse and successful accomplishments, showing our commitment to doing great work."
       />
 
       <section className="recko-portfolio-feature" aria-label="Featured creative concept">
@@ -156,7 +156,7 @@ export function PortfolioPage() {
               Your next project
             </p>
             <h2 className="max-w-3xl font-display text-4xl font-bold tracking-tight md:text-6xl">
-              Let’s make something that moves your business forward.
+              Need advice for your social media marketing?
             </h2>
           </div>
           <Link

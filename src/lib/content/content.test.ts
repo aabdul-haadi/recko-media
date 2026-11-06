@@ -11,7 +11,7 @@ describe("site content", () => {
   it("overlays published values on defaults and keeps missing fields", () => {
     const content = buildContent([{ key: "hero", data: { headline_1: "New headline" }, enabled: true }], []);
     expect(content.sections["hero"]!.data["headline_1"]).toBe("New headline");
-    expect(content.sections["hero"]!.data["headline_2"]).toBe("that move");
+    expect(content.sections["hero"]!.data["headline_2"]).toBe("digital goals");
   });
   it("respects disabled sections and an intentionally empty services list", () => {
     const content = buildContent([{ key: "work", data: {}, enabled: false }], []);

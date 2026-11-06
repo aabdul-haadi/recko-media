@@ -13,9 +13,9 @@ describe("Homepage FAQ", () => {
   it("renders every default question as an accessible accordion trigger", () => {
     render(<Faq />);
     const questions = (contentDefaults["faq"]!["items"] as { question: string }[]).map((i) => i.question);
-    expect(questions.length).toBeGreaterThanOrEqual(6);
+    expect(questions.length).toBeGreaterThanOrEqual(5);
     for (const question of questions) expect(screen.getByRole("button", { name: new RegExp(question.slice(0, 20)) })).toBeInTheDocument();
-    expect(screen.getByRole("region", { name: /Questions, answered/ })).toHaveAttribute("id", "faq");
+    expect(screen.getByRole("region", { name: /Frequently asked questions/ })).toHaveAttribute("id", "faq");
   });
   it("opens an answer on click and keeps only one open at a time", () => {
     render(<Faq />);

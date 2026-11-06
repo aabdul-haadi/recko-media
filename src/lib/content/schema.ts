@@ -21,14 +21,10 @@ export type SectionData = Record<string, unknown>;
 const reviewsDefault = [
   {
     quote:
-      "The team has been on their toes since day one and helped us work through everything in the best possible way. Their knowledge of web development and commitment to answering every query made the experience genuinely valuable.",
+      "Yes you guys have been on toes since day 1 and helped us work out things in the best manner. Hats off to you guys for answering and reviewing all our queries, no matter how many times we've asked you to evaluate them. The developers in your team are really up to the mark. So thank you so much.",
     name: "Scrubbers Med",
     role: "",
   },
-  { quote: "The new site finally makes it easy for the right customers to understand what we do.", name: "Marketing Director", role: "B2B technology" },
-  { quote: "We have a clearer brand, a better customer journey and a team that keeps improving it.", name: "Founder", role: "Consumer brand" },
-  { quote: "The automation gave our team hours back each week, and it fits the way we already work.", name: "Operations Lead", role: "Professional services" },
-  { quote: "Everything feels connected now: our campaigns, our website and the way we follow up.", name: "Managing Partner", role: "Growth stage business" },
 ];
 
 export const sectionDefs: SectionDef[] = [
@@ -237,53 +233,54 @@ export const sectionDefs: SectionDef[] = [
 
 export const contentDefaults: Record<string, SectionData> = {
   seo: {
-    title: "ReckoMEDIA — Web Design, AI Automation & Digital Marketing",
+    title: "ReckoMEDIA — Social Media Marketing, SEO & Web Design Agency",
     description:
-      "Growth systems that move revenue. Web design, AI automation and digital marketing built together for your business.",
-    og_title: "ReckoMEDIA — Web Design, AI Automation & Digital Marketing",
+      "Social media advertising, SEO, PPC and web design from one agency in Karachi. Personalized strategies, affordable pricing and reliable execution.",
+    og_title: "ReckoMEDIA — Social Media Marketing, SEO & Web Design Agency",
     og_description:
-      "Growth systems that move revenue. Web design, AI automation and digital marketing built together.",
+      "Drive engagement and growth with social media advertising, SEO, PPC and web design.",
     og_image: "",
     canonical: "",
   },
   hero: {
-    label: "ReckoMEDIA — Web design, AI automation & digital marketing",
-    headline_1: "Growth systems",
-    headline_2: "that move",
-    headline_highlight: "revenue.",
-    subtitle: "Web design, AI automation and digital marketing, working together to help your business grow.",
-    cta_label: "Build your brief",
+    label: "ReckoMEDIA — Social media marketing agency",
+    headline_1: "Achieve your",
+    headline_2: "digital goals",
+    headline_highlight: "online.",
+    subtitle:
+      "Your brand deserves to shine, not get swallowed by the social media noise or buried in search results. We craft campaigns that turn clicks into customers and likes into loyal fans.",
+    cta_label: "Get started",
     cta_url: "#contact",
     scroll_label: "Scroll",
   },
   services_intro: {
-    eyebrow: "What we do",
-    heading: "Creative. Growth. Technology.",
-    subheading: "Three disciplines. One connected approach to building your business online.",
+    eyebrow: "Our services",
+    heading: "Services offered by our agency.",
+    subheading: "Social media advertising, search marketing and web design, working together to grow your business.",
     creative_intro: serviceTabs[0]!.intro,
     growth_intro: serviceTabs[1]!.intro,
     technology_intro: serviceTabs[2]!.intro,
     cta_label: "Explore all services",
   },
   process: {
-    eyebrow: "How we work",
-    heading: "A shared way of working.",
+    eyebrow: "Our process",
+    heading: "How we craft your campaign.",
     steps: processSteps.map(({ title, description }) => ({ title, description })),
   },
   about: {
     label: "ABOUT RECKOMEDIA",
-    heading_1: "One connected path.",
-    heading_2: "From idea to impact.",
-    intro: "ReckoMEDIA connects creative, marketing and technology around your business.",
+    heading_1: "Your trusted partner",
+    heading_2: "in digital marketing.",
+    intro: "Your brand deserves a megaphone, not a whisper.",
     description_1:
-      "From building a recognizable brand to producing engaging content, launching campaigns and developing digital platforms, we bring the pieces together to create meaningful growth.",
+      "You pour your heart into your products and services, but attracting the right audience online can feel like trekking through uncharted territory. We are your experienced guide and strategic partner, helping you conquer the peaks of online success.",
     description_2:
-      "We believe good marketing should be more than visibility. It should create stronger customer relationships, better experiences and real opportunities.",
+      "Our mission: empower digital success through proven methods and continuous learning, with a focus on excellence and results that last.",
     link_label: "Meet ReckoMEDIA",
     pillars: [
-      { title: "Creative", line: "Brands, content and social presence people remember." },
-      { title: "Marketing", line: "Campaigns and search that turn attention into customers." },
-      { title: "Technology", line: "Websites, stores and automation that keep it all running." },
+      { title: "Social Media", line: "Facebook, Instagram and YouTube ads that grow awareness and engagement." },
+      { title: "Search", line: "SEO and search marketing that put you in front of people who are looking." },
+      { title: "Web", line: "WordPress and Shopify websites that look sharp and convert visitors." },
     ],
   },
   partnership: {
@@ -298,99 +295,81 @@ export const contentDefaults: Record<string, SectionData> = {
     cta_url: "#contact",
   },
   work: {
-    eyebrow: "Our work",
-    heading: "See what we’ve been building.",
+    eyebrow: "Our portfolio",
+    heading: "Check out our past projects.",
     description:
-      "From memorable brand campaigns to digital experiences and performance driven marketing, explore the work we’ve created for businesses across different industries.",
-    categories: ["Web & E-commerce", "Social Media Campaigns", "Media Buying Case Studies", "Content Production"],
-    cta_label: "Explore our portfolio",
+      "See the work we've done. We're proud of our diverse and successful accomplishments, showing our commitment to doing great work.",
+    categories: ["Web & E-commerce", "Social Media", "Media Buying Case Studies"],
+    cta_label: "View all portfolio",
     cta_url: "/portfolio",
   },
-  reviews: { eyebrow: "Client experiences", heading: "Good work travels.", items: reviewsDefault },
+  reviews: { eyebrow: "Testimonials", heading: "What clients say about us.", items: reviewsDefault },
   faq: {
     eyebrow: "FAQ",
-    heading: "Questions, answered.",
+    heading: "Frequently asked questions.",
     intro: "Everything you might want to know before we talk. Can't find it? Ask us directly.",
     items: [
       {
-        question: "What does ReckoMEDIA do?",
+        question: "What is digital marketing?",
         answer:
-          "We bring web design, AI automation and digital marketing together, so your brand, website and growth work as one connected system instead of separate efforts.",
+          "Digital marketing is the use of digital channels, platforms and technologies to promote products, services or brands. It includes social media marketing, search engine optimization, website building, email marketing and paid advertising, with the goal of reaching your audience, building awareness, driving website traffic and achieving measurable results.",
       },
       {
-        question: "Which services do you offer?",
+        question: "What does a digital marketing agency do?",
         answer:
-          "Creative (branding, content production, social media management), Growth (social media advertising, SEO and search marketing) and Technology (website design and development, e-commerce and AI automation).",
+          "A digital marketing agency creates and runs online marketing strategies: managing your social media presence, optimizing your website for search engines, running online advertising campaigns and analyzing data to refine the plan. It acts as a strategic partner that helps you grow in the digital marketplace.",
       },
       {
-        question: "How does a project start?",
+        question: "Why should I choose a full-service agency?",
         answer:
-          "With a conversation. We learn what is working, what is getting in the way and what success should look like, then agree a clear plan before any work begins.",
+          "A full-service agency brings social media, SEO, web design and online advertising together. You get streamlined communication, cohesive strategy and consistent messaging, so you can focus on your business while we handle the intricacies of your online presence.",
       },
       {
-        question: "Can you work with our existing website and tools?",
+        question: "What results can I expect from a social media marketing agency?",
         answer:
-          "Yes. We improve what you already have, connect your tools and workflows, and only rebuild something when it genuinely helps your business.",
+          "Typical outcomes include increased brand visibility, higher engagement with your target audience, more website traffic and better conversion rates. Results are tailored to your goals, and we work with you to reach and exceed them.",
       },
       {
-        question: "How long does a project take?",
+        question: "How cost-effective is digital marketing compared with traditional marketing?",
         answer:
-          "It depends on the scope. We agree timelines with you up front, keep progress visible with regular check-ins, and adjust together as we learn.",
-      },
-      {
-        question: "Do you offer ongoing support?",
-        answer:
-          "Yes. Our growth partnerships cover content production, social media management, campaigns, website improvements, automation, CRM management and reporting.",
-      },
-      {
-        question: "Where are you based?",
-        answer: "We are based in Karachi, Pakistan, and work with businesses across different industries and time zones.",
-      },
-      {
-        question: "How do I get started?",
-        answer:
-          "Send us a short brief through the contact form or email team@reckomedia.com, and we will reply personally to plan the first step.",
+          "Digital marketing is typically less expensive than traditional marketing. You control your budget, target precisely, track performance in real time and adjust to optimize spending, with affordable options like social media advertising and email campaigns.",
       },
     ],
-    cta_label: "Build your brief",
+    cta_label: "Get started",
     cta_url: "#contact",
   },
   attention: {
     heading_1: "Your ambition.",
     heading_2: "Our attention.",
     text:
-      "Good partnerships need more than a handoff. They need clear roles, honest conversations and people who care about the result.",
+      "We're not just working for you; we're working with you. We share your passion for your business and are invested in your success every step of the way.",
     cta_label: "Meet ReckoMEDIA",
     cta_url: "/about",
   },
   contact: {
-    eyebrow: "Start the conversation",
-    heading: "Let's build what's next.",
-    cta_label: "Build your brief",
+    eyebrow: "Make appointment",
+    heading: "Ready to take the next step?",
+    cta_label: "Get started",
     cta_url: "mailto:team@reckomedia.com",
-    text: "Tell us where you want to go. We'll work out what comes next.",
+    text: "Let's chat about how we can craft a winning digital marketing strategy that ignites your online presence. Contact us today and watch your brand take flight!",
   },
   footer: {
-    tagline: "Web design, AI automation and digital marketing, built together to grow your business.",
+    tagline: "Social media advertising, SEO, PPC and web design to drive engagement and growth for your business.",
     cta_heading: "Ready to grow?",
     cta_highlight: "Let’s talk.",
     services: [
-      "Branding & Identity",
-      "Content Production",
-      "Social Media Marketing",
-      "Paid Advertising",
-      "SEO",
+      "Social Media Advertising",
+      "Search Engine Optimization",
+      "Search Engine Marketing",
       "Website Design & Development",
-      "AI Automation",
     ],
     email: "team@reckomedia.com",
     phone: "0327 2514632",
-    address: "Karachi, Pakistan",
+    address: "Gulshan-e-Iqbal, Karachi, Pakistan",
     socials: [
-      { label: "Instagram", href: "#" },
-      { label: "Facebook", href: "#" },
-      { label: "LinkedIn", href: "#" },
-      { label: "WhatsApp", href: "#" },
+      { label: "Facebook", href: "https://www.facebook.com/socialadservices" },
+      { label: "Instagram", href: "https://www.instagram.com/socialadservices/" },
+      { label: "WhatsApp", href: "https://wa.me/03272514632" },
     ],
     copyright: "ReckoMEDIA",
   },

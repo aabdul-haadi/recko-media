@@ -212,10 +212,11 @@ export function InquiryForm({ source = "contact-page" }: { source?: string }) {
               Area of interest
               <select className={inputClass} name="service" defaultValue="Not sure yet">
                 <option>Not sure yet</option>
-                <option>Creative and branding</option>
-                <option>Growth and marketing</option>
-                <option>Web and technology</option>
-                <option>Ongoing partnership</option>
+                <option>Social media advertising</option>
+                <option>Search engine optimization</option>
+                <option>Search engine marketing / Google Ads</option>
+                <option>Website design & development</option>
+                <option>Something else</option>
               </select>
             </label>
             <label className="text-sm font-medium sm:col-span-2">
