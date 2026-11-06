@@ -5,9 +5,9 @@ export const Route = createFileRoute("/contact")({
   head: () => ({
     meta: [
       { title: "Contact ReckoMEDIA" },
-      { name: "description", content: "Start a conversation with ReckoMEDIA about your next business, brand or digital project." },
+      { name: "description", content: "Reach out to ReckoMEDIA to grow your online presence. Social media advertising, SEO and web design from Karachi." },
       { property: "og:title", content: "Contact ReckoMEDIA" },
-      { property: "og:description", content: "Start a conversation with ReckoMEDIA about your next business, brand or digital project." },
+      { property: "og:description", content: "Reach out to ReckoMEDIA to grow your online presence. Social media advertising, SEO and web design from Karachi." },
       { property: "og:type", content: "website" },
     ],
   }),

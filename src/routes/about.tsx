@@ -5,9 +5,9 @@ export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
       { title: "About ReckoMEDIA" },
-      { name: "description", content: "Meet ReckoMEDIA: a connected creative, growth and technology team built around your business." },
+      { name: "description", content: "About ReckoMEDIA: your trusted partner in digital marketing. Personalized strategies, data-driven campaigns and reliable execution." },
       { property: "og:title", content: "About ReckoMEDIA" },
-      { property: "og:description", content: "Meet ReckoMEDIA: a connected creative, growth and technology team built around your business." },
+      { property: "og:description", content: "About ReckoMEDIA: your trusted partner in digital marketing. Personalized strategies, data-driven campaigns and reliable execution." },
       { property: "og:type", content: "website" },
     ],
   }),
