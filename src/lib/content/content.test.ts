@@ -31,3 +31,16 @@ describe("site content", () => {
     expect(safeUrl("mailto:a@b.co")).toBe("mailto:a@b.co");
   });
 });
+
+describe("safeUrl", () => {
+  it("keeps same-site paths, anchors, web, mail and phone links", () => {
+    for (const ok of ["/contact", "#top", "https://example.com/a", "http://example.com", "mailto:a@b.co", "tel:+923001234567"]) {
+      expect(safeUrl(ok, "X")).toBe(ok);
+    }
+  });
+  it("rejects script URLs and protocol-relative links that would leave the site", () => {
+    for (const bad of ["javascript:alert(1)", " JaVaScRiPt:alert(1)", "data:text/html,x", "//evil.example/x", "/\\evil.example", "\\\\evil.example", "", null, 5]) {
+      expect(safeUrl(bad, "X")).toBe("X");
+    }
+  });
+});

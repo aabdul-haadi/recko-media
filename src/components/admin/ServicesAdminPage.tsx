@@ -179,7 +179,7 @@ function ServiceSheet({ draft, nextOrder, onClose, onSaved }: { draft: Draft | n
     if (!form) return;
     if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(form.slug)) return setError("The URL slug may only contain lowercase letters, numbers and hyphens.");
     if (form.cta_url && !URL_PATTERN.test(form.cta_url.trim())) return setError("The button link must be a full address, a path starting with /, #section, mailto: or tel:.");
-    if (form.image_url && !/^(\/|https:\/\/)/i.test(form.image_url.trim())) return setError("The image address must start with / or https://.");
+    if (form.image_url && !/^(\/(?![/\\])|https:\/\/)/i.test(form.image_url.trim())) return setError("The image address must start with / or https://.");
     setError("");
     const live = form.status === "published";
     if (await confirm({ title: form.id ? "Save changes to this service?" : "Create this service?", description: live ? "It is published, so the change goes live on the website immediately." : "It is a draft, so visitors will not see it yet.", confirmLabel: "Yes, save" })) save.mutate(form);

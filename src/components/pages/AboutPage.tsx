@@ -181,7 +181,7 @@ export function AboutPage() {
           </ul>
           <p className="mt-6 text-muted-foreground">
             Have another question?{" "}
-            <Link to="/contact" className="text-acid">
+            <Link to="/contact" className="text-acid underline underline-offset-4">
               Contact Us
             </Link>
           </p>

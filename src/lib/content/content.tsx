@@ -148,5 +148,5 @@ export function useServices(): PublicService[] {
 /** Only allow safe link targets coming from the database. */
 export function safeUrl(value: unknown, fallback = "#") {
   const url = typeof value === "string" ? value.trim() : "";
-  return /^(\/|#|https?:\/\/|mailto:|tel:)/i.test(url) ? url : fallback;
+  return /^(\/(?![/\\])|#|https?:\/\/|mailto:|tel:)/i.test(url) ? url : fallback;
 }
