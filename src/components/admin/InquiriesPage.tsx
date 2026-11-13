@@ -21,6 +21,7 @@ import { INQUIRY_PRIORITIES, INQUIRY_STATUSES, statusLabel } from "@/lib/admin/t
 import {
   EmptyState, ErrorState, PAGE_SIZE, Pager, PageHeader, PriorityText, StatusBadge,
   downloadCsv, formatDateTime, fromLocalInput, toLocalInput,
+  safeHttpUrl,
 } from "./shared";
 
 type Filters = { status: string; service: string; source: string; from: string; to: string; archived: boolean; spam: boolean };
@@ -33,7 +34,7 @@ function applyFilters(query: any, q: string, f: Filters) {
   if (f.source !== ALL) query = query.eq("source", f.source);
   if (f.from) query = query.gte("created_at", new Date(f.from).toISOString());
   if (f.to) query = query.lte("created_at", new Date(`${f.to}T23:59:59`).toISOString());
-  const term = q.trim().replace(/[%,()]/g, " ");
+  const term = q.trim().replace(/[%,()"\\]/g, " ");
   if (term) {
     const like = `%${term}%`;
     query = query.or(`name.ilike.${like},email.ilike.${like},message.ilike.${like},subject.ilike.${like},phone.ilike.${like}`);
@@ -304,7 +305,7 @@ function InquiryDetail({ id, onClose }: { id: string; onClose: () => void }) {
               <dt className="text-muted-foreground">Service</dt><dd>{inq.service ?? "—"}</dd>
               <dt className="text-muted-foreground">Source</dt><dd>{inq.source}</dd>
               <dt className="text-muted-foreground">Submitted from</dt>
-              <dd className="break-all">{inq.page_url ? <a className="inline-flex items-center gap-1 underline" href={inq.page_url} target="_blank" rel="noreferrer noopener">{inq.page_url}<ExternalLink className="size-3" /></a> : "—"}</dd>
+              <dd className="break-all">{safeHttpUrl(inq.page_url) ? <a className="inline-flex items-center gap-1 underline" href={safeHttpUrl(inq.page_url)!} target="_blank" rel="noreferrer noopener">{inq.page_url}<ExternalLink className="size-3" /></a> : (inq.page_url ?? "—")}</dd>
               {inq.contact_id && (<><dt className="text-muted-foreground">Contact</dt><dd><Link className="underline" to="/admin/contacts" search={{ q: inq.email }}>View contact record</Link></dd></>)}
             </dl>
 

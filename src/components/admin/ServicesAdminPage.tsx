@@ -65,7 +65,11 @@ export function ServicesAdminPage() {
       const supabase = getSupabase();
       const first = await supabase.from("services").update({ sort_order: b.sort_order }).eq("id", a.id);
       const second = await supabase.from("services").update({ sort_order: a.sort_order }).eq("id", b.id);
-      if (first.error || second.error) throw new Error("reorder");
+      if (first.error || second.error) {
+        // Undo the half-applied swap so two services never end up sharing a position.
+        if (!first.error) await supabase.from("services").update({ sort_order: a.sort_order }).eq("id", a.id);
+        throw new Error("reorder");
+      }
     },
     onSuccess: () => { toast.success("Order updated. The website follows this order."); refresh(); },
     onError: () => { toast.error("Could not reorder."); refresh(); },

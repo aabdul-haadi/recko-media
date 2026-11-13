@@ -38,7 +38,7 @@ export function ContactsPage() {
     queryKey: ["contacts", "list", q, page],
     queryFn: async () => {
       let query = getSupabase().from("contacts").select("*, contact_tags(tags(id,name))", { count: "exact" });
-      const term = q.trim().replace(/[%,()]/g, " ");
+      const term = q.trim().replace(/[%,()"\\]/g, " ");
       if (term) query = query.or(`full_name.ilike.%${term}%,email.ilike.%${term}%,phone.ilike.%${term}%,company.ilike.%${term}%`);
       const { data, error, count } = await query
         .order("last_interaction_at", { ascending: false })
