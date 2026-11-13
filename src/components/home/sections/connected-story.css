@@ -60,7 +60,7 @@
   letter-spacing: var(--brand-label-tracking);
 }
 .recko-story-label > span {
-  color: var(--brand-slate);
+  color: #a3a9c2; /* lighter than --brand-slate: this label sits on a black surface and needs 4.5:1 (WCAG AA) */
   font-weight: 400;
 }
 .recko-story-heading h2 {

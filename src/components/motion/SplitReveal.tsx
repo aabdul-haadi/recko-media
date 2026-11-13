@@ -64,7 +64,10 @@ export function SplitReveal({
   let charIndex = 0;
 
   return (
-    <Tag ref={ref} className={className} aria-label={text}>
+    <Tag ref={ref} className={className}>
+      {/* The animated letters below are aria-hidden; this copy gives assistive tech the real text.
+          (aria-label on a plain span is not allowed and was ignored by screen readers.) */}
+      <span className="sr-only">{text}</span>
       {words.map((word, wi) => {
         const wordStart = charIndex;
         charIndex += Array.from(word).length + 1;

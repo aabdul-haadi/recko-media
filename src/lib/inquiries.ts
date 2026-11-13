@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { getSupabase } from "@/lib/supabase";
+import { reportRuntimeError } from "@/lib/runtime-error-reporting";
 
 export type InquiryInput = {
   name: string;
@@ -79,16 +80,26 @@ function markSubmitted() {
 /** Sends a website form to Supabase through the secure `submit_inquiry` function. */
 export async function submitInquiry(input: InquiryInput): Promise<void> {
   const { elapsedMs, ...rest } = input;
-  let result: { error: { message: string } | null };
+  let result: { error: { message: string; code?: string } | null };
   try {
     result = await getSupabase().rpc("submit_inquiry", {
       payload: { ...rest, elapsed_ms: elapsedMs, page_url: window.location.href },
     });
   } catch {
+    // Context carries only the failure kind: never the visitor's name, email or message.
+    reportRuntimeError(new Error("submit_inquiry: network failure"), { area: "inquiry", kind: "network" });
     throw new Error("We could not reach the server. Please check your connection and try again.");
   }
   if (result.error) {
     const key = Object.keys(messages).find((code) => result.error!.message.includes(code));
+    if (!key) {
+      // An error the visitor cannot fix (database down, function missing, permission) must be visible to the owner.
+      reportRuntimeError(new Error(`submit_inquiry: unexpected failure${result.error.code ? ` (${result.error.code})` : ""}`), {
+        area: "inquiry",
+        kind: "server",
+        ...(result.error.code ? { code: result.error.code } : {}),
+      });
+    }
     throw new Error(key ? messages[key]! : "We could not send your message. Please try again in a moment.");
   }
   markSubmitted();

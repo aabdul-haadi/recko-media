@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { URL_PATTERN } from "./FieldEditor";
 import { csvCell, fromLocalInput, safeHttpUrl, toLocalInput } from "./shared";
 
 describe("admin helpers", () => {
@@ -24,5 +25,9 @@ describe("admin helpers", () => {
     const iso = new Date(2026, 10, 4, 9, 30).toISOString();
     expect(fromLocalInput(toLocalInput(iso))).toBe(iso);
     expect(fromLocalInput("")).toBeNull();
+  });
+  it("editor link check accepts real targets and rejects //host, backslash-host and script URLs", () => {
+    for (const ok of ["/contact", "#faq", "https://a.co", "mailto:a@b.co", "tel:+1555"]) expect(URL_PATTERN.test(ok)).toBe(true);
+    for (const bad of ["//evil.example", "/\\evil.example", "javascript:alert(1)", "ftp://x", "evil.example"]) expect(URL_PATTERN.test(bad)).toBe(false);
   });
 });

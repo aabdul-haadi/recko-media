@@ -5,7 +5,8 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import type { Field } from "@/lib/content/schema";
 
-export const URL_PATTERN = /^(\/|#|https?:\/\/|mailto:|tel:)/i;
+// A leading "/" must not be followed by "/" or "\" (browsers read //host and /\host as another site).
+export const URL_PATTERN = /^(\/(?![/\\])|#|https?:\/\/|mailto:|tel:)/i;
 
 type Props = {
   field: Field;

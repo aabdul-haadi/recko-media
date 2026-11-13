@@ -14,8 +14,13 @@ export function InquiryForm({ source = "contact-page" }: { source?: string }) {
   const [length, setLength] = useState(0);
   const openedAt = useRef(0);
   const busy = useRef(false);
+  // The form is server-rendered, so it is visible before React attaches its submit handler. Until then a
+  // click would fall through to the browser's native submit, losing the message and writing the visitor's
+  // details into the URL. Keep sending disabled until the handler is attached.
+  const [ready, setReady] = useState(false);
   useEffect(() => {
     openedAt.current = Date.now();
+    setReady(true);
   }, []);
 
   async function sendInquiry(event: FormEvent<HTMLFormElement>) {
@@ -125,6 +130,7 @@ export function InquiryForm({ source = "contact-page" }: { source?: string }) {
       ) : (
         <form
           onSubmit={sendInquiry}
+          method="post"
           noValidate
           className="recko-contact-form border border-border bg-surface/45 p-5 sm:p-8 md:p-10"
         >
@@ -245,7 +251,7 @@ export function InquiryForm({ source = "contact-page" }: { source?: string }) {
           <div className="mt-7 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <button
               type="submit"
-              disabled={status === "sending"}
+              disabled={!ready || status === "sending"}
               className="inline-flex disabled:opacity-60 w-fit items-center justify-center gap-3 rounded-full bg-primary px-6 py-3 font-semibold text-primary-foreground transition-transform hover:translate-x-1 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
             >
               {status === "sending" ? "Sending…" : "Send inquiry"}
