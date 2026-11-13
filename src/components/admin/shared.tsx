@@ -94,6 +94,23 @@ export function ErrorState({ error }: { error: unknown }) {
   );
 }
 
+/**
+ * Returns the value only when it is a plain http(s) URL, otherwise null. Visitor-supplied URLs
+ * (such as an inquiry's page_url) reach the database unvalidated through the public RPC, so they
+ * must never be placed in an href as-is (javascript:, data:, vbscript: would run in the admin session).
+ */
+export function safeHttpUrl(value: unknown): string | null {
+  if (typeof value !== "string") return null;
+  const text = value.trim();
+  if (!/^https?:\/\//i.test(text)) return null;
+  try {
+    const url = new URL(text);
+    return url.protocol === "http:" || url.protocol === "https:" ? url.href : null;
+  } catch {
+    return null;
+  }
+}
+
 /** Escapes a value for CSV and neutralises spreadsheet formula injection. */
 export function csvCell(value: unknown) {
   let text = value == null ? "" : String(value);
