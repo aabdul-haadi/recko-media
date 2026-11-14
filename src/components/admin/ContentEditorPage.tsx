@@ -14,7 +14,9 @@ import { useConfirm } from "./confirm";
 import { contentDefaults, sectionDefs, type SectionData } from "@/lib/content/schema";
 import { EDITOR_PAGES } from "@/lib/content/page-sections";
 import { cn } from "@/lib/utils";
+import { Skeleton } from "@/components/ui/skeleton";
 import { FieldEditor, findInvalidUrl } from "./FieldEditor";
+import { FormSkeleton } from "./skeletons";
 import { ErrorState, PageHeader, formatDateTime } from "./shared";
 
 type Row = { key: string; data: SectionData; enabled: boolean; updated_at?: string; published_at?: string };
@@ -53,6 +55,7 @@ export function ContentEditorPage() {
     },
   });
 
+  const loading = drafts.isLoading || published.isLoading;
   const draftRow = drafts.data?.find((r) => r.key === selected);
   const publishedRow = published.data?.find((r) => r.key === selected);
 
@@ -173,7 +176,7 @@ export function ContentEditorPage() {
               className={cn("flex shrink-0 flex-col items-start gap-1 lg:flex-row lg:items-center lg:justify-between rounded-xl border border-border bg-white px-3 py-2 text-left text-xs hover:bg-muted lg:w-full lg:border-transparent lg:bg-transparent lg:text-sm", selected === s.key && "border-indigo-300 bg-indigo-50 font-semibold text-indigo-900 lg:bg-indigo-50")}
             >
               <span>{s.label}</span>
-              {badge(s.key)}
+              {loading ? <Skeleton className="h-5 w-14 rounded-full" aria-hidden="true" /> : badge(s.key)}
             </button>
           ))}
         </nav>
@@ -196,6 +199,7 @@ export function ContentEditorPage() {
             )}
           </div>
 
+          {loading ? <FormSkeleton label="Loading content" /> : (<>
           <div className="space-y-5">
             {def.fields.map((field) => (
               <FieldEditor key={`${selected}-${field.name}`} idPrefix={selected} field={field} value={form[field.name]} onChange={(v) => set(field.name, v)} />
@@ -208,6 +212,7 @@ export function ContentEditorPage() {
             <Button disabled={publish.isPending} onClick={() => setConfirmPublish(true)}><Rocket className="mr-2 size-4" />Publish</Button>
             {publishedRow && <Button variant="ghost" onClick={discard}><RotateCcw className="mr-2 size-4" />Revert to published</Button>}
           </div>
+          </>)}
         </section>
       </div>
 

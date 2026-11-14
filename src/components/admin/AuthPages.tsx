@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { getSupabase } from "@/lib/supabase";
 import { useAuth } from "@/lib/admin/auth";
 import { AuthFrame } from "./AuthFrame";
+import { AuthFormSkeleton } from "./skeletons";
 
 /** "admin" is shorthand for the admin account's email address. */
 function toLoginEmail(value: string) {
@@ -48,7 +49,7 @@ export function LoginPage() {
   }
 
   return (
-    <AuthFrame title="Sign in">
+    <AuthFrame title="Sign in" subtitle="Welcome back. Sign in to manage your website.">
       <form onSubmit={submit} className="space-y-4">
         <div className="space-y-2">
           <Label htmlFor="email">Username or email</Label>
@@ -89,7 +90,7 @@ export function ForgotPasswordPage() {
   }
 
   return (
-    <AuthFrame title="Reset password">
+    <AuthFrame title="Reset password" subtitle="Enter your email and we will send you a link to choose a new password.">
       {sent ? (
         <p role="status" className="text-sm">If an admin account exists for that email, a reset link is on its way.</p>
       ) : (
@@ -130,9 +131,9 @@ export function ResetPasswordPage() {
   }
 
   return (
-    <AuthFrame title="Choose a new password">
+    <AuthFrame title="Choose a new password" subtitle="Use at least 10 characters.">
       {loading ? (
-        <Loader2 className="size-5 animate-spin" aria-label="Loading" />
+        <AuthFormSkeleton />
       ) : !session ? (
         <p role="alert" className="text-sm">
           This reset link is invalid or has expired. <Link to="/admin/forgot-password" className="underline">Request a new one</Link>.

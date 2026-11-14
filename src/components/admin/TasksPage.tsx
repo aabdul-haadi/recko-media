@@ -12,6 +12,7 @@ import { getSupabase } from "@/lib/supabase";
 import { useConfirm } from "./confirm";
 import { TASK_STATUSES, type Task, type TaskStatus } from "@/lib/admin/types";
 import { EmptyState, ErrorState, PageHeader, formatDateTime, fromLocalInput, toLocalInput } from "./shared";
+import { ListSkeleton } from "./skeletons";
 
 type TaskRow = Task & { contacts: { full_name: string } | null; inquiries: { name: string } | null };
 
@@ -100,7 +101,7 @@ export function TasksPage() {
       </div>
 
       {list.error ? <ErrorState error={list.error} /> : list.isLoading ? (
-        <p className="text-sm text-muted-foreground">Loading tasks…</p>
+        <ListSkeleton label="Loading tasks" />
       ) : list.data?.length === 0 ? (
         <EmptyState title="No tasks here" hint="Create a task, or add a follow-up from an inquiry." />
       ) : (

@@ -311,8 +311,8 @@ export const EXTRA_DEFAULTS: Record<string, SectionData> = {
   about_faq: {
     eyebrow: "FAQs",
     heading: "Frequently Asked Questions",
-    // Only the fourth question had an answer on the old page; the others are plain lines until an answer is added.
-    items: websiteCopy.questions.map((question, index) => ({ question, answer: index === 3 ? websiteCopy.faqAnswer : "" })),
+    // Every question has an answer (see websiteCopy.faqAnswers); the admin can edit or add more.
+    items: websiteCopy.questions.map((question, index) => ({ question, answer: websiteCopy.faqAnswers[index] ?? "" })),
     prompt: "Have another question?",
     link_label: "Contact Us",
     link_url: "/contact",

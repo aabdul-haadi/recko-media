@@ -61,6 +61,18 @@ export const websiteCopy = {
   ],
   faqAnswer:
     "Hiring a social media marketing agency can yield a variety of positive outcomes for your business. These may include increased brand visibility, heightened engagement with your target audience, boosted website traffic, and improved conversion rates. The agency's expertise in crafting strategic campaigns, compelling content, and utilizing analytics can lead to a measurable return on investment. Additionally, expect enhanced social media presence, a more significant following, and the ability to stay ahead of industry trends. Ultimately, the results will be tailored to your specific goals, with the agency working collaboratively to achieve and exceed your expectations in the digital landscape.",
+  /**
+   * An answer for every entry of `questions`, in the same order, so the About page FAQ is complete.
+   * The fourth is the longer answer the About page already had (`faqAnswer`); the others reuse the wording of the
+   * matching home page FAQ questions. Edit them in Admin > Pages & content > About page > FAQs.
+   */
+  faqAnswers: [
+    "Digital marketing is the use of digital channels, platforms and technologies to promote products, services or brands. It includes social media marketing, search engine optimization, website building, email marketing and paid advertising, with the goal of reaching your audience, building awareness, driving website traffic and achieving measurable results.",
+    "A digital marketing agency creates and runs online marketing strategies: managing your social media presence, optimizing your website for search engines, running online advertising campaigns and analyzing data to refine the plan. It acts as a strategic partner that helps you grow in the digital marketplace.",
+    "A full-service agency brings social media, SEO, web design and online advertising together. You get streamlined communication, cohesive strategy and consistent messaging, so you can focus on your business while we handle the intricacies of your online presence.",
+    "Hiring a social media marketing agency can yield a variety of positive outcomes for your business. These may include increased brand visibility, heightened engagement with your target audience, boosted website traffic, and improved conversion rates. The agency's expertise in crafting strategic campaigns, compelling content, and utilizing analytics can lead to a measurable return on investment. Additionally, expect enhanced social media presence, a more significant following, and the ability to stay ahead of industry trends. Ultimately, the results will be tailored to your specific goals, with the agency working collaboratively to achieve and exceed your expectations in the digital landscape.",
+    "Digital marketing is typically less expensive than traditional marketing. You control your budget, target precisely, track performance in real time and adjust to optimize spending, with affordable options like social media advertising and email campaigns.",
+  ],
   email: "team@socialadservices.com",
   phone: "(+92) 327 2514632",
   phoneInternational: "(+1) 984 2741027",

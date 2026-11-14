@@ -23,6 +23,7 @@ import {
   downloadCsv, formatDateTime, fromLocalInput, toLocalInput,
   safeHttpUrl,
 } from "./shared";
+import { ListSkeleton } from "./skeletons";
 
 type Filters = { status: string; service: string; source: string; from: string; to: string; archived: boolean; spam: boolean };
 const ALL = "all";
@@ -124,7 +125,7 @@ export function InquiriesPage() {
       </div>
 
       {list.error ? <ErrorState error={list.error} /> : list.isLoading ? (
-        <p className="text-sm text-muted-foreground">Loading inquiries…</p>
+        <ListSkeleton label="Loading inquiries" />
       ) : list.data && list.data.rows.length === 0 ? (
         <EmptyState title="No inquiries found" hint="Try clearing your filters. New website submissions appear here automatically." />
       ) : (
@@ -176,7 +177,7 @@ export function InquiriesPage() {
         </div>
         </>
       )}
-      <Pager page={page} total={list.data?.total ?? 0} onPage={setPage} />
+      <Pager page={page} total={list.data?.total ?? 0} onPage={setPage} loading={list.isLoading} />
 
       <InquiryDetail id={search.open} onClose={() => navigate({ to: "/admin/inquiries", search: { q: search.q, open: "" } })} />
     </>
@@ -188,7 +189,7 @@ function FilterSelect({ label, value, onChange, items }: { label: string; value:
     <Select value={value} onValueChange={onChange}>
       <SelectTrigger aria-label={label}><SelectValue placeholder={label} /></SelectTrigger>
       <SelectContent>
-        <SelectItem value={ALL}>All {label.toLowerCase()}s</SelectItem>
+        <SelectItem value={ALL}>{label === "Status" ? "All statuses" : `All ${label.toLowerCase()}s`}</SelectItem>
         {items.map(([v, l]) => <SelectItem key={v} value={v!}>{l}</SelectItem>)}
       </SelectContent>
     </Select>
@@ -292,8 +293,9 @@ function InquiryDetail({ id, onClose }: { id: string; onClose: () => void }) {
       <SheetContent className="w-full overflow-y-auto sm:max-w-xl">
         <SheetHeader>
           <SheetTitle>{inq?.name ?? "Inquiry"}</SheetTitle>
-          <SheetDescription>{inq ? `Received ${formatDateTime(inq.created_at)}` : "Loading…"}</SheetDescription>
+          <SheetDescription>{inq ? `Received ${formatDateTime(inq.created_at)}` : inquiry.isLoading ? <span className="inline-block h-3 w-40 animate-pulse rounded bg-primary/10 motion-reduce:animate-none" aria-hidden="true" /> : ""}</SheetDescription>
         </SheetHeader>
+        {inquiry.isLoading && <ListSkeleton label="Loading inquiry" rows={3} card={false} />}
         {inquiry.error && <ErrorState error={inquiry.error} />}
         {inquiry.data === null && <p className="mt-4 text-sm">This inquiry no longer exists.</p>}
         {inq && (

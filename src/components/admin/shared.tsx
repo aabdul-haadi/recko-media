@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { Badge } from "@/components/ui/badge";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import type { InquiryPriority, InquiryStatus } from "@/lib/admin/types";
@@ -63,8 +64,17 @@ export function fromLocalInput(value: string) {
   return value ? new Date(value).toISOString() : null;
 }
 
-export function Pager({ page, total, onPage }: { page: number; total: number; onPage: (page: number) => void }) {
+export function Pager({ page, total, onPage, loading = false }: { page: number; total: number; onPage: (page: number) => void; loading?: boolean }) {
   const pages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+  // While the first page is still loading, show shapes instead of a misleading "No results".
+  if (loading) {
+    return (
+      <div className="flex items-center justify-between gap-3 pt-4" aria-hidden="true">
+        <Skeleton className="h-4 w-24" />
+        <Skeleton className="h-8 w-52" />
+      </div>
+    );
+  }
   return (
     <div className="flex items-center justify-between gap-3 pt-4 text-sm text-muted-foreground">
       <span>{total === 0 ? "No results" : `${page * PAGE_SIZE + 1}–${Math.min(total, (page + 1) * PAGE_SIZE)} of ${total}`}</span>
