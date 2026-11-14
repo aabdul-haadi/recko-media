@@ -185,7 +185,7 @@ export function ContentEditorPage() {
               <p className="text-sm text-muted-foreground">{def.description}</p>
               <p className="mt-2 text-xs text-muted-foreground">
                 Draft saved: {formatDateTime(draftRow?.updated_at ?? null)} · Last published: {formatDateTime(publishedRow?.published_at ?? null)}
-                {dirty && <span className="ml-2 font-medium text-amber-600">Unsaved changes</span>}
+                {dirty && <span className="ml-2 font-medium text-amber-700">Unsaved changes</span>}
               </p>
             </div>
             {def.toggleable && (

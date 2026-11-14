@@ -6,6 +6,10 @@ test.beforeEach(async () => resetStub());
 
 /** Serious and critical axe findings fail the test; the rule ids are listed so each can be fixed. */
 async function seriousViolations(page: import("@playwright/test").Page) {
+  // Measure the colours the page settles on: axe reads the colour at this very moment, so a badge or switch that is
+  // part-way through a 150 ms colour transition would be judged on a colour nobody ever sees.
+  await page.addStyleTag({ content: "*, *::before, *::after { transition: none !important; animation: none !important; }" });
+  await page.waitForTimeout(200);
   const results = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"]).analyze();
   return results.violations
     .filter((v) => v.impact === "serious" || v.impact === "critical")

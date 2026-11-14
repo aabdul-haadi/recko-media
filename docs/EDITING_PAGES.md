@@ -19,5 +19,10 @@ match `^[a-z0-9_]{1,50}$`).
 Field types: `text`, `textarea`, `url` (validated: a site path, `#section`, `https://`, `mailto:` or `tel:`),
 `strings` (one item per line) and `list` (repeatable group of fields, for FAQs, cards, menu items).
 
+Links inside paragraphs: set `links: true` on a `textarea` field (see the FAQ answers). The editor then shows the
+"Link selected words" tool, the value is stored as `[words](address)`, and the page shows it with
+`<RichText text={value} />` (never render these values as HTML). Search-engine data must use `stripLinks(value)`.
+Parsing and safety rules live in `src/lib/content/rich-text.ts`.
+
 Pages not yet editable: Services page wording and Portfolio page wording (their services list is already managed in
 Admin > Services). Add them the same way when needed.

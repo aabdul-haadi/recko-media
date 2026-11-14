@@ -21,8 +21,32 @@ export const EDITOR_PAGES: EditorPage[] = [
   { id: "site", label: "Menu & footer", path: "/", description: "The menu, header button and footer shown on every page." },
 ];
 
+/** Where the admin can point a link with one click (anything else can be typed in). */
+export const LINK_TARGETS: { group: string; label: string; url: string }[] = [
+  { group: "Pages", label: "Home page", url: "/" },
+  { group: "Pages", label: "Our services", url: "/services" },
+  { group: "Pages", label: "Portfolio", url: "/portfolio" },
+  { group: "Pages", label: "About us", url: "/about" },
+  { group: "Pages", label: "Contact us", url: "/contact" },
+  { group: "Sections of the home page", label: "Services", url: "/#services" },
+  { group: "Sections of the home page", label: "Our work", url: "/#work" },
+  { group: "Sections of the home page", label: "About", url: "/#about" },
+  { group: "Sections of the home page", label: "How we work", url: "/#approach" },
+  { group: "Sections of the home page", label: "Partnerships", url: "/#partnership" },
+  { group: "Sections of the home page", label: "Client experiences", url: "/#reviews" },
+  { group: "Sections of the home page", label: "FAQ", url: "/#faq" },
+  { group: "Sections of the home page", label: "Contact", url: "/#contact" },
+];
+
 const text = (name: string, label: string, max: number, help?: string): Field => ({ name, label, type: "text", max, ...(help ? { help } : {}) });
-const area = (name: string, label: string, max: number, help?: string): Field => ({ name, label, type: "textarea", max, ...(help ? { help } : {}) });
+const area = (name: string, label: string, max: number, help?: string, links?: boolean): Field => ({
+  name,
+  label,
+  type: "textarea",
+  max,
+  ...(help ? { help } : {}),
+  ...(links ? { links: true } : {}),
+});
 const link = (name: string, label: string, help?: string): Field => ({ name, label, type: "url", ...(help ? { help } : {}) });
 const LINK_HELP = "A path such as /contact, a full https:// address, #section, mailto: or tel:.";
 
@@ -162,7 +186,7 @@ export const EXTRA_SECTIONS: SectionDef[] = [
         type: "list",
         itemLabel: "Question",
         max: 30,
-        fields: [text("question", "Question", 200), area("answer", "Answer", 1500, "Optional. With an answer the question can be opened.")],
+        fields: [text("question", "Question", 200), area("answer", "Answer", 1500, "Optional. With an answer the question can be opened.", true)],
       },
       text("prompt", "Sentence before the link", 80, "For example: Have another question?"),
       text("link_label", "Link text", 40, "The linked words at the end of the sentence."),

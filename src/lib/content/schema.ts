@@ -5,7 +5,7 @@ import { EXTRA_DEFAULTS, EXTRA_SECTIONS } from "./page-sections";
 /** Field types the homepage editor can render. */
 export type Field =
   | { name: string; label: string; type: "text" | "url"; max?: number; help?: string }
-  | { name: string; label: string; type: "textarea"; max?: number; help?: string }
+  | { name: string; label: string; type: "textarea"; max?: number; help?: string; /** Lets the admin turn selected words into links. */ links?: boolean }
   | { name: string; label: string; type: "strings"; help?: string }
   | { name: string; label: string; type: "list"; itemLabel: string; fields: Field[]; max?: number };
 
@@ -200,7 +200,7 @@ const coreSectionDefs: SectionDef[] = [
     fields: [
       { name: "eyebrow", label: "Eyebrow", type: "text", max: 60 },
       { name: "heading", label: "Heading", type: "text", max: 100 },
-      { name: "intro", label: "Intro", type: "textarea", max: 300 },
+      { name: "intro", label: "Intro", type: "textarea", max: 300, links: true },
       {
         name: "items",
         label: "Questions",
@@ -209,7 +209,7 @@ const coreSectionDefs: SectionDef[] = [
         max: 30,
         fields: [
           { name: "question", label: "Question", type: "text", max: 200 },
-          { name: "answer", label: "Answer", type: "textarea", max: 1000 },
+          { name: "answer", label: "Answer", type: "textarea", max: 1000, links: true },
         ],
       },
       { name: "cta_label", label: "Link text", type: "text", max: 50 },

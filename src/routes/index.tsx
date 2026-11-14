@@ -2,6 +2,8 @@ import { createFileRoute } from "@tanstack/react-router";
 
 import { HomePage } from "@/components/home/HomePage";
 import type { SiteContent } from "@/lib/content/content";
+import { stripLinks } from "@/lib/content/rich-text";
+import { safeJsonLd } from "@/lib/content/seo";
 
 export const Route = createFileRoute("/")({
   head: ({ matches }) => {
@@ -28,13 +30,13 @@ export const Route = createFileRoute("/")({
         ? [
             {
               type: "application/ld+json",
-              children: JSON.stringify({
+              children: safeJsonLd({
                 "@context": "https://schema.org",
                 "@type": "FAQPage",
                 mainEntity: faqItems.map((item) => ({
                   "@type": "Question",
                   name: item.question,
-                  acceptedAnswer: { "@type": "Answer", text: item.answer },
+                  acceptedAnswer: { "@type": "Answer", text: stripLinks(item.answer) },
                 })),
               }),
             },

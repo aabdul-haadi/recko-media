@@ -2,6 +2,7 @@ import * as Accordion from "@radix-ui/react-accordion";
 import { Plus } from "@phosphor-icons/react";
 import { Reveal, SplitReveal } from "@/components/motion/SplitReveal";
 import { ArrowLink } from "@/components/ui/ArrowLink";
+import { RichText } from "@/components/ui/RichText";
 import { safeUrl, useSection } from "@/lib/content/content";
 import "./faq.css";
 
@@ -24,7 +25,7 @@ export function Faq() {
           <h2 id="faq-title" className="font-display">
             <SplitReveal key={c["heading"]} text={c["heading"]} />
           </h2>
-          {c["intro"] && <p className="mt-5 max-w-sm text-base leading-relaxed text-muted-foreground">{c["intro"]}</p>}
+          {c["intro"] && <p className="mt-5 max-w-sm text-base leading-relaxed text-muted-foreground"><RichText text={c["intro"]} /></p>}
           {c["cta_label"] && (
             <div className="mt-7">
               <ArrowLink variant="ghost" href={safeUrl(c["cta_url"], "#contact")}>
@@ -49,7 +50,7 @@ export function Faq() {
                 </h3>
               </Accordion.Header>
               <Accordion.Content className="recko-faq-content">
-                <p className="pb-6 pl-9 pr-4 text-base leading-relaxed text-muted-foreground md:pl-10 md:pr-14">{item.answer}</p>
+                <p className="pb-6 pl-9 pr-4 text-base leading-relaxed text-muted-foreground md:pl-10 md:pr-14"><RichText text={item.answer} /></p>
               </Accordion.Content>
             </Accordion.Item>
           ))}
