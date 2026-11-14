@@ -16,7 +16,7 @@ import { ConfirmProvider, useConfirm } from "./confirm";
 const nav = [
   { to: "/admin", label: "Dashboard", short: "Home", icon: LayoutDashboard, tile: "#4f46e5", exact: true },
   { to: "/admin/inquiries", label: "Inquiries", short: "Inquiries", icon: Inbox, tile: "#ec4899" },
-  { to: "/admin/homepage", label: "Homepage Editor", short: "Homepage", icon: FileEdit, tile: "#8b5cf6" },
+  { to: "/admin/content", label: "Pages & content", short: "Pages", icon: FileEdit, tile: "#8b5cf6" },
   { to: "/admin/services", label: "Services", short: "Services", icon: Briefcase, tile: "#0ea5e9" },
   { to: "/admin/contacts", label: "Contacts", short: "Contacts", icon: Users, tile: "#10b981" },
   { to: "/admin/tasks", label: "Tasks & Follow-ups", short: "Tasks", icon: CheckSquare, tile: "#f59e0b" },

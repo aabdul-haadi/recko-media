@@ -1,33 +1,55 @@
 import "./inner-visuals.css";
-import { ArrowRight, Clock3, Mail, MapPin } from "lucide-react";
+import { ArrowRight, Clock3, Mail, MapPin, Phone, MessageCircle } from "lucide-react";
 import { PageFrame, PageHero } from "@/components/pages/PageFrame";
 import { Reveal } from "@/components/motion/SplitReveal";
 import { InquiryForm } from "@/components/forms/InquiryForm";
-import { websiteCopy } from "@/data/website-copy";
+import { SiteLink } from "@/components/ui/SiteLink";
+import { useSection } from "@/lib/content/content";
+import { mailtoHref, telHref } from "@/lib/content/links";
 
+type InfoBlock = { title?: string; text?: string };
+
+const str = (value: unknown) => (typeof value === "string" ? value : "");
+const infoIcons = [Clock3, MapPin, Phone, MessageCircle];
+
+/**
+ * Wording is editable in Admin > Pages & content > Contact page. The email, phone numbers and address are
+ * shared with the footer (Menu & footer > Footer & contact details), so they are only ever edited once.
+ */
 export function ContactPage() {
+  const hero = useSection("contact_hero").data;
+  const details = useSection("contact_details").data;
+  const footer = useSection("footer").data;
+
+  const email = str(footer["email"]).trim();
+  const emailLink = mailtoHref(email);
+  const phones = [str(footer["phone"]).trim(), str(footer["phone_intl"]).trim()].filter(Boolean);
+  const address = str(footer["address"]).trim();
+  const info = (Array.isArray(details["info"]) ? (details["info"] as InfoBlock[]) : []).filter(
+    (block) => str(block.title).trim() || str(block.text).trim(),
+  );
+  const artLines = [str(details["art_line_1"]), str(details["art_line_2"])].filter(Boolean);
+
   return (
     <PageFrame>
-      <PageHero
-        eyebrow="Contact / Start the conversation"
-        title="Get In Touch"
-        description="Ready to take the next step? Let’s chat about how Recko Media can craft a winning digital marketing strategy that ignites your online presence."
-      />
+      <PageHero eyebrow={str(hero["eyebrow"])} title={str(hero["title"])} description={str(hero["description"])} />
 
       <section className="py-16 md:py-24">
         <div className="mx-auto grid max-w-7xl gap-12 px-5 md:grid-cols-[0.75fr_1.25fr] md:gap-20 md:px-10">
           <aside className="recko-contact-aside">
             <div className="recko-contact-art" aria-label="A starting point for your next project">
               <div className="recko-contact-art-top">
-                <span className="recko-page-label">Your next chapter</span>
+                <span className="recko-page-label">{str(details["art_label"])}</span>
                 <ArrowRight size={22} aria-hidden="true" />
               </div>
               <h2>
-                Big idea?
-                <br />
-                Small question?
-                <br />
-                <span>Start here.</span>
+                {artLines.map((line, index) => (
+                  <span key={`${index}-${line}`} style={{ display: "contents" }}>
+                    {line}
+                    <br />
+                  </span>
+                ))}
+                {str(details["art_line_3"]) && <span>{str(details["art_line_3"])}</span>}
               </h2>
               <div className="recko-contact-art-images" aria-hidden="true">
                 <img src="/thumbs/work-snack.jpg" alt="" width="320" height="240" />
@@ -36,58 +58,65 @@ export function ContactPage() {
               </div>
             </div>
             <Reveal>
-              <p className="text-xs font-semibold uppercase tracking-[0.25em] text-muted-foreground">
-                Reach the team
-              </p>
-              <a
-                href="mailto:team@socialadservices.com"
-                className="recko-contact-email mt-4 inline-flex items-center gap-3 text-lg font-medium transition-colors hover:text-primary sm:text-xl"
-              >
-                <Mail className="size-5 text-primary" />
-                team@socialadservices.com
-              </a>
+              {str(details["reach_label"]) && (
+                <p className="text-xs font-semibold uppercase tracking-[0.25em] text-muted-foreground">
+                  {str(details["reach_label"])}
+                </p>
+              )}
+              {email &&
+                (emailLink ? (
+                  <a
+                    href={emailLink}
+                    className="recko-contact-email mt-4 inline-flex items-center gap-3 text-lg font-medium transition-colors hover:text-primary sm:text-xl"
+                  >
+                    <Mail className="size-5 text-primary" />
+                    {email}
+                  </a>
+                ) : (
+                  <p className="recko-contact-email mt-4 inline-flex items-center gap-3 text-lg font-medium sm:text-xl">
+                    <Mail className="size-5 text-primary" />
+                    {email}
+                  </p>
+                ))}
             </Reveal>
             <div className="mt-5 flex flex-col items-start gap-3 text-muted-foreground">
-              <a href="tel:+923272514632" className="hover:text-acid">
-                {websiteCopy.phone}
-              </a>
-              <a href="tel:+19842741027" className="hover:text-acid">
-                {websiteCopy.phoneInternational}
-              </a>
-              <p>{websiteCopy.address}</p>
-              <a href="https://wa.me/923272514632" className="hover:text-acid">
-                Chat on WhatsApp
-              </a>
+              {phones.map((phone) => {
+                const href = telHref(phone);
+                return href ? (
+                  <a key={phone} href={href} className="hover:text-acid">
+                    {phone}
+                  </a>
+                ) : (
+                  <p key={phone}>{phone}</p>
+                );
+              })}
+              {address && <p>{address}</p>}
+              {str(details["whatsapp_label"]) && (
+                <SiteLink href={details["whatsapp_url"]} fallback="#" className="hover:text-acid">
+                  {str(details["whatsapp_label"])}
+                </SiteLink>
+              )}
             </div>
-            <div className="mt-10 space-y-6 border-t border-border pt-7">
-              <Reveal delay={80}>
-                <div className="flex gap-4">
-                  <span className="grid size-10 shrink-0 place-items-center rounded-full border border-border text-primary">
-                    <Clock3 className="size-4" />
-                  </span>
-                  <div>
-                    <h2 className="font-semibold">Need advice to grow your business?</h2>
-                    <p className="mt-1 max-w-sm text-sm leading-relaxed text-muted-foreground">
-                      Digital marketing helps businesses reach and connect with their audience
-                      online, paving the way for success in a competitive market.
-                    </p>
-                  </div>
-                </div>
-              </Reveal>
-              <Reveal delay={160}>
-                <div className="flex gap-4">
-                  <span className="grid size-10 shrink-0 place-items-center rounded-full border border-border text-primary">
-                    <MapPin className="size-4" />
-                  </span>
-                  <div>
-                    <h2 className="font-semibold">Working together</h2>
-                    <p className="mt-1 max-w-sm text-sm leading-relaxed text-muted-foreground">
-                      Find us in Gulshan-e-Iqbal, Karachi, Pakistan.
-                    </p>
-                  </div>
-                </div>
-              </Reveal>
-            </div>
+            {info.length > 0 && (
+              <div className="mt-10 space-y-6 border-t border-border pt-7">
+                {info.map((block, index) => {
+                  const Icon = infoIcons[index % infoIcons.length]!;
+                  return (
+                    <Reveal key={`${index}-${block.title}`} delay={80 * (index + 1)}>
+                      <div className="flex gap-4">
+                        <span className="grid size-10 shrink-0 place-items-center rounded-full border border-border text-primary">
+                          <Icon className="size-4" />
+                        </span>
+                        <div>
+                          <h2 className="font-semibold">{str(block.title)}</h2>
+                          <p className="mt-1 max-w-sm text-sm leading-relaxed text-muted-foreground">{str(block.text)}</p>
+                        </div>
+                      </div>
+                    </Reveal>
+                  );
+                })}
+              </div>
+            )}
           </aside>
 
           <Reveal>

@@ -62,7 +62,7 @@ On the host (Cloudflare/Lovable) add the same two `VITE_` variables, then redepl
 - In Authentication > Attack Protection enable CAPTCHA and leaked-password protection, and set a minimum password length of 12.
 
 ## Editing the website (Phase 2)
-- **Homepage editor** (`/admin/homepage`): pick a section, edit, **Save draft**, **Preview** (opens the site in preview mode, visible only to a signed-in admin), then **Publish**. Visitors only ever see published content.
+- **Pages & content** (`/admin/content`, the old `/admin/homepage` address still works): choose a page (Home, About, Contact, or Menu & footer), pick a section, edit its wording and links, **Save draft**, **Preview** (opens that page in preview mode, visible only to a signed-in admin), then **Publish**. Visitors only ever see published content. Every linked word (menu, buttons, the link at the end of a sentence, the WhatsApp link, the FAQ link) has its own text box and its own address box. Each page's search title and description are editable too. The About page FAQ and the Home page FAQ each have their own questions and answers; a question without an answer is shown as a plain line.
 - **Services** (`/admin/services`): add, edit, delete, reorder, feature, and publish/unpublish. Changes appear on the homepage and the Services page without a deployment.
 - Section visibility toggles hide a section from the live homepage. Reordering sections and image uploads (Media Library) arrive in Phase 3.
 

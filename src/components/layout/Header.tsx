@@ -2,7 +2,7 @@ import { useRouter } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 import { X, Menu, ArrowUpRight } from "lucide-react";
-import { menuLinks } from "@/data/home";
+import { useNavigation } from "@/lib/content/nav";
 import { lockScroll, scrollToId } from "@/lib/scroll";
 import { cn } from "@/lib/utils";
 import { BrandLogo } from "./BrandLogo";
@@ -10,6 +10,7 @@ import "./header-menu.css";
 
 export function Header() {
   const router = useRouter({ warn: false });
+  const { items: menuLinks, ctaLabel, ctaUrl } = useNavigation();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const navigationTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
@@ -45,10 +46,11 @@ export function Header() {
       if (target.startsWith("/")) {
         if (router) void router.navigate({ href: target });
         else window.location.assign(target);
-      } else if (document.querySelector(target)) {
-        scrollToId(target);
+      } else if (target.startsWith("#")) {
+        if (document.querySelector(target)) scrollToId(target);
+        else window.location.assign(`/${target}`);
       } else {
-        window.location.assign(`/${target}`);
+        window.location.assign(target); // https:, mailto:, tel:
       }
     }, 60);
   };
@@ -86,6 +88,7 @@ export function Header() {
                 onClick={(event) => {
                   if (
                     router &&
+                    link.target.startsWith("/") &&
                     event.button === 0 &&
                     !event.ctrlKey &&
                     !event.metaKey &&
@@ -102,12 +105,14 @@ export function Header() {
             ))}
           </nav>
           <div className="recko-header-actions">
+            {ctaLabel && (
             <a
-              href="/contact"
+              href={ctaUrl}
               className="recko-header-contact"
               onClick={(event) => {
                 if (
                   router &&
+                  ctaUrl.startsWith("/") &&
                   event.button === 0 &&
                   !event.ctrlKey &&
                   !event.metaKey &&
@@ -115,12 +120,13 @@ export function Header() {
                   !event.altKey
                 ) {
                   event.preventDefault();
-                  void router.navigate({ href: "/contact" });
+                  void router.navigate({ href: ctaUrl });
                 }
               }}
             >
-              Let's talk <ArrowUpRight size={16} aria-hidden="true" />
+              {ctaLabel} <ArrowUpRight size={16} aria-hidden="true" />
             </a>
+            )}
             <Dialog.Trigger asChild>
               <button type="button" className="recko-header-menu-trigger">
                 <span>Menu</span>
@@ -158,12 +164,12 @@ export function Header() {
                   {link.index}
                 </span>
                 <span className="recko-menu-item-title font-display">{link.name}</span>
-                {link.index === "01" && (
+                {link.index === "01" && menuLinks.length > 1 && (
                   <span className="recko-menu-note" aria-hidden="true">
                     [DIRECTION]
                   </span>
                 )}
-                {link.index === "05" && (
+                {link.index === String(menuLinks.length).padStart(2, "0") && menuLinks.length > 1 && (
                   <span className="recko-menu-note" aria-hidden="true">
                     [ACTION]
                   </span>

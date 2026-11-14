@@ -1,7 +1,8 @@
-import { websiteCopy } from "@/data/website-copy";
 import { BrandLogo } from "./BrandLogo";
-import { menuLinks } from "@/data/home";
 import { Link } from "@tanstack/react-router";
+import { SiteLink } from "@/components/ui/SiteLink";
+import { useNavigation } from "@/lib/content/nav";
+import { telHref } from "@/lib/content/links";
 import { getLenis } from "@/lib/scroll";
 import { safeUrl, useSection } from "@/lib/content/content";
 import { ArrowUp, ArrowUpRight, Mail, MapPin, Phone } from "lucide-react";
@@ -30,10 +31,12 @@ function scrollToTop() {
 export function Footer() {
   const year = new Date().getFullYear();
   const { data: c } = useSection("footer");
+  const { items: menuLinks } = useNavigation();
   const socials = (c["socials"] ?? []) as { label: string; href: string }[];
   const footerServices = (c["services"] ?? []) as string[];
   const email = String(c["email"] ?? "");
   const phone = String(c["phone"] ?? "");
+  const phoneIntl = String(c["phone_intl"] ?? "").trim();
   return (
     <footer className="recko-footer border-t border-border">
       {/* Call to action band */}
@@ -68,12 +71,9 @@ export function Footer() {
           <ul className="space-y-3">
             {menuLinks.map((link) => (
               <li key={link.index}>
-                <Link
-                  to={link.target as "/" | "/services" | "/portfolio" | "/about" | "/contact"}
-                  className={linkClass}
-                >
+                <SiteLink href={link.target} className={linkClass}>
                   {link.name}
-                </Link>
+                </SiteLink>
               </li>
             ))}
           </ul>
@@ -139,12 +139,18 @@ export function Footer() {
                 {phone}
               </a>
             </li>
-            <li className="flex items-start gap-3">
-              <Phone className="mt-0.5 size-4 shrink-0 text-acid" aria-hidden="true" />
-              <a href="tel:+19842741027" className="transition-colors hover:text-acid">
-                {websiteCopy.phoneInternational}
-              </a>
-            </li>
+            {phoneIntl && (
+              <li className="flex items-start gap-3">
+                <Phone className="mt-0.5 size-4 shrink-0 text-acid" aria-hidden="true" />
+                {telHref(phoneIntl) ? (
+                  <a href={telHref(phoneIntl)!} className="transition-colors hover:text-acid">
+                    {phoneIntl}
+                  </a>
+                ) : (
+                  <span>{phoneIntl}</span>
+                )}
+              </li>
+            )}
             <li className="flex items-start gap-3">
               <MapPin className="mt-0.5 size-4 shrink-0 text-acid" aria-hidden="true" />
               <span>{String(c["address"] ?? "")}</span>

@@ -1,4 +1,8 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { HomepageEditorPage } from "@/components/admin/HomepageEditorPage";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 
-export const Route = createFileRoute("/admin/homepage")({ component: HomepageEditorPage });
+// The editor now covers more than the home page. Old bookmarks and links keep working.
+export const Route = createFileRoute("/admin/homepage")({
+  beforeLoad: () => {
+    throw redirect({ to: "/admin/content" });
+  },
+});
