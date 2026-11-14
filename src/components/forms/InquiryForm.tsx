@@ -3,11 +3,20 @@ import { useEffect, useRef, useState, type FormEvent } from "react";
 import { ArrowRight, Check } from "lucide-react";
 import { isSupabaseConfigured } from "@/lib/supabase";
 import { cooldownRemaining, submitInquiry, validateInquiry } from "@/lib/inquiries";
+import { useSection } from "@/lib/content/content";
 
 const inputClass =
   "mt-2 w-full rounded-lg border border-border bg-background px-4 py-3.5 text-base text-foreground outline-none transition-colors placeholder:text-muted-foreground/60 focus:border-primary focus:ring-2 focus:ring-primary/20";
 
+const str = (value: unknown, fallback: string) => (typeof value === "string" && value.trim() ? value : fallback);
+
 export function InquiryForm({ source = "contact-page" }: { source?: string }) {
+  // The wording is editable in Admin > Pages & content > Contact page > Inquiry form wording.
+  const { data: words } = useSection("inquiry_form");
+  const serviceChoices = (Array.isArray(words["services"]) ? (words["services"] as unknown[]) : [])
+    .map((choice) => (typeof choice === "string" ? choice.trim() : ""))
+    .filter(Boolean);
+  if (serviceChoices.length === 0) serviceChoices.push("Not sure yet");
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -114,17 +123,16 @@ export function InquiryForm({ source = "contact-page" }: { source?: string }) {
           <span className="recko-success-check" aria-hidden="true">
             <Check className="size-8" strokeWidth={3} />
           </span>
-          <h2 className="mt-6 font-display text-2xl font-bold sm:text-3xl">Message received.</h2>
+          <h2 className="mt-6 font-display text-2xl font-bold sm:text-3xl">{str(words["success_title"], "Message received.")}</h2>
           <p className="mx-auto mt-3 max-w-sm text-sm leading-relaxed text-muted-foreground">
-            Thank you. We have your inquiry and will reply personally, usually within one working
-            day.
+            {str(words["success_text"], "Thank you. We have your inquiry and will reply personally, usually within one working day.")}
           </p>
           <button
             type="button"
             onClick={sendAnother}
             className="mt-7 inline-flex items-center justify-center gap-2 rounded-full border border-border px-5 py-2.5 text-sm font-medium transition-colors hover:border-primary hover:text-primary"
           >
-            Send another message
+            {str(words["success_button"], "Send another message")}
           </button>
         </div>
       ) : (
@@ -136,10 +144,10 @@ export function InquiryForm({ source = "contact-page" }: { source?: string }) {
         >
           <div className="mb-8">
             <p className="text-xs font-semibold uppercase tracking-[0.25em] text-primary">
-              Project inquiry
+              {str(words["eyebrow"], "Project inquiry")}
             </p>
             <h2 className="mt-3 font-display text-2xl font-bold sm:text-3xl">
-              What would you like to make happen?
+              {str(words["heading"], "What would you like to make happen?")}
             </h2>
           </div>
           <div className="grid gap-5 sm:grid-cols-2">
@@ -216,13 +224,10 @@ export function InquiryForm({ source = "contact-page" }: { source?: string }) {
             </label>
             <label className="text-sm font-medium sm:col-span-2">
               Area of interest
-              <select className={inputClass} name="service" defaultValue="Not sure yet">
-                <option>Not sure yet</option>
-                <option>Social media advertising</option>
-                <option>Search engine optimization</option>
-                <option>Search engine marketing / Google Ads</option>
-                <option>Website design & development</option>
-                <option>Something else</option>
+              <select className={inputClass} name="service" defaultValue={serviceChoices[0]}>
+                {serviceChoices.map((choice, index) => (
+                  <option key={`${choice}-${index}`}>{choice}</option>
+                ))}
               </select>
             </label>
             <label className="text-sm font-medium sm:col-span-2">
@@ -254,11 +259,11 @@ export function InquiryForm({ source = "contact-page" }: { source?: string }) {
               disabled={!ready || status === "sending"}
               className="inline-flex disabled:opacity-60 w-fit items-center justify-center gap-3 rounded-full bg-primary px-6 py-3 font-semibold text-primary-foreground transition-transform hover:translate-x-1 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
             >
-              {status === "sending" ? "Sending…" : "Send inquiry"}
+              {status === "sending" ? "Sending…" : str(words["submit_label"], "Send inquiry")}
               <ArrowRight className="size-4" />
             </button>
             <p className="text-xs leading-relaxed text-muted-foreground">
-              We reply to every inquiry personally.
+              {str(words["reply_note"], "We reply to every inquiry personally.")}
             </p>
           </div>
           {status === "error" && (

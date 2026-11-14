@@ -12,6 +12,7 @@ import {
 import { getSupabase } from "@/lib/supabase";
 import { useConfirm } from "./confirm";
 import { contentDefaults, sectionDefs, type SectionData } from "@/lib/content/schema";
+import { EDITOR_PAGES } from "@/lib/content/page-sections";
 import { cn } from "@/lib/utils";
 import { FieldEditor, findInvalidUrl } from "./FieldEditor";
 import { ErrorState, PageHeader, formatDateTime } from "./shared";
@@ -20,10 +21,14 @@ type Row = { key: string; data: SectionData; enabled: boolean; updated_at?: stri
 
 const sameJson = (a: unknown, b: unknown) => JSON.stringify(a) === JSON.stringify(b);
 
-export function HomepageEditorPage() {
+/** Edits the wording of the home page, About, Contact and the menu/footer. Add pages in lib/content/page-sections.ts. */
+export function ContentEditorPage() {
   const queryClient = useQueryClient();
   const confirm = useConfirm();
-  const [selected, setSelected] = useState(sectionDefs[0]!.key);
+  const [pageId, setPageId] = useState(EDITOR_PAGES[0]!.id);
+  const page = EDITOR_PAGES.find((p) => p.id === pageId) ?? EDITOR_PAGES[0]!;
+  const pageSections = sectionDefs.filter((s) => (s.page ?? "home") === page.id);
+  const [selected, setSelected] = useState(pageSections[0]!.key);
   const [form, setForm] = useState<SectionData>({});
   const [enabled, setEnabled] = useState(true);
   const [dirty, setDirty] = useState(false);
@@ -79,26 +84,38 @@ export function HomepageEditorPage() {
     queryClient.invalidateQueries({ queryKey: ["content"] });
   };
 
+  // One writer for the draft, shared by "Save draft" and "Publish", so a failure is reported once.
+  async function writeDraft() {
+    const bad = findInvalidUrl(def.fields, form);
+    if (bad) throw new Error(`"${bad}" is not a valid link.`);
+    const { error } = await getSupabase().from("content_drafts").upsert({ key: selected, data: form, enabled: def.toggleable ? enabled : true });
+    if (error) throw error;
+  }
+
   const saveDraft = useMutation({
-    mutationFn: async () => {
-      const bad = findInvalidUrl(def.fields, form);
-      if (bad) throw new Error(`"${bad}" is not a valid link.`);
-      const { error } = await getSupabase().from("content_drafts").upsert({ key: selected, data: form, enabled: def.toggleable ? enabled : true });
-      if (error) throw error;
-    },
+    mutationFn: writeDraft,
     onSuccess: () => { toast.success("Draft saved. Visitors still see the published version."); setDirty(false); refresh(); },
     onError: (e: Error) => toast.error(e.message || "Could not save the draft."),
   });
 
   const publish = useMutation({
     mutationFn: async () => {
-      await saveDraft.mutateAsync();
+      await writeDraft();
       const { error } = await getSupabase().rpc("publish_content", { p_key: selected });
       if (error) throw error;
     },
-    onSuccess: () => { setConfirmPublish(false); toast.success("Published. The live website now shows these changes."); refresh(); },
+    onSuccess: () => { setConfirmPublish(false); setDirty(false); toast.success("Published. The live website now shows these changes."); refresh(); },
     onError: (e: Error) => { setConfirmPublish(false); toast.error(e.message || "Could not publish."); },
   });
+
+  async function choosePage(id: string) {
+    if (id === pageId) return;
+    const first = sectionDefs.find((s) => (s.page ?? "home") === id);
+    if (!first) return;
+    if (dirty && !(await confirm({ title: "Discard unsaved changes?", description: "You have edits in this section that are not saved.", confirmLabel: "Yes, discard", destructive: true }))) return;
+    setPageId(id);
+    setSelected(first.key);
+  }
 
   async function choose(key: string) {
     if (key === selected) return;
@@ -111,7 +128,7 @@ export function HomepageEditorPage() {
       if (!(await confirm({ title: "Save draft and preview?", description: "Your changes are saved as a draft (not published) so the preview can show them.", confirmLabel: "Yes, save & preview" }))) return;
       await saveDraft.mutateAsync().catch(() => undefined);
     }
-    window.open("/?preview=draft", "_blank", "noopener");
+    window.open(`${page.path}?preview=draft`, "_blank", "noopener");
   }
 
   async function discard() {
@@ -132,11 +149,25 @@ export function HomepageEditorPage() {
   const error = drafts.error ?? published.error;
   return (
     <>
-      <PageHeader title="Homepage editor" description="Edit each section, preview your draft, then publish to the live website. No code deployment needed." />
+      <PageHeader title="Pages & content" description="Choose a page, edit its wording and links, preview your draft, then publish to the live website. No code deployment needed." />
       {error && <ErrorState error={error} />}
       <div className="grid gap-4 lg:grid-cols-[15rem_1fr] lg:gap-6">
-        <nav aria-label="Homepage sections" className="admin-scroll-x -mx-3 px-3 pb-1 sm:mx-0 sm:px-0 lg:block lg:rounded-2xl lg:border lg:border-border lg:bg-white lg:shadow-sm lg:space-y-1 lg:self-start lg:overflow-visible lg:p-2">
-          {sectionDefs.map((s) => (
+        <nav aria-label="Pages" className="lg:col-span-2 flex flex-wrap gap-2">
+          {EDITOR_PAGES.map((p) => {
+            const pending = sectionDefs.filter((s) => (s.page ?? "home") === p.id && status[s.key] === "unpublished").length;
+            return (
+              <button
+                key={p.id} type="button" onClick={() => choosePage(p.id)} aria-pressed={pageId === p.id}
+                className={cn("rounded-full border border-border bg-white px-4 py-2 text-sm font-medium shadow-sm transition-colors hover:bg-muted", pageId === p.id && "border-primary bg-primary/10 text-primary")}
+              >
+                {p.label}
+                {pending > 0 && <span className="ml-2 rounded-full bg-amber-500/20 px-2 py-0.5 text-xs text-amber-700">{pending} unpublished</span>}
+              </button>
+            );
+          })}
+        </nav>
+        <nav aria-label={`${page.label} sections`} className="admin-scroll-x -mx-3 px-3 pb-1 sm:mx-0 sm:px-0 lg:block lg:rounded-2xl lg:border lg:border-border lg:bg-white lg:shadow-sm lg:space-y-1 lg:self-start lg:overflow-visible lg:p-2">
+          {pageSections.map((s) => (
             <button
               key={s.key} type="button" onClick={() => choose(s.key)} aria-current={selected === s.key}
               className={cn("flex shrink-0 flex-col items-start gap-1 lg:flex-row lg:items-center lg:justify-between rounded-xl border border-border bg-white px-3 py-2 text-left text-xs hover:bg-muted lg:w-full lg:border-transparent lg:bg-transparent lg:text-sm", selected === s.key && "border-indigo-300 bg-indigo-50 font-semibold text-indigo-900 lg:bg-indigo-50")}

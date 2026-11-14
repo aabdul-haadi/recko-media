@@ -1,5 +1,6 @@
 import { websiteCopy } from "@/data/website-copy";
 import { partnershipItems, processSteps, serviceTabs } from "@/data/home";
+import { EXTRA_DEFAULTS, EXTRA_SECTIONS } from "./page-sections";
 
 /** Field types the homepage editor can render. */
 export type Field =
@@ -10,6 +11,8 @@ export type Field =
 
 export type SectionDef = {
   key: string;
+  /** Which page this section belongs to in the editor (see EDITOR_PAGES). Defaults to the home page. */
+  page?: string;
   label: string;
   description: string;
   /** Sections the admin may hide from the live site. */
@@ -21,7 +24,7 @@ export type SectionData = Record<string, unknown>;
 
 const reviewsDefault = [websiteCopy.testimonial];
 
-export const sectionDefs: SectionDef[] = [
+const coreSectionDefs: SectionDef[] = [
   {
     key: "seo",
     label: "Homepage SEO",
@@ -256,6 +259,7 @@ export const sectionDefs: SectionDef[] = [
       { name: "services", label: "Services list", type: "strings" },
       { name: "email", label: "Email", type: "text", max: 200 },
       { name: "phone", label: "Phone", type: "text", max: 50 },
+      { name: "phone_intl", label: "International phone", type: "text", max: 50, help: "Shown on the Contact page and in the footer. Optional." },
       { name: "address", label: "Address", type: "text", max: 200 },
       {
         name: "socials",
@@ -271,6 +275,12 @@ export const sectionDefs: SectionDef[] = [
       { name: "copyright", label: "Copyright name", type: "text", max: 80 },
     ],
   },
+];
+
+/** Every editable section: the home page and menu/footer sections, then the extra pages. */
+export const sectionDefs: SectionDef[] = [
+  ...coreSectionDefs.map((def) => ({ ...def, page: def.page ?? (def.key === "footer" ? "site" : "home") })),
+  ...EXTRA_SECTIONS,
 ];
 
 const baseContentDefaults: Record<string, SectionData> = {
@@ -509,6 +519,7 @@ const suppliedCopy: Record<string, SectionData> = {
     ],
     email: "team@socialadservices.com",
     phone: "(+92) 327 2514632",
+    phone_intl: "(+1) 984 2741027",
     address: "Gulshan-e-Iqbal, Karachi, PAK",
     socials: [
       {
@@ -537,7 +548,7 @@ const suppliedCopy: Record<string, SectionData> = {
 };
 
 export const contentDefaults: Record<string, SectionData> = Object.fromEntries(
-  Object.entries(baseContentDefaults).map(([key, value]) => [
+  Object.entries({ ...baseContentDefaults, ...EXTRA_DEFAULTS }).map(([key, value]) => [
     key,
     { ...value, ...suppliedCopy[key] },
   ]),

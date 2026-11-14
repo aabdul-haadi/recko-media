@@ -128,7 +128,7 @@ export function DashboardPage() {
         </h1>
         <div className="relative mt-4 flex flex-wrap gap-2">
           <Button asChild size="sm" className="bg-white text-indigo-700 hover:bg-white/90"><Link to="/admin/inquiries" search={{ q: "", open: "" }}><Inbox className="mr-2 size-4" />Inquiries</Link></Button>
-          <Button asChild size="sm" variant="secondary" className="border-0 bg-white/20 text-white hover:bg-white/30"><Link to="/admin/homepage"><Sparkles className="mr-2 size-4" />Edit homepage</Link></Button>
+          <Button asChild size="sm" variant="secondary" className="border-0 bg-white/20 text-white hover:bg-white/30"><Link to="/admin/content"><Sparkles className="mr-2 size-4" />Edit pages</Link></Button>
           <Button asChild size="sm" variant="secondary" className="border-0 bg-white/20 text-white hover:bg-white/30"><Link to="/admin/tasks"><CheckSquare className="mr-2 size-4" />Add follow-up</Link></Button>
         </div>
       </section>

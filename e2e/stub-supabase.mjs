@@ -202,7 +202,17 @@ const server = http.createServer(async (req, res) => {
   const user = userFromAuth(req);
   if (path === "/rest/v1/rpc/is_admin") return send(res, 200, isAdmin(user));
   if (path === "/rest/v1/rpc/submit_inquiry") { const r = submitInquiry(body?.payload ?? {}); return send(res, r.status, r.body); }
-  if (path === "/rest/v1/rpc/publish_content") return isAdmin(user) ? send(res, 200, new Date().toISOString()) : send(res, 403, { code: "42501", message: "forbidden" });
+  if (path === "/rest/v1/rpc/publish_content") {
+    // Mirrors public.publish_content: admin only; copies the draft of one section to the live table.
+    if (!isAdmin(user)) return send(res, 403, { code: "42501", message: "forbidden" });
+    const draft = db.content_drafts.find((r) => r.key === body?.p_key);
+    if (!draft) return send(res, 404, { code: "P0002", message: "no_draft" });
+    const now = new Date().toISOString();
+    const row = { key: draft.key, data: draft.data, enabled: draft.enabled, published_at: now, published_by: user.id };
+    const i = db.content_published.findIndex((r) => r.key === draft.key);
+    if (i >= 0) db.content_published[i] = row; else db.content_published.push(row);
+    return send(res, 200, now);
+  }
 
   // ---- tables
   const table = path.replace("/rest/v1/", "");

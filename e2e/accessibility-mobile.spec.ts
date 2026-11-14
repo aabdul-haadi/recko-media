@@ -24,7 +24,7 @@ test.describe("accessibility (WCAG 2.1 A/AA, serious+critical)", () => {
     await page.goto("/admin/login");
     expect(await seriousViolations(page)).toEqual([]);
   });
-  for (const path of ["/admin", "/admin/inquiries", "/admin/services", "/admin/contacts"]) {
+  for (const path of ["/admin", "/admin/inquiries", "/admin/services", "/admin/contacts", "/admin/content"]) {
     test(`admin ${path}`, async ({ page }) => {
       await loginAsAdmin(page);
       await page.goto(path);
@@ -80,7 +80,7 @@ test.describe("mobile layout @mobile", () => {
 
   test("admin pages do not scroll sideways on a phone", async ({ page }) => {
     await loginAsAdmin(page);
-    for (const path of ["/admin", "/admin/inquiries", "/admin/services", "/admin/contacts", "/admin/tasks", "/admin/homepage"]) {
+    for (const path of ["/admin", "/admin/inquiries", "/admin/services", "/admin/contacts", "/admin/tasks", "/admin/content"]) {
       await page.goto(path);
       await page.waitForLoadState("networkidle");
       const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
