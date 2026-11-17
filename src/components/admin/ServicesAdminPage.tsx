@@ -18,6 +18,7 @@ import { getSupabase } from "@/lib/supabase";
 import { useConfirm } from "./confirm";
 import { SERVICE_CATEGORIES, type ServiceCategory } from "@/lib/content/schema";
 import { URL_PATTERN } from "./FieldEditor";
+import { ServicesSkeleton } from "./skeletons";
 import { EmptyState, ErrorState, PageHeader } from "./shared";
 
 type Service = {
@@ -95,8 +96,7 @@ export function ServicesAdminPage() {
         }
       />
       {list.error && <ErrorState error={list.error} />}
-      {list.isLoading && <p className="text-sm text-muted-foreground">Loading services…</p>}
-      {SERVICE_CATEGORIES.map((category) => {
+      {list.isLoading ? <ServicesSkeleton /> : SERVICE_CATEGORIES.map((category) => {
         const items = (list.data ?? []).filter((s) => s.category === category);
         return (
           <section key={category} className="mb-8">

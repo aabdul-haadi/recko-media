@@ -19,6 +19,7 @@ import { getSupabase } from "@/lib/supabase";
 import { useConfirm } from "./confirm";
 import type { Contact, Inquiry } from "@/lib/admin/types";
 import { CONTACT_STATUSES } from "@/lib/admin/types";
+import { ListSkeleton } from "./skeletons";
 import { EmptyState, ErrorState, PAGE_SIZE, PageHeader, Pager, StatusBadge, formatDate, formatDateTime } from "./shared";
 
 type Tag = { id: string; name: string };
@@ -63,7 +64,7 @@ export function ContactsPage() {
         onChange={(e) => { setQ(e.target.value); setPage(0); navigate({ to: "/admin/contacts", search: { q: e.target.value }, replace: true }); }}
       />
       {list.error ? <ErrorState error={list.error} /> : list.isLoading ? (
-        <p className="text-sm text-muted-foreground">Loading contacts…</p>
+        <ListSkeleton label="Loading contacts" />
       ) : list.data?.rows.length === 0 ? (
         <EmptyState title="No contacts found" hint="Contacts are created automatically from website inquiries, or add one manually." />
       ) : (
@@ -106,7 +107,7 @@ export function ContactsPage() {
         </div>
         </>
       )}
-      <Pager page={page} total={list.data?.total ?? 0} onPage={setPage} />
+      <Pager page={page} total={list.data?.total ?? 0} onPage={setPage} loading={list.isLoading} />
       <ContactSheet draft={draft} tags={editing?.contact_tags.map((t) => t.tags) ?? []} onClose={() => setDraft(null)} />
     </>
   );

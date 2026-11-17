@@ -152,7 +152,7 @@
 }
 @media (max-width: 767px) {
   .recko-page-frame main .recko-services-intro {
-    padding-block: 0 40px;
+    padding-block: 32px 40px;
   }
   .recko-page-frame main .grid.md\:grid-cols-3 {
     grid-template-columns: minmax(0, 1fr);

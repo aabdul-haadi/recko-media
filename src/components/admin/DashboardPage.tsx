@@ -8,6 +8,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { getSupabase } from "@/lib/supabase";
 import type { ActivityLog, Inquiry, Task } from "@/lib/admin/types";
 import { INQUIRY_STATUSES, statusLabel } from "@/lib/admin/types";
+import { Skeleton } from "@/components/ui/skeleton";
+import { ChartSkeleton, ListSkeleton } from "./skeletons";
 import { EmptyState, ErrorState, StatusBadge, formatDate, formatDateTime } from "./shared";
 
 async function countWhere(table: string, filter?: (q: any) => any) {
@@ -140,7 +142,7 @@ export function DashboardPage() {
             <span className="admin-tile size-9" style={{ ["--tile" as string]: card.color }}><card.icon className="size-4" aria-hidden="true" /></span>
             <div className="min-w-0">
               <p className="truncate text-[11px] text-muted-foreground">{card.label}</p>
-              <p className="text-xl font-bold leading-tight tabular-nums">{card.value ?? "…"}</p>
+              <div className="text-xl font-bold leading-tight tabular-nums">{card.value ?? <Skeleton className="my-1 h-5 w-10" aria-hidden="true" />}</div>
             </div>
           </div>
         ))}
@@ -159,7 +161,7 @@ export function DashboardPage() {
               </SelectContent>
             </Select>
           </div>
-          {chart.error ? <ErrorState error={chart.error} /> : (
+          {chart.error ? <ErrorState error={chart.error} /> : chart.isLoading ? <ChartSkeleton label="Loading chart" /> : (
             <div className="h-64">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={chart.data ?? []}>
@@ -176,7 +178,7 @@ export function DashboardPage() {
 
         <section className="admin-card p-4 sm:p-5">
           <h2 className="mb-3 text-sm font-semibold">Pending follow-ups</h2>
-          {followUps.error ? <ErrorState error={followUps.error} /> : followUps.data?.length === 0 ? (
+          {followUps.error ? <ErrorState error={followUps.error} /> : followUps.isLoading ? <ListSkeleton label="Loading follow-ups" rows={3} card={false} /> : followUps.data?.length === 0 ? (
             <EmptyState title="Nothing pending" hint="Tasks you create appear here." />
           ) : (
             <ul className="space-y-3">
@@ -202,7 +204,7 @@ export function DashboardPage() {
             <h2 className="text-sm font-semibold">Recent inquiries</h2>
             <Link to="/admin/inquiries" search={{ q: "", open: "" }} className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground">View all <ArrowUpRight className="size-3.5" /></Link>
           </div>
-          {recent.error ? <ErrorState error={recent.error} /> : recent.data?.length === 0 ? (
+          {recent.error ? <ErrorState error={recent.error} /> : recent.isLoading ? <ListSkeleton label="Loading recent inquiries" rows={4} card={false} /> : recent.data?.length === 0 ? (
             <EmptyState title="No inquiries yet" hint="Submissions from the website contact form appear here." />
           ) : (
             <ul className="divide-y divide-border">
@@ -223,7 +225,7 @@ export function DashboardPage() {
 
         <section className="admin-card p-4 sm:p-5">
           <h2 className="mb-3 text-sm font-semibold">Recent activity</h2>
-          {activity.error ? <ErrorState error={activity.error} /> : activity.data?.length === 0 ? (
+          {activity.error ? <ErrorState error={activity.error} /> : activity.isLoading ? <ListSkeleton label="Loading recent activity" rows={4} card={false} /> : activity.data?.length === 0 ? (
             <EmptyState title="No activity yet" />
           ) : (
             <ul className="space-y-3 text-sm">

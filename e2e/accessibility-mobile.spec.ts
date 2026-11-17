@@ -6,6 +6,9 @@ test.beforeEach(async () => resetStub());
 
 /** Serious and critical axe findings fail the test; the rule ids are listed so each can be fixed. */
 async function seriousViolations(page: import("@playwright/test").Page) {
+  // Preserve the remote suite's settled-color accessibility checks.
+  await page.addStyleTag({ content: "*, *::before, *::after { transition: none !important; animation: none !important; }" });
+  await page.waitForTimeout(200);
   const results = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"]).analyze();
   return results.violations
     .filter((v) => v.impact === "serious" || v.impact === "critical")

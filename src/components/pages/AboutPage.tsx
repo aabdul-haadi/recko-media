@@ -1,6 +1,7 @@
 import "./inner-visuals.css";
 import { ArrowRight } from "@phosphor-icons/react";
 import { PageFrame, PageHero, SectionIntro } from "@/components/pages/PageFrame";
+import { RichText } from "@/components/ui/RichText";
 import { SiteLink } from "@/components/ui/SiteLink";
 import { useSection } from "@/lib/content/content";
 
@@ -171,7 +172,9 @@ export function AboutPage() {
                     {str(item.answer).trim() ? (
                       <details>
                         <summary className="cursor-pointer font-medium">{str(item.question)}</summary>
-                        <p className="mt-4 max-w-4xl text-muted-foreground">{str(item.answer)}</p>
+                        <p className="mt-4 max-w-4xl text-muted-foreground">
+                          <RichText text={item.answer} />
+                        </p>
                       </details>
                     ) : (
                       <p>{str(item.question)}</p>

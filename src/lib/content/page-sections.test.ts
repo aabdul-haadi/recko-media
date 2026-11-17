@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { menuLinks } from "@/data/home";
+import { websiteCopy } from "@/data/website-copy";
 import { URL_PATTERN } from "@/components/admin/FieldEditor";
 import { EDITOR_PAGES, EXTRA_DEFAULTS, EXTRA_SECTIONS } from "./page-sections";
 import { contentDefaults, sectionDefs, type Field } from "./schema";
@@ -83,11 +84,22 @@ describe("editable sections", () => {
     expect(urlFields).toBe(8); // menu link, header button, story link, banner button, FAQ link, WhatsApp, two share images
   });
 
-  it("the About FAQ keeps its five questions and the single answer the old page had", () => {
+  it("every About FAQ question has an answer, and the fourth keeps the answer the old page had", () => {
     const items = EXTRA_DEFAULTS["about_faq"]!["items"] as { question: string; answer: string }[];
     expect(items).toHaveLength(5);
-    expect(items.filter((i) => i.answer.trim())).toHaveLength(1);
-    expect(items[3]!.answer.length).toBeGreaterThan(100);
+    for (const item of items) {
+      expect(item.question.trim(), "question").not.toBe("");
+      expect(item.answer.trim(), `no answer for: ${item.question}`).not.toBe("");
+      expect(item.answer.length, `answer too long for: ${item.question}`).toBeLessThanOrEqual(1500);
+    }
+    expect(items[3]!.answer).toBe(websiteCopy.faqAnswer);
+    expect(new Set(items.map((i) => i.answer)).size).toBe(5); // five different answers, none repeated by mistake
+  });
+
+  it("the About and Home FAQs agree on the questions they share", () => {
+    const home = (contentDefaults["faq"]!["items"] as { question: string; answer: string }[]).map((i) => i.answer);
+    const about = (EXTRA_DEFAULTS["about_faq"]!["items"] as { answer: string }[]).map((i) => i.answer);
+    for (const index of [0, 1, 2, 4]) expect(home).toContain(about[index]);
   });
 
   it("the menu defaults match the menu the site had before it became editable", () => {

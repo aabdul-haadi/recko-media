@@ -1,7 +1,7 @@
 import { useEffect, type ReactNode } from "react";
 import { useNavigate } from "@tanstack/react-router";
-import { CircleNotch as Loader2 } from "@phosphor-icons/react";
 import { useAuth } from "@/lib/admin/auth";
+import { AdminShellSkeleton } from "./skeletons";
 
 /** Client-side convenience guard. Real protection is Row Level Security in the database. */
 export function AdminGuard({ children }: { children: ReactNode }) {
@@ -21,11 +21,7 @@ export function AdminGuard({ children }: { children: ReactNode }) {
     );
   }
   if (loading || !allowed) {
-    return (
-      <div className="grid min-h-screen place-items-center">
-        <Loader2 className="size-6 animate-spin text-muted-foreground" aria-label="Loading" />
-      </div>
-    );
+    return <AdminShellSkeleton />;
   }
   return <>{children}</>;
 }

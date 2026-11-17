@@ -1,9 +1,12 @@
+import { useRef } from "react";
 import { ArrowDown, ArrowUp, Plus, Trash as Trash2 } from "@phosphor-icons/react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import type { Field } from "@/lib/content/schema";
+import { unsafeLinkAddresses } from "@/lib/content/rich-text";
+import { LinkTool } from "./LinkTool";
 
 // A leading "/" must not be followed by "/" or "\" (browsers read //host and /\host as another site).
 export const URL_PATTERN = /^(\/(?![/\\])|#|https?:\/\/|mailto:|tel:)/i;
@@ -25,6 +28,7 @@ function move<T>(list: T[], from: number, to: number) {
 
 export function FieldEditor({ field, value, onChange, idPrefix }: Props) {
   const id = `${idPrefix}-${field.name}`;
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   if (field.type === "list") {
     const items = Array.isArray(value) ? (value as Record<string, unknown>[]) : [];
@@ -84,10 +88,11 @@ export function FieldEditor({ field, value, onChange, idPrefix }: Props) {
     <div className="space-y-2">
       <Label htmlFor={id}>{field.label}</Label>
       {field.type === "textarea" ? (
-        <Textarea id={id} rows={3} maxLength={field.max} value={text} onChange={(e) => onChange(e.target.value)} />
+        <Textarea ref={textareaRef} id={id} rows={3} maxLength={field.max} value={text} onChange={(e) => onChange(e.target.value)} />
       ) : (
         <Input id={id} type="text" inputMode={field.type === "url" ? "url" : undefined} maxLength={field.type === "url" ? 2000 : field.max} value={text} aria-invalid={invalidUrl} onChange={(e) => onChange(e.target.value)} />
       )}
+      {field.type === "textarea" && field.links && <LinkTool id={id} textareaRef={textareaRef} value={text} max={field.max} onChange={onChange} />}
       {invalidUrl && <p role="alert" className="text-xs text-destructive">Use a full address (https://…), a path starting with /, #section, mailto: or tel:.</p>}
       {field.help && <p className="text-xs text-muted-foreground">{field.help}</p>}
     </div>
@@ -99,6 +104,7 @@ export function findInvalidUrl(fields: Field[], data: Record<string, unknown>): 
   for (const field of fields) {
     const value = data[field.name];
     if (field.type === "url" && typeof value === "string" && value !== "" && !URL_PATTERN.test(value.trim())) return field.label;
+    if (field.type === "textarea" && field.links && unsafeLinkAddresses(value).length > 0) return field.label;
     if (field.type === "list" && Array.isArray(value)) {
       for (const item of value) {
         const found = findInvalidUrl(field.fields, item as Record<string, unknown>);

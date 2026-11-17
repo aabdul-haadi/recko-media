@@ -1,3 +1,4 @@
+import { stripLinks } from "./rich-text";
 import { contentDefaults } from "./schema";
 import type { SiteContent } from "./content";
 
@@ -45,7 +46,7 @@ export function pageHead(root: SiteContent | undefined, opts: { seo: string; faq
               mainEntity: faqItems.map((item) => ({
                 "@type": "Question",
                 name: item.question,
-                acceptedAnswer: { "@type": "Answer", text: item.answer },
+                acceptedAnswer: { "@type": "Answer", text: stripLinks(item.answer) },
               })),
             }),
           },
