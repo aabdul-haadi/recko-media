@@ -1,17 +1,30 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { ArrowLeft, ArrowRight, ArrowUpRight, Pause, Play } from "lucide-react";
 import gsap from "gsap";
-import { showcaseProjects } from "./motion-showcase-data";
+import { useShowcaseProjects } from "./motion-showcase-data";
+import type { ShowcaseProject } from "./motion-showcase-data";
 import { fitPreviewStack, stackOffset } from "./animation-bounds";
 import { useAnimationFit } from "./use-animation-fit";
 import "./motion-showcase.css";
 
-const stackProjects = Array.from(
-  { length: 7 },
-  (_, index) => showcaseProjects[index % showcaseProjects.length]!,
-);
-
 export function MotionHighlights() {
+  const showcaseProjects = useShowcaseProjects();
+  return showcaseProjects.length ? (
+    <MotionHighlightsScene showcaseProjects={showcaseProjects} />
+  ) : null;
+}
+function MotionHighlightsScene({ showcaseProjects }: { showcaseProjects: ShowcaseProject[] }) {
+  const stackProjects = useMemo(
+    () =>
+      showcaseProjects.length
+        ? Array.from(
+            { length: 7 },
+            (_, index) => showcaseProjects[index % showcaseProjects.length]!,
+          )
+        : [],
+    [showcaseProjects],
+  );
+
   const stage = useRef<HTMLDivElement>(null);
   const stack = useRef<HTMLDivElement>(null);
   const stackViewport = useRef<HTMLDivElement>(null);
@@ -23,7 +36,7 @@ export function MotionHighlights() {
   const visible = useRef(false);
   useEffect(() => {
     const element = stage.current;
-    if (!element) return;
+    if (!element || !stackProjects.length) return;
     let last = -Infinity;
     const wheel = (event: WheelEvent) => {
       if (event.ctrlKey) return;
@@ -39,7 +52,7 @@ export function MotionHighlights() {
     };
     element.addEventListener("wheel", wheel, { passive: false });
     return () => element.removeEventListener("wheel", wheel);
-  }, []);
+  }, [stackProjects.length]);
   useEffect(() => {
     const media = matchMedia("(prefers-reduced-motion: reduce)");
     const sync = () => setReduced(media.matches);
@@ -55,13 +68,13 @@ export function MotionHighlights() {
     };
   }, []);
   useEffect(() => {
-    if (!playing || reduced) return;
+    if (!playing || reduced || !stackProjects.length) return;
     const timer = setInterval(() => {
       if (visible.current && !hovered.current && !document.hidden)
         setActive((value) => (value + 1) % stackProjects.length);
     }, 3500);
     return () => clearInterval(timer);
-  }, [playing, reduced]);
+  }, [playing, reduced, stackProjects.length]);
   useEffect(() => {
     if (!stack.current) return;
     const animations = [
@@ -80,7 +93,7 @@ export function MotionHighlights() {
       });
     });
     return () => animations.forEach((animation) => animation.kill());
-  }, [active, reduced]);
+  }, [active, reduced, stackProjects]);
   const choose = (direction: number) =>
     setActive((value) => (value + direction + stackProjects.length) % stackProjects.length);
   return (
@@ -154,8 +167,8 @@ export function MotionHighlights() {
           <span className="recko-motion-tag">CREATIVE</span>
           <h2 className="font-display">A new perspective on your brand.</h2>
           <p className="text-sm leading-relaxed">
-            Considered design, expressive campaigns and digital experiences. Explore our work
-            from every angle.
+            Considered design, expressive campaigns and digital experiences. Explore our work from
+            every angle.
           </p>
           <a href="#work">
             EXPLORE OUR WORK <ArrowUpRight size={13} aria-hidden="true" />
@@ -195,7 +208,7 @@ export function MotionHighlights() {
             next project.
           </p>
           <a href="#contact">
-            LET’S BUILD SOMETHING <ArrowUpRight size={13} aria-hidden="true" />
+            LETÃ¢â‚¬â„¢S BUILD SOMETHING <ArrowUpRight size={13} aria-hidden="true" />
           </a>
         </div>
       </article>

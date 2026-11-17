@@ -1,30 +1,22 @@
-﻿export const showcaseProjects = [
-  {
-    id: "dashboard",
-    src: "/thumbs/work-dashboard.jpg",
-    title: "Digital experiences",
-    category: "Web design",
-    description: "Explore interface and dashboard concepts with clear information hierarchy.",
-  },
-  {
-    id: "snack",
-    src: "/thumbs/work-snack.jpg",
-    title: "Brands with personality",
-    category: "Brand & creative",
-    description: "Explore product-led creative and campaign presentation concepts.",
-  },
-  {
-    id: "fashion",
-    src: "/thumbs/work-fashion.jpg",
-    title: "Campaigns that connect",
-    category: "Digital marketing",
-    description: "Explore editorial imagery and expressive campaign concepts.",
-  },
-  {
-    id: "robot",
-    src: "/thumbs/work-robot.jpg",
-    title: "Technology in focus",
-    category: "Technology",
-    description: "Explore product and technology presentation concepts.",
-  },
-];
+import { useMemo } from "react";
+import { usePortfolio } from "@/lib/portfolio/portfolio";
+/** Shared published data; these motion scenes never ship their own project collection. */
+export function useShowcaseProjects() {
+  const list = usePortfolio();
+  return useMemo(
+    () =>
+      (list.data?.pages[0] ?? [])
+        .filter((item) => item.small || item.thumbnail)
+        .slice(0, 12)
+        .map((item) => ({
+          id: item.id,
+          src: item.small || item.thumbnail!,
+          title: item.title,
+          category: item.category,
+          description: item.description,
+        })),
+    [list.data],
+  );
+}
+
+export type ShowcaseProject = ReturnType<typeof useShowcaseProjects>[number];

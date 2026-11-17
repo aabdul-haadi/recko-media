@@ -11,8 +11,32 @@ const motion = vi.hoisted(() => ({
 vi.mock("gsap", () => ({
   default: { to: motion.to, ticker: { add: motion.add, remove: motion.remove } },
 }));
+const fixtureState = vi.hoisted(() => ({ empty: false }));
+// Synthetic test fixtures; production project data comes only from the portfolio database.
+vi.mock("./motion-showcase-data", () => ({
+  useShowcaseProjects: () =>
+    fixtureState.empty
+      ? []
+      : [
+          {
+            id: "one",
+            src: "/test-one.webp",
+            title: "Digital experiences",
+            category: "Web",
+            description: "Test preview",
+          },
+          {
+            id: "two",
+            src: "/test-two.webp",
+            title: "Second project",
+            category: "Web",
+            description: "Test preview",
+          },
+        ],
+}));
 beforeEach(() => {
   vi.clearAllMocks();
+  fixtureState.empty = false;
   vi.stubGlobal(
     "IntersectionObserver",
     class {
@@ -31,6 +55,18 @@ afterEach(() => {
 });
 
 describe("Motion-inspired homepage sections", () => {
+  it("does not show invented projects when the published portfolio is empty", () => {
+    fixtureState.empty = true;
+    render(
+      <>
+        <MotionGallery />
+        <MotionHighlights />
+      </>,
+    );
+    expect(screen.queryByRole("region", { name: "Creative previews" })).not.toBeInTheDocument();
+    expect(screen.queryByRole("tabpanel")).not.toBeInTheDocument();
+  });
+
   it("switches each gallery arrangement by mouse and keyboard", () => {
     render(<MotionGallery />);
     for (const name of ["Barrel", "Ring", "Sphere", "Helix"]) {

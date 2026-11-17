@@ -1,19 +1,32 @@
-import { useEffect, useRef, useState, type PointerEvent } from "react";
+import { useEffect, useMemo, useRef, useState, type PointerEvent } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 import { Pause, Play, X, ArrowUpRight } from "lucide-react";
 import gsap from "gsap";
 import { galleryModes, galleryPosition, type GalleryMode } from "./gallery-layout";
-import { showcaseProjects } from "./motion-showcase-data";
+import { useShowcaseProjects } from "./motion-showcase-data";
+import type { ShowcaseProject } from "./motion-showcase-data";
 import { fitGallery } from "./animation-bounds";
 import { useAnimationFit } from "./use-animation-fit";
 import "./motion-showcase.css";
 
-const cards = Array.from({ length: 12 }, (_, index) => ({
-  ...showcaseProjects[index % showcaseProjects.length]!,
-  key: `gallery-card-${index}`,
-}));
-
 export function MotionGallery() {
+  const showcaseProjects = useShowcaseProjects();
+  return showcaseProjects.length ? (
+    <MotionGalleryScene showcaseProjects={showcaseProjects} />
+  ) : null;
+}
+function MotionGalleryScene({ showcaseProjects }: { showcaseProjects: ShowcaseProject[] }) {
+  const cards = useMemo(
+    () =>
+      showcaseProjects.length
+        ? Array.from({ length: 12 }, (_, index) => ({
+            ...showcaseProjects[index % showcaseProjects.length]!,
+            key: `gallery-card-${index}`,
+          }))
+        : [],
+    [showcaseProjects],
+  );
+
   const [mode, setMode] = useState<GalleryMode>("Helix");
   const [paused, setPaused] = useState(false);
   const [selected, setSelected] = useState<number | null>(null);
@@ -55,7 +68,7 @@ export function MotionGallery() {
       }),
     );
     return () => animations.forEach((animation) => animation.kill());
-  }, [mode, reduced]);
+  }, [mode, reduced, cards]);
 
   useEffect(() => {
     const element = stage.current;
@@ -79,7 +92,7 @@ export function MotionGallery() {
       observer.disconnect();
       gsap.ticker.remove(tick);
     };
-  }, [reduced]);
+  }, [reduced, cards.length]);
 
   function pointerDown(event: PointerEvent<HTMLDivElement>) {
     if (event.pointerType === "mouse" && event.button !== 0) return;
@@ -223,7 +236,7 @@ export function MotionGallery() {
             </button>
           ))}
         </div>
-        <p>{reduced ? "Select a card to explore" : "Drag to rotate · Select to explore"}</p>
+        <p>{reduced ? "Select a card to explore" : "Drag to rotate Ã‚Â· Select to explore"}</p>
       </div>
       <Dialog.Root
         open={project != null}

@@ -17,6 +17,9 @@ test.describe("accessibility (WCAG 2.1 A/AA, serious+critical)", () => {
     test(`public ${path}`, async ({ page }) => {
       await page.goto(path);
       await page.waitForLoadState("networkidle");
+      // The hero CTA fades in through an opacity transition. Scan its settled colors,
+      // rather than an intermediate frame blended with the black background.
+      if (path === "/") await expect(page.locator(".recko-hero .recko-cta-solid").locator("..")).toHaveCSS("opacity", "1");
       expect(await seriousViolations(page)).toEqual([]);
     });
   }

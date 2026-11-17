@@ -20,6 +20,7 @@ import { Route as AdminContactsRouteImport } from './routes/admin.contacts'
 import { Route as AdminContentRouteImport } from './routes/admin.content'
 import { Route as AdminHomepageRouteImport } from './routes/admin.homepage'
 import { Route as AdminInquiriesRouteImport } from './routes/admin.inquiries'
+import { Route as AdminPortfolioRouteImport } from './routes/admin.portfolio'
 import { Route as AdminServicesRouteImport } from './routes/admin.services'
 import { Route as AdminTasksRouteImport } from './routes/admin.tasks'
 import { Route as AdminForgotPasswordRouteImport } from './routes/admin_.forgot-password'
@@ -81,6 +82,11 @@ const AdminInquiriesRoute = AdminInquiriesRouteImport.update({
   path: '/inquiries',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminPortfolioRoute = AdminPortfolioRouteImport.update({
+  id: '/portfolio',
+  path: '/portfolio',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminServicesRoute = AdminServicesRouteImport.update({
   id: '/services',
   path: '/services',
@@ -118,6 +124,7 @@ export interface FileRoutesByFullPath {
   '/admin/content': typeof AdminContentRoute
   '/admin/homepage': typeof AdminHomepageRoute
   '/admin/inquiries': typeof AdminInquiriesRoute
+  '/admin/portfolio': typeof AdminPortfolioRoute
   '/admin/services': typeof AdminServicesRoute
   '/admin/tasks': typeof AdminTasksRoute
   '/admin/forgot-password': typeof AdminForgotPasswordRoute
@@ -135,6 +142,7 @@ export interface FileRoutesByTo {
   '/admin/content': typeof AdminContentRoute
   '/admin/homepage': typeof AdminHomepageRoute
   '/admin/inquiries': typeof AdminInquiriesRoute
+  '/admin/portfolio': typeof AdminPortfolioRoute
   '/admin/services': typeof AdminServicesRoute
   '/admin/tasks': typeof AdminTasksRoute
   '/admin/forgot-password': typeof AdminForgotPasswordRoute
@@ -154,6 +162,7 @@ export interface FileRoutesById {
   '/admin/content': typeof AdminContentRoute
   '/admin/homepage': typeof AdminHomepageRoute
   '/admin/inquiries': typeof AdminInquiriesRoute
+  '/admin/portfolio': typeof AdminPortfolioRoute
   '/admin/services': typeof AdminServicesRoute
   '/admin/tasks': typeof AdminTasksRoute
   '/admin_/forgot-password': typeof AdminForgotPasswordRoute
@@ -174,6 +183,7 @@ export interface FileRouteTypes {
     | '/admin/content'
     | '/admin/homepage'
     | '/admin/inquiries'
+    | '/admin/portfolio'
     | '/admin/services'
     | '/admin/tasks'
     | '/admin/forgot-password'
@@ -191,6 +201,7 @@ export interface FileRouteTypes {
     | '/admin/content'
     | '/admin/homepage'
     | '/admin/inquiries'
+    | '/admin/portfolio'
     | '/admin/services'
     | '/admin/tasks'
     | '/admin/forgot-password'
@@ -209,6 +220,7 @@ export interface FileRouteTypes {
     | '/admin/content'
     | '/admin/homepage'
     | '/admin/inquiries'
+    | '/admin/portfolio'
     | '/admin/services'
     | '/admin/tasks'
     | '/admin_/forgot-password'
@@ -308,6 +320,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminInquiriesRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/portfolio': {
+      id: '/admin/portfolio'
+      path: '/portfolio'
+      fullPath: '/admin/portfolio'
+      preLoaderRoute: typeof AdminPortfolioRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/services': {
       id: '/admin/services'
       path: '/services'
@@ -351,6 +370,7 @@ interface AdminRouteChildren {
   AdminContentRoute: typeof AdminContentRoute
   AdminHomepageRoute: typeof AdminHomepageRoute
   AdminInquiriesRoute: typeof AdminInquiriesRoute
+  AdminPortfolioRoute: typeof AdminPortfolioRoute
   AdminServicesRoute: typeof AdminServicesRoute
   AdminTasksRoute: typeof AdminTasksRoute
   AdminIndexRoute: typeof AdminIndexRoute
@@ -361,6 +381,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminContentRoute: AdminContentRoute,
   AdminHomepageRoute: AdminHomepageRoute,
   AdminInquiriesRoute: AdminInquiriesRoute,
+  AdminPortfolioRoute: AdminPortfolioRoute,
   AdminServicesRoute: AdminServicesRoute,
   AdminTasksRoute: AdminTasksRoute,
   AdminIndexRoute: AdminIndexRoute,

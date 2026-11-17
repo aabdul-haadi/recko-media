@@ -1,15 +1,7 @@
-import { Marquee } from "@/components/motion/Marquee";
+import { PortfolioGallery } from "@/components/portfolio/PortfolioGallery";
 import { Reveal, SplitReveal } from "@/components/motion/SplitReveal";
 import { ArrowLink } from "@/components/ui/ArrowLink";
 import { safeUrl, useSection } from "@/lib/content/content";
-
-const rowA = [
-  { src: "/thumbs/work-dashboard.jpg", alt: "Analytics dashboard project preview" },
-  { src: "/thumbs/work-snack.jpg", alt: "Snack brand campaign preview" },
-  { src: "/thumbs/work-fashion.jpg", alt: "Fashion campaign preview" },
-  { src: "/thumbs/work-robot.jpg", alt: "Consumer robot product preview" },
-];
-const rowB = [...rowA].reverse();
 
 export function Work() {
   const { data: c } = useSection("work");
@@ -49,10 +41,7 @@ export function Work() {
         </div>
       </div>
 
-      <div className="space-y-4 md:space-y-6">
-        <Marquee images={rowA} duration="52s" />
-        <Marquee images={rowB} duration="64s" reverse />
-      </div>
+      <div className="mx-auto max-w-7xl px-5 md:px-10"><PortfolioGallery compact /></div>
     </section>
   );
 }

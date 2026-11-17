@@ -26,6 +26,12 @@ const PRELUDE = `
     $$ select nullif(current_setting('request.jwt.claim.sub', true), '')::uuid $$;
   grant usage on schema auth to anon, authenticated, service_role;
   grant usage on schema public to anon, authenticated, service_role;
+  create schema storage;
+  create table storage.buckets(id text primary key,name text,public boolean,file_size_limit bigint,allowed_mime_types text[]);
+  create table storage.objects(id uuid default gen_random_uuid(),bucket_id text,name text,primary key(bucket_id,name));
+  alter table storage.objects enable row level security;
+  grant usage on schema storage to anon,authenticated,service_role;
+  grant select,insert,delete on storage.objects to anon,authenticated;
   create publication supabase_realtime;
   insert into auth.users values ('${ADMIN_ID}', 'admin@reckomedia.com'), ('${OTHER_ID}', 'someone@example.com');
 `;
@@ -66,11 +72,11 @@ describe("migration sequence", () => {
     const tables = await db.query<{ tablename: string }>(`select tablename from pg_tables where schemaname='public' order by 1`);
     expect(tables.rows.map((r) => r.tablename)).toEqual([
       "activity_logs", "contact_tags", "contacts", "content_drafts", "content_published",
-      "inquiries", "inquiry_notes", "profiles", "services", "tags", "tasks",
+      "inquiries", "inquiry_notes", "portfolio_cleanup", "portfolio_items", "profiles", "services", "tags", "tasks",
     ]);
     const rls = await db.query<{ tablename: string; rowsecurity: boolean }>(`select tablename, rowsecurity from pg_tables where schemaname='public'`);
     expect(rls.rows.filter((r) => !r.rowsecurity)).toEqual([]); // row level security on every table
-  });
+  }, 20_000); // WASM/Postgres cold startup can exceed the 5s unit-test default on Windows.
 
   it("seeds the admin profile and the client's services", async () => {
     const db = await freshDb();
@@ -403,5 +409,67 @@ describe("PROPOSED 0008 throttling (draft, not applied anywhere)", () => {
     expect((await row("autofill@example.com")).spam).toBe(false);
     await submit(db, { email: "robot@example.com", elapsed_ms: 300 });
     expect((await row("robot@example.com")).spam_reason).toBe("too_fast");
+  });
+});
+
+
+describe("portfolio database and storage authorization", () => {
+  let db: PGlite;
+  const id = "40000000-0000-4000-8000-000000000001";
+  const other = "40000000-0000-4000-8000-000000000002";
+  const version = "50000000-0000-4000-8000-000000000001";
+  const base = `${id}/${version}`;
+  beforeAll(async () => {
+    db = await freshDb();
+    await asRole(db,"authenticated",ADMIN_ID);
+    for(const file of ["full.webp","thumb.webp","small.webp"]) await db.query("insert into storage.objects(bucket_id,name) values ('portfolio',$1)",[`${base}/${file}`]);
+    await db.query("insert into storage.objects(bucket_id,name) values ('portfolio-originals',$1)",[`${base}/original.png`]);
+  });
+  it("creates a draft only after all storage objects exist", async () => {
+    await db.query(`insert into portfolio_items(id,title,alt,image_path,thumb_path,small_path,original_path,width,height,bytes) values($1,'Website','Website preview',$2,$3,$4,$5,1920,8000,1000)`,[id,`${base}/full.webp`,`${base}/thumb.webp`,`${base}/small.webp`,`${base}/original.png`]);
+    await rejects(db.query(`insert into portfolio_items(id,title,alt,image_path,thumb_path,small_path,original_path,width,height,bytes) values($1,'Missing','Missing preview',$2,$3,$4,$5,1920,8000,1000)`,[other,`${other}/${version}/full.webp`,`${other}/${version}/thumb.webp`,`${other}/${version}/small.webp`,`${other}/${version}/original.png`]),/portfolio_files_missing/);
+  });
+  it("hides drafts and originals from anonymous visitors and denies uploads",async()=>{
+    await asRole(db,"anon");
+    expect((await db.query("select * from portfolio_items")).rows).toHaveLength(0);
+    expect((await db.query("select * from storage.objects")).rows).toHaveLength(0);
+    await rejects(db.query("insert into storage.objects(bucket_id,name) values('portfolio','bad.webp')"),/row-level security/);
+    await rejects(db.query("delete from portfolio_items"),/permission denied/);
+    await asRole(db,"authenticated",OTHER_ID);
+    await rejects(db.query(`update portfolio_items set title='hacked' returning id`).then(r=>{if(!r.rows.length)throw new Error('forbidden');}),/forbidden/);
+    await rejects(db.query("select swap_portfolio($1,$2,1,2)",[id,other]),/forbidden/);
+  });
+  it("publishes metadata and derivatives while protecting originals and live objects",async()=>{
+    await asRole(db,"authenticated",ADMIN_ID);
+    await db.query("update portfolio_items set status='published',title='Updated website',description='Details',tags=array['Design'] where id=$1",[id]);
+    expect((await db.query("delete from storage.objects returning name")).rows).toHaveLength(0);
+    await asRole(db,"anon");
+    expect((await db.query("select title from portfolio_items")).rows).toEqual([{title:"Updated website"}]);
+    expect((await db.query("select name from storage.objects")).rows).toHaveLength(3);
+    expect((await db.query("select portfolio_categories() as category")).rows).toEqual([{category:"Web"}]);
+    await asRole(db,"authenticated",ADMIN_ID);
+  });
+  it("atomically reorders adjacent items and rejects stale concurrent moves",async()=>{
+    const base2=`${other}/${version}`;
+    for(const file of ["full.webp","thumb.webp","small.webp"]) await db.query("insert into storage.objects(bucket_id,name) values ('portfolio',$1)",[`${base2}/${file}`]);
+    await db.query("insert into storage.objects(bucket_id,name) values ('portfolio-originals',$1)",[`${base2}/original.png`]);
+    await db.query(`insert into portfolio_items(id,title,alt,image_path,thumb_path,small_path,original_path,width,height,bytes) values($1,'Other','Other preview',$2,$3,$4,$5,1920,8000,1000)`,[other,`${base2}/full.webp`,`${base2}/thumb.webp`,`${base2}/small.webp`,`${base2}/original.png`]);
+    const orders=await db.query<{id:string;sort_order:number}>("select id,sort_order::int from portfolio_items order by sort_order");
+    const a=orders.rows[0]!,b=orders.rows[1]!;
+    await db.query("select swap_portfolio($1,$2,$3,$4)",[a.id,b.id,a.sort_order,b.sort_order]);
+    expect((await db.query<{id:string}>("select id from portfolio_items order by sort_order")).rows.map(r=>r.id)).toEqual([b.id,a.id]);
+    await rejects(db.query("select swap_portfolio($1,$2,$3,$4)",[a.id,b.id,a.sort_order,b.sort_order]),/portfolio_order_changed/);
+  });
+  it("replaces safely, queues old files, and deletes without leaving references",async()=>{
+    const version2="50000000-0000-4000-8000-000000000002";
+    const next=`${id}/${version2}`;
+    for(const file of ["full.webp","thumb.webp","small.webp"]) await db.query("insert into storage.objects(bucket_id,name) values ('portfolio',$1)",[`${next}/${file}`]);
+    await db.query("insert into storage.objects(bucket_id,name) values ('portfolio-originals',$1)",[`${next}/original.png`]);
+    await db.query("update portfolio_items set image_path=$2,thumb_path=$3,small_path=$4,original_path=$5 where id=$1",[id,`${next}/full.webp`,`${next}/thumb.webp`,`${next}/small.webp`,`${next}/original.png`]);
+    expect((await db.query("select * from portfolio_cleanup")).rows).toHaveLength(4);
+    expect((await db.query("delete from storage.objects where name like $1 returning name",[`${base}/%`])).rows).toHaveLength(4);
+    await db.query("delete from portfolio_items where id=$1",[id]);
+    expect((await db.query("select * from portfolio_cleanup")).rows).toHaveLength(8);
+    expect((await db.query("delete from storage.objects where name like $1 returning name",[`${next}/%`])).rows).toHaveLength(4);
   });
 });

@@ -1,0 +1,160 @@
+.portfolio-dropzone {
+  border: 2px dashed #cbd0e5;
+  border-radius: 18px;
+  background: linear-gradient(130deg, #f5f3ff, #eff6ff);
+  padding: 32px 20px;
+  text-align: center;
+  margin-bottom: 24px;
+}
+.portfolio-dropzone > svg {
+  margin: 0 auto 12px;
+  color: #6366f1;
+  width: 32px;
+  height: 32px;
+}
+.portfolio-dropzone h2 {
+  font-weight: 600;
+  font-size: 18px;
+}
+.portfolio-dropzone p {
+  font-size: 14px;
+  color: #526078;
+  margin-top: 8px;
+}
+.portfolio-dropzone button {
+  color: #4f46e5;
+  text-decoration: underline;
+}
+.portfolio-dropzone small {
+  display: block;
+  color: #526078;
+  margin-top: 10px;
+  font-size: 11px;
+}
+.portfolio-dropzone.is-over {
+  border-color: #6366f1;
+  background: #e0e7ff;
+}
+.portfolio-admin-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+.portfolio-admin-toolbar > input {
+  flex: 1;
+  min-width: 180px;
+}
+.portfolio-admin-toolbar select,
+.portfolio-editor-select {
+  border: 1px solid #d5dae5;
+  border-radius: 8px;
+  background: white;
+  padding: 8px 12px;
+  font-size: 13px;
+  max-width: 100%;
+  min-height: 36px;
+}
+.portfolio-editor-select {
+  display: block;
+  width: 100%;
+}
+.portfolio-admin-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+.portfolio-admin-card {
+  overflow: hidden;
+  min-width: 0;
+}
+.portfolio-admin-preview {
+  display: block;
+  width: 100%;
+  position: relative;
+  text-align: left;
+  cursor: zoom-in;
+}
+.portfolio-admin-preview > span:last-child {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  display: flex;
+  gap: 6px;
+  padding: 7px 12px;
+  background: #111827d9;
+  color: white;
+  border-radius: 20px;
+  font-size: 11px;
+}
+.portfolio-status {
+  padding: 3px 8px;
+  border-radius: 20px;
+  font-size: 10px;
+  background: #e8eaf2;
+  color: #4b5563;
+  white-space: nowrap;
+}
+.portfolio-status.published {
+  color: #047857;
+  background: #d1fae5;
+}
+.portfolio-admin-actions {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+  align-items: center;
+}
+.portfolio-upload-row {
+  display: grid;
+  grid-template-columns: 1fr 100px;
+  gap: 8px;
+  margin-top: 16px;
+  font-size: 12px;
+}
+.portfolio-upload-row > span {
+  overflow-wrap: anywhere;
+  min-width: 0;
+}
+.portfolio-upload-row small {
+  grid-column: 1/-1;
+  color: #64748b;
+}
+.portfolio-upload-row small[role="alert"] {
+  color: #b91c1c;
+}
+.portfolio-editor-image {
+  height: 190px;
+  width: 100%;
+  object-fit: cover;
+  object-position: top;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+}
+.portfolio-editor fieldset > div > label {
+  display: block;
+  margin-bottom: 6px;
+}
+.portfolio-editor {
+  max-width: calc(100vw - 24px);
+}
+@media (max-width: 1100px) {
+  .portfolio-admin-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 639px) {
+  .portfolio-admin-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .portfolio-admin-toolbar > * {
+    width: 100%;
+  }
+  .portfolio-upload-row {
+    grid-template-columns: 1fr;
+  }
+  .portfolio-upload-row progress {
+    width: 100%;
+  }
+}

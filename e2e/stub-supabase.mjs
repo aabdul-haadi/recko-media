@@ -3,6 +3,7 @@
 // supabase/migrations (admin-only tables, submit_inquiry validation and limits) closely enough to drive the UI,
 // and supports fault injection (POST /__fail) so error handling and intermittent failures can be reproduced.
 import http from "node:http";
+import { readFileSync } from "node:fs";
 import { randomUUID } from "node:crypto";
 
 const PORT = Number(process.env.STUB_PORT ?? 54329);
@@ -39,16 +40,18 @@ const seed = () => ({
     { id: "30000000-0000-4000-8000-000000000001", full_name: "Alice Example", email: "alice@example.com", email_normalized: "alice@example.com", phone: null, company: "Bakery Ltd", status: "lead", notes: null, first_contact_at: iso(90), last_interaction_at: iso(30), created_at: iso(90), updated_at: iso(30) },
     { id: "30000000-0000-4000-8000-000000000002", full_name: "Carol Client", email: "carol@example.com", email_normalized: "carol@example.com", phone: "+92 300 1234567", company: null, status: "client", notes: null, first_contact_at: iso(900), last_interaction_at: iso(100), created_at: iso(900), updated_at: iso(100) },
   ],
+  portfolio_items: [], portfolio_cleanup: [],
   tasks: [], tags: [], contact_tags: [], inquiry_notes: [], activity_logs: [], content_published: [], content_drafts: [],
 });
 
+const objects = new Map();
 let db = seed();
 let failures = []; // { match: "PATCH services", status, times, delayMs }
 const slow = []; // { match, delayMs, times }: answer normally but late
 let submissions = []; // timestamps for rate limiting in submit_inquiry
 const log = [];
 
-const PUBLIC_READ = { content_published: () => true, services: (r) => r.status === "published" };
+const PUBLIC_READ = { portfolio_items: (r) => r.status === "published", content_published: () => true, services: (r) => r.status === "published" };
 
 function cors(res) {
   res.setHeader("access-control-allow-origin", "*");
@@ -156,7 +159,8 @@ function submitInquiry(p) {
 async function readBody(req) {
   const chunks = [];
   for await (const c of req) chunks.push(c);
-  const text = Buffer.concat(chunks).toString();
+  req.rawBody=Buffer.concat(chunks);
+  const text = req.rawBody.toString();
   try { return text ? JSON.parse(text) : undefined; } catch { return undefined; }
 }
 
@@ -166,7 +170,7 @@ const server = http.createServer(async (req, res) => {
   const body = await readBody(req);
   const path = url.pathname;
 
-  if (path === "/__reset") { db = seed(); failures = []; slow.length = 0; log.length = 0; return send(res, 200, { ok: true }); }
+  if (path === "/__reset") { db = seed(); objects.clear(); failures = []; slow.length = 0; log.length = 0; return send(res, 200, { ok: true }); }
   if (path === "/__fail") { failures.push({ times: 1, status: 500, delayMs: 0, ...body }); return send(res, 200, { ok: true }); }
   if (path === "/__slow") { slow.push({ times: 1, delayMs: 1000, ...body }); return send(res, 200, { ok: true }); }
   if (path === "/__state") return send(res, 200, { db, log });
@@ -198,8 +202,42 @@ const server = http.createServer(async (req, res) => {
   if (path.startsWith("/auth/v1/")) return send(res, 200, {});
   if (path.startsWith("/realtime/")) return send(res, 404, { message: "realtime disabled in tests" });
 
-  // ---- rpc
+  // ---- private portfolio storage (test stand-in; DB policy tests execute the real SQL)
   const user = userFromAuth(req);
+  if (path.startsWith('/storage/v1/object/sign/')) {
+    const bucket=path.split('/')[5];
+    const allowed=(key)=>isAdmin(user)||(bucket==='portfolio'&&db.portfolio_items.some(p=>p.status==='published'&&[p.image_path,p.thumb_path,p.small_path].includes(key)));
+    if(body?.paths) return send(res,200,body.paths.map(key=>({path:key,signedURL:allowed(key)?`/object/sign/${bucket}/${key}?token=stub`:null,error:allowed(key)?null:'forbidden'})));
+    const key=path.split('/').slice(6).join('/');
+    if(req.method==='POST') return allowed(key)?send(res,200,{signedURL:`/object/sign/${bucket}/${key}?token=stub`}):send(res,403,{message:'forbidden'});
+    if(!allowed(key)&&url.searchParams.get('token')!=='stub') return send(res,403,{message:'forbidden'});
+    cors(res);res.statusCode=200;res.setHeader('content-type','image/webp');res.setHeader('cache-control','public,max-age=3600');
+    return res.end(objects.get(`${bucket}/${key}`)??readFileSync(key.endsWith('/full.webp')?'src/assets/portfolio/web/bags-by-amna.webp':key.endsWith('/small.webp')?'e2e/fixtures/portfolio-small.webp':'e2e/fixtures/portfolio-thumb.webp'));
+  }
+  if(path.startsWith('/storage/v1/object/')) {
+    if(!isAdmin(user))return send(res,403,{message:'forbidden'});
+    const bucket=path.split('/')[4],key=path.split('/').slice(5).join('/');
+    if(req.method==='DELETE') {
+      for(const prefix of body?.prefixes??[]) {
+        if(db.portfolio_items.some(p=>[p.image_path,p.thumb_path,p.small_path,p.original_path].includes(prefix)))return send(res,403,{message:'in_use'});
+        objects.delete(`${bucket}/${prefix}`);
+      }
+      return send(res,200,[]);
+    }
+    if(req.method==='POST') {
+      if(objects.has(`${bucket}/${key}`))return send(res,409,{message:'exists'});
+      objects.set(`${bucket}/${key}`,req.rawBody);
+      return send(res,200,{Key:`${bucket}/${key}`,Id:randomUUID()});
+    }
+  }
+  // ---- rpc
+  if(path==='/rest/v1/rpc/portfolio_categories')return send(res,200,[...new Set(db.portfolio_items.filter(p=>isAdmin(user)||p.status==='published').map(p=>p.category))].sort());
+  if(path==='/rest/v1/rpc/swap_portfolio') {
+    if(!isAdmin(user))return send(res,403,{message:'forbidden'});
+    const a=db.portfolio_items.find(p=>p.id===body.p_id),b=db.portfolio_items.find(p=>p.id===body.p_other);
+    if(!a||!b||a.sort_order!==body.p_order||b.sort_order!==body.p_other_order)return send(res,409,{message:'portfolio_order_changed'});
+    [a.sort_order,b.sort_order]=[b.sort_order,a.sort_order];a.updated_at=b.updated_at=new Date().toISOString();return send(res,200,null);
+  }
   if (path === "/rest/v1/rpc/is_admin") return send(res, 200, isAdmin(user));
   if (path === "/rest/v1/rpc/submit_inquiry") { const r = submitInquiry(body?.payload ?? {}); return send(res, r.status, r.body); }
   if (path === "/rest/v1/rpc/publish_content") {
@@ -254,6 +292,7 @@ const server = http.createServer(async (req, res) => {
       if (existing && !upsert) return send(res, 409, { code: "23505", message: `duplicate key value violates unique constraint on ${table}` });
       if (existing) { Object.assign(existing, item); created.push(existing); continue; }
       const row = { id: randomUUID(), created_at: new Date().toISOString(), updated_at: new Date().toISOString(), ...item };
+      if(table === "portfolio_items")Object.assign(row,{sort_order:Math.max(0,...db.portfolio_items.map(p=>p.sort_order))+1,...item});
       if (table === "tasks") Object.assign(row, { status: "pending", description: null, due_at: null, contact_id: null, inquiry_id: null, ...item });
       if (table === "services") Object.assign(row, { status: "draft", featured: false, features: [], ...item });
       db[table].push(row);
@@ -263,13 +302,17 @@ const server = http.createServer(async (req, res) => {
   }
   if (req.method === "PATCH") {
     const targets = filterRows(db[table], params);
-    for (const r of targets) Object.assign(r, body, { updated_at: new Date().toISOString() });
+    for (const r of targets) {
+      if(table==='portfolio_items'&&body.image_path&&r.image_path!==body.image_path) db.portfolio_cleanup.push(...[r.image_path,r.thumb_path,r.small_path].map(path=>({bucket:'portfolio',path,created_at:iso(0)})),{bucket:'portfolio-originals',path:r.original_path,created_at:iso(0)});
+      Object.assign(r, body, { updated_at: new Date().toISOString() });
+    }
     return wantRows ? send(res, 200, wantObject ? targets[0] : targets) : send(res, 204);
   }
   if (req.method === "DELETE") {
     const targets = new Set(filterRows(db[table], params));
+    if(table==='portfolio_items')for(const r of targets)db.portfolio_cleanup.push(...[r.image_path,r.thumb_path,r.small_path].map(path=>({bucket:'portfolio',path,created_at:iso(0)})),{bucket:'portfolio-originals',path:r.original_path,created_at:iso(0)});
     db[table] = db[table].filter((r) => !targets.has(r));
-    return send(res, 204);
+    return wantRows?send(res,200,[...targets]):send(res, 204);
   }
   return send(res, 405, { message: "method not allowed" });
 });

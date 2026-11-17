@@ -18,6 +18,7 @@ const nav = [
   { to: "/admin/inquiries", label: "Inquiries", short: "Inquiries", icon: Inbox, tile: "#ec4899" },
   { to: "/admin/content", label: "Pages & content", short: "Pages", icon: FileEdit, tile: "#8b5cf6" },
   { to: "/admin/services", label: "Services", short: "Services", icon: Briefcase, tile: "#0ea5e9" },
+  { to: "/admin/portfolio", label: "Portfolio", short: "Portfolio", icon: Briefcase, tile: "#f97316" },
   { to: "/admin/contacts", label: "Contacts", short: "Contacts", icon: Users, tile: "#10b981" },
   { to: "/admin/tasks", label: "Tasks & Follow-ups", short: "Tasks", icon: CheckSquare, tile: "#f59e0b" },
 ] as const;
@@ -69,6 +70,7 @@ const liveTables: Record<string, string[]> = {
   contacts: ["contacts", "dashboard", "inquiries"],
   tasks: ["tasks", "dashboard"],
   services: ["services"],
+  portfolio_items: ["portfolio"],
   content_drafts: ["content"],
   content_published: ["content"],
   activity_logs: ["dashboard", "inquiries"],
