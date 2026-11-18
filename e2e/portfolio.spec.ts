@@ -521,3 +521,25 @@ test("admin draft image signatures are never persisted in the public image cache
   expect(cached.some((path) => path.startsWith("project-4/"))).toBe(false);
   expect(cached.some((path) => path.startsWith("project-1/"))).toBe(true);
 });
+
+test("mobile project carousel advances, pauses, and supports manual navigation @mobile", async ({
+  page,
+}, testInfo) => {
+  test.skip(testInfo.project.name !== "mobile");
+  await page.goto("/portfolio");
+  const controls = page.getByRole("group", { name: "Project slider controls" });
+  const viewport = page.locator(".portfolio-slider-viewport");
+  await expect(controls).toContainText("1 / 3");
+  await viewport.scrollIntoViewIfNeeded();
+  await expect(controls).toContainText("2 / 3", { timeout: 8000 });
+  await controls.getByRole("button", { name: "Pause automatic slides" }).tap();
+  await expect(controls.getByRole("button", { name: "Resume automatic slides" })).toBeVisible();
+  await controls.getByRole("button", { name: "Next project" }).tap();
+  await expect(controls).toContainText("3 / 3");
+  await controls.getByRole("button", { name: "Next project" }).tap();
+  await expect(controls).toContainText("1 / 3");
+  await expect(viewport.locator(".portfolio-card-overlay").first()).toHaveCSS(
+    "backdrop-filter",
+    "blur(16px)",
+  );
+});
