@@ -20,13 +20,19 @@ export function PageHero({
   eyebrow,
   title,
   description,
+  className,
+  actions,
 }: {
   eyebrow: string;
   title: string;
   description: string;
+  className?: string;
+  actions?: ReactNode;
 }) {
   return (
-    <section className="recko-page-hero starfield relative overflow-hidden border-b border-border pt-32 sm:pt-40">
+    <section
+      className={`recko-page-hero starfield relative overflow-hidden border-b border-border pt-32 sm:pt-40 ${className ?? ""}`}
+    >
       <div
         aria-hidden
         className="pointer-events-none absolute -right-48 top-12 size-[32rem] rounded-full bg-primary/10 blur-[120px]"
@@ -44,6 +50,7 @@ export function PageHero({
           <p className="mt-8 max-w-2xl text-base leading-relaxed text-muted-foreground md:mt-10 md:text-xl">
             {description}
           </p>
+          {actions && <div className="mt-8 flex flex-wrap gap-3">{actions}</div>}
         </Reveal>
       </div>
     </section>

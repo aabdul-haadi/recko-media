@@ -460,10 +460,10 @@ const suppliedCopy: Record<string, SectionData> = {
     cta_url: "/contact",
   },
   services_intro: {
-    eyebrow: "Our Services",
-    heading: "Services offered by our social media marketing agency",
+    eyebrow: "What we do",
+    heading: "Ads that sell. Growth you can measure.",
     subheading:
-      "Connect with your audience, increase your visibility and build an impactful online presence.",
+      "Recko Media helps brands grow with performance marketing, social media and data-driven creative. We plan it, run it, track it and keep improving it.",
   },
   about: {
     label: "OUR MISSION",
@@ -590,7 +590,7 @@ export const defaultServices: PublicService[] = serviceTabs.flatMap((tab) =>
     title: item.title,
     summary: item.blurb,
     details: null,
-    features: [],
+    features: item.features ?? [],
     price: null,
     image_url: null,
     image_alt: null,

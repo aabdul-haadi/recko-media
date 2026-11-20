@@ -1,6 +1,6 @@
 import "./services-page.css";
 import { Link } from "@tanstack/react-router";
-import { ArrowDown, ArrowRight, ArrowUpRight, Check } from "lucide-react";
+import { ArrowDown, ArrowUpRight, Check } from "lucide-react";
 import { processSteps } from "@/data/home";
 import { safeUrl, useSection, useServices } from "@/lib/content/content";
 import { SERVICE_CATEGORIES } from "@/lib/content/schema";
@@ -11,33 +11,43 @@ const serviceVisuals = [
   {
     src: "/thumbs/work-fashion.jpg",
     second: "/thumbs/work-snack.jpg",
-    caption: "Facebook / Instagram / YouTube",
+    caption: "Meta / Lead Generation / Social",
     alt: "Fashion campaign creative direction preview",
-    tags: ["Facebook Ads", "Instagram Ads", "YouTube Ads"],
+    tags: ["Meta Ads", "Lead Generation", "Creative"],
   },
   {
     src: "/thumbs/work-dashboard.jpg",
     second: "/thumbs/work-fashion.jpg",
-    caption: "SEO / SEM / Google Ads",
+    caption: "Search / E-commerce / Analytics",
     alt: "Analytics dashboard and digital campaign concept",
-    tags: ["SEO", "Search marketing", "Google Ads"],
+    tags: ["Google Ads", "E-commerce", "Reporting"],
   },
   {
     src: "/thumbs/work-robot.jpg",
     second: "/thumbs/work-dashboard.jpg",
-    caption: "Websites / WordPress / Shopify",
+    caption: "Websites / Landing Pages / Shopify",
     alt: "AI product concept and connected digital tools",
-    tags: ["Web design", "WordPress", "Shopify"],
+    tags: ["Web design", "Landing pages", "Shopify"],
   },
 ];
 
 const outcomes = [
-  "Affordable prices tailored for you",
-  "The best strategy for your business",
-  "Personalized strategies and reliable execution",
+  "Performance first: sales, leads and profit over vanity metrics",
+  "Transparent reporting: always know where your money is going",
+  "Hands-on expertise: specialists run your account",
+  "Creative and data together, under one roof",
+  "Monthly retainers or project work, with no long lock-ins",
 ];
 
-const categoryLabel = { creative: "Social Media", growth: "Search", technology: "Web" } as const;
+const categoryLabel = { creative: "Paid Social & Creative", growth: "Search & Growth", technology: "Web Experiences" } as const;
+
+const faqs = [
+  ["What budget do I need to start?", "It depends on your goals and industry. On a free strategy call, we'll recommend a starting ad budget that is realistic for your business."],
+  ["How soon will I see results?", "Most campaigns show early data within the first 1–2 weeks. Stable, scalable results usually take 4–8 weeks of testing and optimization."],
+  ["Do you work with businesses outside Pakistan?", "Yes. We work with brands locally and internationally."],
+  ["Who owns the ad accounts?", "You do. We work inside your business accounts, so your data and assets always stay yours."],
+  ["Do you offer one-time services?", "Yes. Account audits, tracking setup, landing pages and creative packages are all available as one-off projects."],
+] as const;
 
 export function ServicesPage() {
   const { data: intro } = useSection("services_intro");
@@ -53,9 +63,20 @@ export function ServicesPage() {
   return (
     <PageFrame>
       <PageHero
-        eyebrow="Services / Social, search, web"
-        title="Services offered by our social media marketing agency"
-        description="Connect with your audience, strengthen your online presence and turn attention into customers with tailored digital marketing services."
+        eyebrow="Performance marketing / Social / Creative"
+        title="Ads that sell. Growth you can measure."
+        description="Recko Media helps brands grow with performance marketing, social media and data-driven creative. We plan it, run it, track it and keep improving it, so every rupee of ad spend has a job to do."
+        className="pb-12 md:pb-16"
+        actions={
+          <>
+            <Link to="/contact" className="inline-flex items-center justify-center rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground">
+              Book a Free Strategy Call
+            </Link>
+            <a href="#how-we-work" className="inline-flex items-center justify-center rounded-full border border-border px-6 py-3 text-sm font-semibold hover:border-primary hover:text-primary">
+              See How We Work
+            </a>
+          </>
+        }
       />
 
       <section className="recko-services-intro" aria-label="Explore our capabilities visually">
@@ -221,8 +242,8 @@ export function ServicesPage() {
         <div className="mx-auto grid max-w-7xl gap-12 px-5 md:grid-cols-2 md:px-10">
           <SectionIntro
             eyebrow="The outcome"
-            title="Why choose us."
-            text="Choose us because we have the experience and solutions that work. We focus on making you successful with personalized strategies and reliable execution."
+            title="Why Recko Media"
+            text="We combine strategy, creative and analytics to build growth that is measurable, transparent and sustainable."
           />
           <ul className="space-y-0 self-center border-t border-border">
             {outcomes.map((outcome) => (
@@ -240,14 +261,14 @@ export function ServicesPage() {
         </div>
       </section>
 
-      <section className="bg-surface/35 py-20 md:py-28">
+      <section id="how-we-work" className="scroll-mt-20 bg-surface/35 py-20 md:py-28">
         <div className="mx-auto max-w-7xl px-5 md:px-10">
           <SectionIntro
             eyebrow="How we work"
-            title="A clear path from first question to next move."
-            text="Small, visible steps keep the work focused and make it easier to learn as we go."
+            title="A clear path from first question to next move"
+            text="We keep the work focused, visible and built around improving real business results."
           />
-          <div className="grid gap-0 border-t border-border sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-0 border-t border-border sm:grid-cols-2 lg:grid-cols-5">
             {processSteps.map((step) => (
               <article
                 key={step.number}
@@ -264,23 +285,49 @@ export function ServicesPage() {
         </div>
       </section>
 
-      <section className="border-t border-border py-20 md:py-28">
-        <div className="mx-auto flex max-w-7xl flex-col gap-8 px-5 md:flex-row md:items-end md:justify-between md:px-10">
-          <div>
-            <p className="mb-4 text-[0.7rem] font-semibold uppercase tracking-[0.3em] text-muted-foreground">
-              Have a challenge in mind?
-            </p>
-            <h2 className="max-w-3xl font-display text-4xl font-bold tracking-tight md:text-6xl">
-              Let’s find the useful first step.
-            </h2>
+      <section className="border-b border-border py-20 md:py-28">
+        <div className="mx-auto max-w-4xl px-5 md:px-10">
+          <SectionIntro
+            eyebrow="FAQs"
+            title="Common questions"
+            text="Straight answers before we get started."
+          />
+          <div className="border-t border-border">
+            {faqs.map(([question, answer]) => (
+              <details key={question} className="group border-b border-border py-5">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-6 font-display text-lg font-semibold sm:text-xl">
+                  {question}
+                  <ArrowUpRight className="size-5 shrink-0 text-primary transition-transform group-open:rotate-[135deg]" />
+                </summary>
+                <p className="max-w-3xl pt-4 text-sm leading-relaxed text-muted-foreground sm:text-base">
+                  {answer}
+                </p>
+              </details>
+            ))}
           </div>
-          <Link
-            to="/contact"
-            className="inline-flex w-fit items-center gap-3 rounded-full bg-primary px-6 py-3 font-semibold text-primary-foreground transition-transform hover:translate-x-1"
-          >
-            Start a conversation
-            <ArrowRight className="size-4" />
-          </Link>
+        </div>
+      </section>
+
+      <section className="py-20 md:py-28">
+        <div className="mx-auto max-w-7xl px-5 md:px-10">
+          <div className="rounded-[2rem] border border-border bg-primary px-6 py-12 text-primary-foreground sm:px-10 md:px-14 md:py-16">
+            <p className="recko-page-label mb-5 text-xs font-semibold uppercase tracking-[0.3em]">
+              Start the conversation
+            </p>
+            <h2 className="max-w-4xl font-display text-4xl font-bold tracking-tight sm:text-5xl md:text-7xl">
+              Ready to grow with Recko Media?
+            </h2>
+            <p className="mt-6 max-w-2xl text-base leading-relaxed opacity-80 md:text-lg">
+              Tell us about your business, and we'll show you where your next customers are coming from.
+            </p>
+            <Link
+              to="/contact"
+              className="mt-8 inline-flex items-center gap-2 rounded-full bg-primary-foreground px-6 py-3 text-sm font-semibold text-primary"
+            >
+              Book Your Free Strategy Call
+              <ArrowUpRight size={18} />
+            </Link>
+          </div>
         </div>
       </section>
     </PageFrame>
