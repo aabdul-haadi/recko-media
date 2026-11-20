@@ -154,26 +154,66 @@
     max-height: 480px;
   }
 }
-@media (max-width: 639px) {
-  .recko-services-intro-grid {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 16px;
+@media (max-width: 767px) {
+  .recko-services-intro,
+  .recko-service-artboard {
+    display: none;
   }
-  .recko-services-teaser img {
-    aspect-ratio: 16/9;
+  .recko-service-card-image {
+    display: none;
   }
-  .recko-service-artwork {
-    padding: 20px 40px 64px 20px;
-  }
-  .recko-service-artwork-label {
-    left: 20px;
-  }
-  .recko-service-inset-image {
-    right: 14px;
-    bottom: 54px;
+  .recko-service-card {
+    min-height: 0;
   }
   .recko-service-card-copy {
-    padding: 24px;
+    padding: 20px;
+  }
+  .recko-service-card-copy h3 {
+    margin-top: 10px;
+    font-size: 21px;
+    line-height: 1.25;
+  }
+  .recko-service-card-copy > p {
+    margin-top: 8px;
+    font-size: 14px;
+  }
+  .recko-service-card-copy ul {
+    margin-top: 10px;
+  }
+  .recko-service-card-copy ul li {
+    font-size: 13px;
+    line-height: 1.45;
+  }
+}
+@media (max-width: 639px) {
+  .recko-services-intro,
+  .recko-service-artboard {
+    display: none;
+  }
+  .recko-service-card-copy {
+    padding: 20px;
+  }
+  .recko-service-card-image {
+    display: none;
+  }
+  .recko-service-card {
+    min-height: 0;
+  }
+  .recko-service-card-copy h3 {
+    margin-top: 10px;
+    font-size: 21px;
+    line-height: 1.25;
+  }
+  .recko-service-card-copy > p {
+    margin-top: 8px;
+    font-size: 14px;
+  }
+  .recko-service-card-copy ul {
+    margin-top: 10px;
+  }
+  .recko-service-card-copy ul li {
+    font-size: 13px;
+    line-height: 1.45;
   }
 }
 @media (prefers-reduced-motion: reduce) {
