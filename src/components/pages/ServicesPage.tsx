@@ -181,7 +181,7 @@ export function ServicesPage() {
                 </p>
               </div>
             </div>
-            <div className="grid gap-px overflow-hidden border border-border bg-border md:grid-cols-3">
+            <div className="grid gap-px overflow-hidden border border-border bg-border sm:grid-cols-2">
               {service.items.map((item, itemIndex) => (
                 <article
                   key={item.id}
