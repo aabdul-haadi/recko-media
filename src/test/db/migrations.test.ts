@@ -10,7 +10,11 @@
 import { readFileSync, readdirSync } from "node:fs";
 import path from "node:path";
 import { PGlite } from "@electric-sql/pglite";
-import { beforeAll, describe, expect, it } from "vitest";
+import { beforeAll, describe, expect, it, vi } from "vitest";
+
+// Starting a fresh in-memory Postgres (WebAssembly) takes a few seconds on Windows, and longer when many test files run
+// at once, so these tests get more time than the 5-second default.
+vi.setConfig({ testTimeout: 30_000, hookTimeout: 30_000 });
 
 const MIGRATIONS = path.resolve(__dirname, "../../../supabase/migrations");
 const PROPOSED = path.resolve(__dirname, "../../../docs/proposed/0008_submission_throttling.sql");
@@ -78,20 +82,90 @@ describe("migration sequence", () => {
     expect(rls.rows.filter((r) => !r.rowsecurity)).toEqual([]); // row level security on every table
   }, 20_000); // WASM/Postgres cold startup can exceed the 5s unit-test default on Windows.
 
-  it("seeds the admin profile and the client's services", async () => {
+  // The live Services page catalogue (migration 0009): three groups of cards.
+  const CATALOGUE = [
+    "creative-content-production", "crm-automation", "ecommerce-growth", "google-ads", "lead-generation-campaigns",
+    "meta-ads", "social-media-management", "tracking-analytics-reporting", "website-design-landing-pages",
+  ];
+  const publishedSlugs = async (db: PGlite) =>
+    (await db.query<{ slug: string }>(`select slug from services where status='published' order by slug`)).rows.map((r) => r.slug);
+
+  it("seeds the admin profile and the Services page catalogue, hiding every older service", async () => {
     const db = await freshDb();
     expect((await db.query(`select role from profiles where id='${ADMIN_ID}'`)).rows).toEqual([{ role: "admin" }]);
-    const live = await db.query<{ title: string }>(`select title from services where status='published' order by category, sort_order`);
-    expect(live.rows).toHaveLength(9);
-    expect(live.rows.map((r) => r.title)).toContain("Facebook Ads");
-    expect((await db.query(`select count(*)::int as n from services where status='draft'`)).rows[0]).toEqual({ n: 9 });
+    expect(await publishedSlugs(db)).toEqual(CATALOGUE);
+    const technology = await db.query<{ title: string }>(`select title from services where status='published' and category='technology' order by sort_order`);
+    expect(technology.rows.map((r) => r.title)).toEqual(["Website Design & Landing Pages", "CRM & Automation"]);
+    // older services are hidden, never deleted
+    expect((await db.query(`select count(*)::int as n from services where status='draft'`)).rows[0]!).toMatchObject({ n: expect.any(Number) });
+    expect((await db.query(`select count(*)::int as n from services where slug in ('facebook-ads','instagram-ads','youtube-ads')`)).rows[0]).toEqual({ n: 3 });
   });
 
-  it("is rerunnable where it claims to be (0004 realtime tables, 0006 services)", async () => {
+  it("is rerunnable where it claims to be (0004 realtime tables, 0009 and 0010 services)", async () => {
     const db = await freshDb();
     await db.exec(sql("0004_realtime_tables.sql"));
-    await db.exec(sql("0006_client_services.sql"));
-    expect((await db.query(`select count(*)::int as n from services where status='published'`)).rows[0]).toEqual({ n: 9 });
+    await db.exec(sql("0009_recko_services_content.sql"));
+    await db.exec(sql("0010_crm_automation_service.sql"));
+    expect(await publishedSlugs(db)).toEqual(CATALOGUE);
+  });
+});
+
+describe("migration 0010 (adds the missing CRM & Automation card)", () => {
+  /** The state of the live project: 0009 was run before the CRM row was added to it. */
+  const liveState = async () => {
+    const db = await freshDb("0009_recko_services_content.sql"); // stop right after 0009 (a bare "0009" would stop before it)
+    await db.exec(`delete from public.services where slug = 'crm-automation'`);
+    return db;
+  };
+  const crm = async (db: PGlite) =>
+    (await db.query<any>(`select title, status, category, sort_order, features from public.services where slug = 'crm-automation'`)).rows;
+
+  it("starts from the live state: Technology has one card and no CRM & Automation", async () => {
+    const db = await liveState();
+    expect(await crm(db)).toEqual([]);
+    expect((await db.query(`select count(*)::int as n from services where status='published' and category='technology'`)).rows[0]).toEqual({ n: 1 });
+  });
+
+  it("adds exactly the missing published card, second in Technology", async () => {
+    const db = await liveState();
+    await db.exec(sql("0010_crm_automation_service.sql"));
+    const rows = await crm(db);
+    expect(rows).toHaveLength(1);
+    expect(rows[0]).toMatchObject({ title: "CRM & Automation", status: "published", category: "technology", sort_order: 2 });
+    expect(rows[0].features).toHaveLength(4);
+    const technology = await db.query<{ title: string }>(`select title from services where status='published' and category='technology' order by sort_order`);
+    expect(technology.rows.map((r) => r.title)).toEqual(["Website Design & Landing Pages", "CRM & Automation"]);
+  });
+
+  it("changes nothing else: the other eight services keep any wording the client edited", async () => {
+    const db = await liveState();
+    await db.exec(`update public.services set title = 'Our Google Ads (edited)', summary = 'Client wording' where slug = 'google-ads'`);
+    const before = (await db.query(`select slug, title, summary, features, status, sort_order from services where slug <> 'crm-automation' order by slug`)).rows;
+    await db.exec(sql("0010_crm_automation_service.sql"));
+    const after = (await db.query(`select slug, title, summary, features, status, sort_order from services where slug <> 'crm-automation' order by slug`)).rows;
+    expect(after).toEqual(before);
+    expect(after.find((r: any) => r.slug === "google-ads")).toMatchObject({ title: "Our Google Ads (edited)", summary: "Client wording" });
+  });
+
+  it("is safe to run twice and never overwrites an existing or hidden card", async () => {
+    const db = await liveState();
+    await db.exec(sql("0010_crm_automation_service.sql"));
+    await db.exec(sql("0010_crm_automation_service.sql"));
+    expect(await crm(db)).toHaveLength(1);
+    await db.exec(`update public.services set title = 'Edited by the client', status = 'draft' where slug = 'crm-automation'`);
+    await db.exec(sql("0010_crm_automation_service.sql"));
+    expect(await crm(db)).toEqual([expect.objectContaining({ title: "Edited by the client", status: "draft" })]);
+  });
+
+  it("visitors see the card once it is published, and not while it is a draft", async () => {
+    const db = await liveState();
+    await db.exec(sql("0010_crm_automation_service.sql"));
+    await asRole(db, "anon");
+    expect((await db.query(`select slug from public.services where slug = 'crm-automation'`)).rows).toHaveLength(1);
+    await asRole(db, "postgres");
+    await db.exec(`update public.services set status = 'draft' where slug = 'crm-automation'`);
+    await asRole(db, "anon");
+    expect((await db.query(`select slug from public.services where slug = 'crm-automation'`)).rows).toHaveLength(0);
   });
 });
 

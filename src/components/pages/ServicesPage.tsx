@@ -87,7 +87,7 @@ export function ServicesPage() {
               href={`#${serviceTabs[index]!.id}`}
               key={visual.src}
             >
-              <img src={visual.src} alt={visual.alt} width="640" height="480" />
+              <img src={visual.src} alt={visual.alt} width="640" height="480" loading={index === 0 ? "eager" : "lazy"} decoding="async" />
               <span>
                 <span>{serviceTabs[index]!.label}</span>
                 <ArrowUpRight size={20} aria-hidden="true" />
@@ -97,13 +97,13 @@ export function ServicesPage() {
         </div>
       </section>
 
-      <section className="border-b border-border py-14 md:py-20" aria-label="Service areas">
+      <section className="hidden border-b border-border py-8 sm:block md:py-20" aria-label="Service areas">
         <div className="mx-auto flex max-w-7xl flex-wrap gap-3 px-5 md:px-10">
           {serviceTabs.map((service) => (
             <a
               key={service.id}
               href={`#${service.id}`}
-              className="inline-flex items-center gap-2 rounded-full border border-border px-4 py-2.5 text-sm transition-colors hover:border-primary hover:text-primary"
+              className="inline-flex min-h-11 items-center gap-2 rounded-full border border-border px-4 py-2.5 text-sm transition-colors hover:border-primary hover:text-primary"
             >
               {service.label}
               <ArrowDown className="size-3.5" />
@@ -116,7 +116,7 @@ export function ServicesPage() {
         <section
           key={service.id}
           id={service.id}
-          className={`scroll-mt-20 border-b border-border py-20 md:py-28 ${index === 1 ? "bg-surface/35" : ""}`}
+          className={`scroll-mt-20 border-b border-border py-12 sm:py-16 md:py-28 ${index === 1 ? "bg-surface/35" : ""}`}
         >
           <div className="mx-auto max-w-7xl px-5 md:px-10">
             <div className="mb-10 grid gap-6 md:mb-14 md:grid-cols-[0.7fr_1.3fr] md:items-end">
@@ -142,6 +142,7 @@ export function ServicesPage() {
                   width="960"
                   height="720"
                   loading="lazy"
+                  decoding="async"
                 />
                 <img
                   className="recko-service-inset-image"
@@ -200,6 +201,7 @@ export function ServicesPage() {
                       width="640"
                       height="480"
                       loading="lazy"
+                      decoding="async"
                     />
                   </div>
                   <div className="recko-service-card-copy">
@@ -242,7 +244,7 @@ export function ServicesPage() {
         </section>
       ))}
 
-      <section className="border-b border-border py-20 md:py-28">
+      <section className="border-b border-border py-14 sm:py-20 md:py-28">
         <div className="mx-auto grid max-w-7xl gap-12 px-5 md:grid-cols-2 md:px-10">
           <SectionIntro
             eyebrow="The outcome"
@@ -265,7 +267,7 @@ export function ServicesPage() {
         </div>
       </section>
 
-      <section id="how-we-work" className="scroll-mt-20 bg-surface/35 py-20 md:py-28">
+      <section id="how-we-work" className="scroll-mt-20 bg-surface/35 py-14 sm:py-20 md:py-28">
         <div className="mx-auto max-w-7xl px-5 md:px-10">
           <SectionIntro
             eyebrow="How we work"
@@ -289,7 +291,7 @@ export function ServicesPage() {
         </div>
       </section>
 
-      <section className="border-b border-border py-20 md:py-28">
+      <section className="border-b border-border py-14 sm:py-20 md:py-28">
         <div className="mx-auto max-w-4xl px-5 md:px-10">
           <SectionIntro
             eyebrow="FAQs"
@@ -299,7 +301,7 @@ export function ServicesPage() {
           <div className="border-t border-border">
             {faqs.map(([question, answer]) => (
               <details key={question} className="group border-b border-border py-5">
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-6 font-display text-lg font-semibold sm:text-xl">
+                <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-6 font-display text-lg font-semibold sm:text-xl">
                   {question}
                   <ArrowUpRight className="size-5 shrink-0 text-primary transition-transform group-open:rotate-[135deg]" />
                 </summary>
@@ -312,7 +314,7 @@ export function ServicesPage() {
         </div>
       </section>
 
-      <section className="py-20 md:py-28">
+      <section className="py-14 sm:py-20 md:py-28">
         <div className="mx-auto max-w-7xl px-5 md:px-10">
           <div className="rounded-[2rem] border border-border bg-primary px-6 py-12 text-primary-foreground sm:px-10 md:px-14 md:py-16">
             <p className="recko-page-label mb-5 text-xs font-semibold uppercase tracking-[0.3em]">
@@ -321,12 +323,12 @@ export function ServicesPage() {
             <h2 className="max-w-4xl font-display text-4xl font-bold tracking-tight sm:text-5xl md:text-7xl">
               Ready to grow with Recko Media?
             </h2>
-            <p className="mt-6 max-w-2xl text-base leading-relaxed opacity-80 md:text-lg">
+            <p className="mt-6 max-w-2xl text-base leading-relaxed md:text-lg">
               Tell us about your business, and we'll show you where your next customers are coming from.
             </p>
             <Link
               to="/contact"
-              className="mt-8 inline-flex items-center gap-2 rounded-full bg-primary-foreground px-6 py-3 text-sm font-semibold text-primary"
+              className="mt-8 inline-flex items-center gap-2 rounded-full bg-primary-foreground px-6 py-3 text-sm font-semibold text-background"
             >
               Book Your Free Strategy Call
               <ArrowUpRight size={18} />

@@ -146,24 +146,83 @@
 .recko-service-card-copy {
   padding: 28px;
 }
+/* ------------------------------------------------------------------------------------------------
+   Phones and small tablets: the same design as on desktop, simply stacked in one straight column.
+   Nothing is hidden, nothing scrolls sideways and there is no carousel. Every control is at least 44px tall.
+   ------------------------------------------------------------------------------------------------ */
 @media (max-width: 900px) {
   .recko-service-artboard {
     grid-template-columns: minmax(0, 1fr);
   }
   .recko-service-artwork {
-    max-height: 480px;
+    max-height: none;
   }
 }
+
 @media (max-width: 767px) {
-  .recko-services-intro,
+  /* Three area cards, one under the other */
+  .recko-services-intro {
+    padding: 24px 20px 8px;
+  }
+  .recko-services-intro-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+  .recko-services-teaser {
+    border-radius: 16px;
+  }
+  .recko-services-teaser img {
+    aspect-ratio: 16/10;
+  }
+  .recko-services-teaser > span {
+    min-height: 56px;
+    padding: 14px 16px;
+    font-weight: 600;
+  }
+
+  /* Picture first, then the words. The rotated overlapping inset picture cannot sit in a straight column. */
   .recko-service-artboard {
+    border-radius: 18px;
+    margin-bottom: 20px;
+  }
+  .recko-service-artwork {
+    padding: 12px 12px 16px;
+  }
+  .recko-service-main-image {
+    aspect-ratio: 16/10;
+    border-radius: 10px;
+  }
+  .recko-service-inset-image {
     display: none;
   }
-  .recko-service-card-image {
-    display: none;
+  .recko-service-artwork-label {
+    position: static;
+    display: block;
+    margin-top: 12px;
+    padding: 0 4px;
   }
+  .recko-service-artwork-copy {
+    gap: 14px;
+    padding: 20px;
+  }
+  .recko-service-artwork-copy h3 {
+    font-size: 1.5rem;
+    line-height: 1.2;
+  }
+  .recko-service-artwork-copy ul li {
+    font-size: 13px;
+    padding: 6px 12px;
+  }
+  .recko-service-artwork-copy a {
+    min-height: 44px;
+  }
+
+  /* Service cards: image on top, text below */
   .recko-service-card {
     min-height: 0;
+  }
+  .recko-service-card-image img {
+    aspect-ratio: 16/10;
   }
   .recko-service-card-copy {
     padding: 20px;
@@ -184,38 +243,21 @@
     font-size: 13px;
     line-height: 1.45;
   }
+  .recko-service-card-copy a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
 }
+
+/* The picture-and-text panel repeats the paragraph already shown in the section header; on a narrow screen
+   that repeat only adds length, so it is left out there (it stays on larger screens). */
 @media (max-width: 639px) {
-  .recko-services-intro,
-  .recko-service-artboard {
+  .recko-service-artwork-copy > p:not(.recko-page-label):not(.recko-service-concept-note) {
     display: none;
-  }
-  .recko-service-card-copy {
-    padding: 20px;
-  }
-  .recko-service-card-image {
-    display: none;
-  }
-  .recko-service-card {
-    min-height: 0;
-  }
-  .recko-service-card-copy h3 {
-    margin-top: 10px;
-    font-size: 21px;
-    line-height: 1.25;
-  }
-  .recko-service-card-copy > p {
-    margin-top: 8px;
-    font-size: 14px;
-  }
-  .recko-service-card-copy ul {
-    margin-top: 10px;
-  }
-  .recko-service-card-copy ul li {
-    font-size: 13px;
-    line-height: 1.45;
   }
 }
+
 @media (prefers-reduced-motion: reduce) {
   .recko-services-teaser img,
   .recko-service-card-image img {
