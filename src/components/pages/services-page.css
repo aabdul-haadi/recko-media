@@ -147,9 +147,21 @@
   padding: 28px;
 }
 /* ------------------------------------------------------------------------------------------------
-   Phones and small tablets: the same design as on desktop, simply stacked in one straight column.
-   Nothing is hidden, nothing scrolls sideways and there is no carousel. Every control is at least 44px tall.
+   Phones and small tablets (below 768px)
+   - The three area cards and the service cards of each section are swipeable carousels: native scroll-snapping,
+     the next card peeking in from the edge, and dots underneath (PhoneCarousel.tsx).
+   - Everything else is the same design as on desktop, stacked in one straight column.
+   - The page itself never scrolls sideways, and every control is at least 44px tall.
+   From 768px up none of this applies.
    ------------------------------------------------------------------------------------------------ */
+.recko-carousel {
+  min-width: 0;
+}
+.recko-services-intro .recko-carousel {
+  max-width: 1200px;
+  margin: auto;
+}
+
 @media (max-width: 900px) {
   .recko-service-artboard {
     grid-template-columns: minmax(0, 1fr);
@@ -160,13 +172,48 @@
 }
 
 @media (max-width: 767px) {
-  /* Three area cards, one under the other */
+  .recko-carousel {
+    --carousel-gutter: 20px;
+  }
+  .recko-carousel-track {
+    position: relative;
+    display: flex;
+    align-items: stretch;
+    gap: 14px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--carousel-gutter);
+    margin-inline: calc(var(--carousel-gutter) * -1);
+    padding: 2px var(--carousel-gutter);
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .recko-carousel-track::-webkit-scrollbar {
+    display: none;
+  }
+  .recko-carousel-track:focus-visible {
+    outline: 2px solid var(--brand-lime);
+    outline-offset: -2px;
+    border-radius: 12px;
+  }
+  .recko-carousel-track > * {
+    flex: 0 0 82%;
+    min-width: 0;
+    scroll-snap-align: start;
+  }
+
+  /* Area cards */
   .recko-services-intro {
     padding: 24px 20px 8px;
   }
-  .recko-services-intro-grid {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 16px;
+  .recko-services-intro-grid.recko-carousel-track {
+    max-width: none;
+    grid-template-columns: none;
+  }
+  .recko-services-intro-grid.recko-carousel-track > * {
+    flex-basis: 78%;
   }
   .recko-services-teaser {
     border-radius: 16px;
@@ -217,9 +264,17 @@
     min-height: 44px;
   }
 
-  /* Service cards: image on top, text below */
-  .recko-service-card {
+  /* Service cards: each one is its own rounded card in the carousel (the hairline grid is for larger screens) */
+  .recko-service-cards.recko-carousel-track {
+    border-width: 0;
+    background: transparent;
+  }
+  .recko-service-cards.recko-carousel-track > .recko-service-card {
+    flex-basis: 84%;
     min-height: 0;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
   }
   .recko-service-card-image img {
     aspect-ratio: 16/10;
@@ -250,6 +305,40 @@
   }
 }
 
+/* Dots under a carousel (only rendered while it is one) */
+.recko-carousel-dots {
+  display: flex;
+  justify-content: center;
+  margin-top: 4px;
+}
+.recko-carousel-dot {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+.recko-carousel-dot span {
+  display: block;
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 45%);
+  transition: width 200ms, background-color 200ms;
+}
+.recko-carousel-dot[aria-current="true"] span {
+  width: 24px;
+  background: var(--brand-lime);
+}
+.recko-carousel-dot:focus-visible {
+  outline: 2px solid var(--brand-lime);
+  outline-offset: -4px;
+  border-radius: 8px;
+}
+
 /* The picture-and-text panel repeats the paragraph already shown in the section header; on a narrow screen
    that repeat only adds length, so it is left out there (it stays on larger screens). */
 @media (max-width: 639px) {
@@ -260,7 +349,8 @@
 
 @media (prefers-reduced-motion: reduce) {
   .recko-services-teaser img,
-  .recko-service-card-image img {
+  .recko-service-card-image img,
+  .recko-carousel-dot span {
     transition: none;
   }
 }

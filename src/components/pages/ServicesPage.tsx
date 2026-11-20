@@ -6,6 +6,7 @@ import { safeUrl, useSection, useServices } from "@/lib/content/content";
 import { SERVICE_CATEGORIES } from "@/lib/content/schema";
 import { PageFrame, PageHero, SectionIntro } from "@/components/pages/PageFrame";
 import { Reveal } from "@/components/motion/SplitReveal";
+import { PhoneCarousel } from "@/components/pages/PhoneCarousel";
 
 const serviceVisuals = [
   {
@@ -80,7 +81,7 @@ export function ServicesPage() {
       />
 
       <section className="recko-services-intro" aria-label="Explore our capabilities visually">
-        <div className="recko-services-intro-grid">
+        <PhoneCarousel label="The three service areas" className="recko-services-intro-grid">
           {serviceVisuals.map((visual, index) => (
             <a
               className="recko-services-teaser"
@@ -94,7 +95,7 @@ export function ServicesPage() {
               </span>
             </a>
           ))}
-        </div>
+        </PhoneCarousel>
       </section>
 
       <section className="hidden border-b border-border py-8 sm:block md:py-20" aria-label="Service areas">
@@ -182,8 +183,9 @@ export function ServicesPage() {
                 </p>
               </div>
             </div>
-            <div
-              className={`grid gap-px overflow-hidden border border-border bg-border sm:grid-cols-2 ${
+            <PhoneCarousel
+              label={`${service.label} services`}
+              className={`recko-service-cards grid gap-px overflow-hidden border border-border bg-border sm:grid-cols-2 ${
                 service.id === "growth" ? "lg:grid-cols-3" : ""
               }`}
             >
@@ -239,7 +241,7 @@ export function ServicesPage() {
                   </div>
                 </article>
               ))}
-            </div>
+            </PhoneCarousel>
           </div>
         </section>
       ))}
