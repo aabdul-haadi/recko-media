@@ -94,6 +94,7 @@ export const serviceTabs: ServiceTab[] = [
     intro: "Fast, focused pages make sure every campaign sends traffic to an experience built to convert.",
     items: [
       { number: "01", title: "Website Design & Landing Pages", blurb: "Fast, mobile-first business websites and landing pages for Shopify and WordPress, with speed, tracking and SEO basics included.", features: ["Business and brand websites", "High-converting landing pages", "Shopify and WordPress builds", "Speed, tracking and SEO basics"] },
+      { number: "02", title: "CRM & Automation", blurb: "Connect your leads, sales team and follow-up flows so every enquiry is captured, qualified and handled consistently.", features: ["CRM setup and pipeline management", "Lead routing and assignment", "WhatsApp, email and SMS follow-up", "Sales and reporting automation"] },
     ],
   },
 ];

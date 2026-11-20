@@ -9,6 +9,7 @@ where slug not in (
   'social-media-management',
   'creative-content-production',
   'website-design-landing-pages',
+  'crm-automation',
   'tracking-analytics-reporting'
 );
 
@@ -44,7 +45,11 @@ insert into public.services (slug, category, title, summary, details, features, 
   ('website-design-landing-pages','technology','Website Design & Landing Pages',
    'Fast, mobile-first websites and landing pages built to turn visitors into customers.',
    'Your ads are only as good as the page they send people to, so we make the full journey work together.',
-   array['Business and brand websites','High-converting landing pages','Shopify and WordPress builds','Speed, tracking and SEO basics included'],'published',1)
+   array['Business and brand websites','High-converting landing pages','Shopify and WordPress builds','Speed, tracking and SEO basics included'],'published',1),
+  ('crm-automation','technology','CRM & Automation',
+   'Connect your leads, sales team and follow-up flows so every enquiry is handled consistently.',
+   'We set up practical CRM and automation workflows that help qualified leads move faster and keep your pipeline visible.',
+   array['CRM setup and pipeline management','Lead routing and assignment','WhatsApp, email and SMS follow-up','Sales and reporting automation'],'published',2)
 on conflict (slug) do update set
   category = excluded.category,
   title = excluded.title,
